@@ -70,45 +70,45 @@ A self-sufficient runtime for containers
 ------------------------------
 */
 func DockerCmd(opt DockerOption, args []string) *exec.Cmd {
-	name := "docker"
 	cargs := []string{}
 	if opt.Config != nil {
-		cargs = append(cargs, "--config "+fmt.Sprint(*opt.Config))
+		cargs = append(cargs, "--config="+fmt.Sprint(*opt.Config))
 	}
 	if opt.Context != nil {
-		cargs = append(cargs, "--context "+fmt.Sprint(*opt.Context))
+		cargs = append(cargs, "--context="+fmt.Sprint(*opt.Context))
 	}
 	if opt.Debug != nil {
-		cargs = append(cargs, "--debug "+fmt.Sprint(*opt.Debug))
+		cargs = append(cargs, "--debug="+fmt.Sprint(*opt.Debug))
 	}
 	if opt.Host != nil {
 		for _, str := range opt.Host {
-			cargs = append(cargs, "--host "+str)
+			cargs = append(cargs, "--host")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.LogLevel != nil {
-		cargs = append(cargs, "--log-level "+fmt.Sprint(*opt.LogLevel))
+		cargs = append(cargs, "--log-level="+fmt.Sprint(*opt.LogLevel))
 	}
 	if opt.Tls != nil {
-		cargs = append(cargs, "--tls "+fmt.Sprint(*opt.Tls))
+		cargs = append(cargs, "--tls="+fmt.Sprint(*opt.Tls))
 	}
 	if opt.Tlscacert != nil {
-		cargs = append(cargs, "--tlscacert "+fmt.Sprint(*opt.Tlscacert))
+		cargs = append(cargs, "--tlscacert="+fmt.Sprint(*opt.Tlscacert))
 	}
 	if opt.Tlscert != nil {
-		cargs = append(cargs, "--tlscert "+fmt.Sprint(*opt.Tlscert))
+		cargs = append(cargs, "--tlscert="+fmt.Sprint(*opt.Tlscert))
 	}
 	if opt.Tlskey != nil {
-		cargs = append(cargs, "--tlskey "+fmt.Sprint(*opt.Tlskey))
+		cargs = append(cargs, "--tlskey="+fmt.Sprint(*opt.Tlskey))
 	}
 	if opt.Tlsverify != nil {
-		cargs = append(cargs, "--tlsverify "+fmt.Sprint(*opt.Tlsverify))
+		cargs = append(cargs, "--tlsverify="+fmt.Sprint(*opt.Tlsverify))
 	}
 	if opt.Version != nil {
-		cargs = append(cargs, "--version "+fmt.Sprint(*opt.Version))
+		cargs = append(cargs, "--version="+fmt.Sprint(*opt.Version))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerAttachOption struct {
@@ -136,19 +136,18 @@ Attach local standard input, output, and error streams to a running container
 ------------------------------
 */
 func DockerAttachCmd(opt DockerAttachOption, args []string) *exec.Cmd {
-	name := "docker attach"
-	cargs := []string{}
+	cargs := []string{"attach"}
 	if opt.DetachKeys != nil {
-		cargs = append(cargs, "--detach-keys "+fmt.Sprint(*opt.DetachKeys))
+		cargs = append(cargs, "--detach-keys="+fmt.Sprint(*opt.DetachKeys))
 	}
 	if opt.NoStdin != nil {
-		cargs = append(cargs, "--no-stdin "+fmt.Sprint(*opt.NoStdin))
+		cargs = append(cargs, "--no-stdin="+fmt.Sprint(*opt.NoStdin))
 	}
 	if opt.SigProxy != nil {
-		cargs = append(cargs, "--sig-proxy "+fmt.Sprint(*opt.SigProxy))
+		cargs = append(cargs, "--sig-proxy="+fmt.Sprint(*opt.SigProxy))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerBuildOption struct {
@@ -336,123 +335,126 @@ Build an image from a Dockerfile
 ------------------------------
 */
 func DockerBuildCmd(opt DockerBuildOption, args []string) *exec.Cmd {
-	name := "docker build"
-	cargs := []string{}
+	cargs := []string{"build"}
 	if opt.AddHost != nil {
 		for _, str := range opt.AddHost {
-			cargs = append(cargs, "--add-host "+str)
+			cargs = append(cargs, "--add-host")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.BuildArg != nil {
 		for _, str := range opt.BuildArg {
-			cargs = append(cargs, "--build-arg "+str)
+			cargs = append(cargs, "--build-arg")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.CacheFrom != nil {
-		cargs = append(cargs, "--cache-from "+fmt.Sprint(*opt.CacheFrom))
+		cargs = append(cargs, "--cache-from="+fmt.Sprint(*opt.CacheFrom))
 	}
 	if opt.CgroupParent != nil {
-		cargs = append(cargs, "--cgroup-parent "+fmt.Sprint(*opt.CgroupParent))
+		cargs = append(cargs, "--cgroup-parent="+fmt.Sprint(*opt.CgroupParent))
 	}
 	if opt.Compress != nil {
-		cargs = append(cargs, "--compress "+fmt.Sprint(*opt.Compress))
+		cargs = append(cargs, "--compress="+fmt.Sprint(*opt.Compress))
 	}
 	if opt.CpuPeriod != nil {
-		cargs = append(cargs, "--cpu-period "+fmt.Sprint(*opt.CpuPeriod))
+		cargs = append(cargs, "--cpu-period="+fmt.Sprint(*opt.CpuPeriod))
 	}
 	if opt.CpuQuota != nil {
-		cargs = append(cargs, "--cpu-quota "+fmt.Sprint(*opt.CpuQuota))
+		cargs = append(cargs, "--cpu-quota="+fmt.Sprint(*opt.CpuQuota))
 	}
 	if opt.CpuShares != nil {
-		cargs = append(cargs, "--cpu-shares "+fmt.Sprint(*opt.CpuShares))
+		cargs = append(cargs, "--cpu-shares="+fmt.Sprint(*opt.CpuShares))
 	}
 	if opt.CpusetCpus != nil {
-		cargs = append(cargs, "--cpuset-cpus "+fmt.Sprint(*opt.CpusetCpus))
+		cargs = append(cargs, "--cpuset-cpus="+fmt.Sprint(*opt.CpusetCpus))
 	}
 	if opt.CpusetMems != nil {
-		cargs = append(cargs, "--cpuset-mems "+fmt.Sprint(*opt.CpusetMems))
+		cargs = append(cargs, "--cpuset-mems="+fmt.Sprint(*opt.CpusetMems))
 	}
 	if opt.DisableContentTrust != nil {
-		cargs = append(cargs, "--disable-content-trust "+fmt.Sprint(*opt.DisableContentTrust))
+		cargs = append(cargs, "--disable-content-trust="+fmt.Sprint(*opt.DisableContentTrust))
 	}
 	if opt.File != nil {
-		cargs = append(cargs, "--file "+fmt.Sprint(*opt.File))
+		cargs = append(cargs, "--file="+fmt.Sprint(*opt.File))
 	}
 	if opt.ForceRm != nil {
-		cargs = append(cargs, "--force-rm "+fmt.Sprint(*opt.ForceRm))
+		cargs = append(cargs, "--force-rm="+fmt.Sprint(*opt.ForceRm))
 	}
 	if opt.Iidfile != nil {
-		cargs = append(cargs, "--iidfile "+fmt.Sprint(*opt.Iidfile))
+		cargs = append(cargs, "--iidfile="+fmt.Sprint(*opt.Iidfile))
 	}
 	if opt.Isolation != nil {
-		cargs = append(cargs, "--isolation "+fmt.Sprint(*opt.Isolation))
+		cargs = append(cargs, "--isolation="+fmt.Sprint(*opt.Isolation))
 	}
 	if opt.Label != nil {
 		for _, str := range opt.Label {
-			cargs = append(cargs, "--label "+str)
+			cargs = append(cargs, "--label")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Memory != nil {
-		cargs = append(cargs, "--memory "+fmt.Sprint(*opt.Memory))
+		cargs = append(cargs, "--memory="+fmt.Sprint(*opt.Memory))
 	}
 	if opt.MemorySwap != nil {
-		cargs = append(cargs, "--memory-swap "+fmt.Sprint(*opt.MemorySwap))
+		cargs = append(cargs, "--memory-swap="+fmt.Sprint(*opt.MemorySwap))
 	}
 	if opt.Network != nil {
-		cargs = append(cargs, "--network "+fmt.Sprint(*opt.Network))
+		cargs = append(cargs, "--network="+fmt.Sprint(*opt.Network))
 	}
 	if opt.NoCache != nil {
-		cargs = append(cargs, "--no-cache "+fmt.Sprint(*opt.NoCache))
+		cargs = append(cargs, "--no-cache="+fmt.Sprint(*opt.NoCache))
 	}
 	if opt.Output != nil {
-		cargs = append(cargs, "--output "+fmt.Sprint(*opt.Output))
+		cargs = append(cargs, "--output="+fmt.Sprint(*opt.Output))
 	}
 	if opt.Platform != nil {
-		cargs = append(cargs, "--platform "+fmt.Sprint(*opt.Platform))
+		cargs = append(cargs, "--platform="+fmt.Sprint(*opt.Platform))
 	}
 	if opt.Progress != nil {
-		cargs = append(cargs, "--progress "+fmt.Sprint(*opt.Progress))
+		cargs = append(cargs, "--progress="+fmt.Sprint(*opt.Progress))
 	}
 	if opt.Pull != nil {
-		cargs = append(cargs, "--pull "+fmt.Sprint(*opt.Pull))
+		cargs = append(cargs, "--pull="+fmt.Sprint(*opt.Pull))
 	}
 	if opt.Quiet != nil {
-		cargs = append(cargs, "--quiet "+fmt.Sprint(*opt.Quiet))
+		cargs = append(cargs, "--quiet="+fmt.Sprint(*opt.Quiet))
 	}
 	if opt.Rm != nil {
-		cargs = append(cargs, "--rm "+fmt.Sprint(*opt.Rm))
+		cargs = append(cargs, "--rm="+fmt.Sprint(*opt.Rm))
 	}
 	if opt.Secret != nil {
-		cargs = append(cargs, "--secret "+fmt.Sprint(*opt.Secret))
+		cargs = append(cargs, "--secret="+fmt.Sprint(*opt.Secret))
 	}
 	if opt.SecurityOpt != nil {
-		cargs = append(cargs, "--security-opt "+fmt.Sprint(*opt.SecurityOpt))
+		cargs = append(cargs, "--security-opt="+fmt.Sprint(*opt.SecurityOpt))
 	}
 	if opt.ShmSize != nil {
-		cargs = append(cargs, "--shm-size "+fmt.Sprint(*opt.ShmSize))
+		cargs = append(cargs, "--shm-size="+fmt.Sprint(*opt.ShmSize))
 	}
 	if opt.Squash != nil {
-		cargs = append(cargs, "--squash "+fmt.Sprint(*opt.Squash))
+		cargs = append(cargs, "--squash="+fmt.Sprint(*opt.Squash))
 	}
 	if opt.Ssh != nil {
-		cargs = append(cargs, "--ssh "+fmt.Sprint(*opt.Ssh))
+		cargs = append(cargs, "--ssh="+fmt.Sprint(*opt.Ssh))
 	}
 	if opt.Stream != nil {
-		cargs = append(cargs, "--stream "+fmt.Sprint(*opt.Stream))
+		cargs = append(cargs, "--stream="+fmt.Sprint(*opt.Stream))
 	}
 	if opt.Tag != nil {
 		for _, str := range opt.Tag {
-			cargs = append(cargs, "--tag "+str)
+			cargs = append(cargs, "--tag")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Target != nil {
-		cargs = append(cargs, "--target "+fmt.Sprint(*opt.Target))
+		cargs = append(cargs, "--target="+fmt.Sprint(*opt.Target))
 	}
 	if opt.Ulimit != nil {
-		cargs = append(cargs, "--ulimit "+fmt.Sprint(*opt.Ulimit))
+		cargs = append(cargs, "--ulimit="+fmt.Sprint(*opt.Ulimit))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -463,10 +465,9 @@ Manage builds
 ------------------------------
 */
 func DockerBuilderCmd(args []string) *exec.Cmd {
-	name := "docker builder"
-	cargs := []string{}
+	cargs := []string{"builder"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerBuilderBuildOption struct {
@@ -654,123 +655,126 @@ Build an image from a Dockerfile
 ------------------------------
 */
 func DockerBuilderBuildCmd(opt DockerBuilderBuildOption, args []string) *exec.Cmd {
-	name := "docker builder build"
-	cargs := []string{}
+	cargs := []string{"builder", "build"}
 	if opt.AddHost != nil {
 		for _, str := range opt.AddHost {
-			cargs = append(cargs, "--add-host "+str)
+			cargs = append(cargs, "--add-host")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.BuildArg != nil {
 		for _, str := range opt.BuildArg {
-			cargs = append(cargs, "--build-arg "+str)
+			cargs = append(cargs, "--build-arg")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.CacheFrom != nil {
-		cargs = append(cargs, "--cache-from "+fmt.Sprint(*opt.CacheFrom))
+		cargs = append(cargs, "--cache-from="+fmt.Sprint(*opt.CacheFrom))
 	}
 	if opt.CgroupParent != nil {
-		cargs = append(cargs, "--cgroup-parent "+fmt.Sprint(*opt.CgroupParent))
+		cargs = append(cargs, "--cgroup-parent="+fmt.Sprint(*opt.CgroupParent))
 	}
 	if opt.Compress != nil {
-		cargs = append(cargs, "--compress "+fmt.Sprint(*opt.Compress))
+		cargs = append(cargs, "--compress="+fmt.Sprint(*opt.Compress))
 	}
 	if opt.CpuPeriod != nil {
-		cargs = append(cargs, "--cpu-period "+fmt.Sprint(*opt.CpuPeriod))
+		cargs = append(cargs, "--cpu-period="+fmt.Sprint(*opt.CpuPeriod))
 	}
 	if opt.CpuQuota != nil {
-		cargs = append(cargs, "--cpu-quota "+fmt.Sprint(*opt.CpuQuota))
+		cargs = append(cargs, "--cpu-quota="+fmt.Sprint(*opt.CpuQuota))
 	}
 	if opt.CpuShares != nil {
-		cargs = append(cargs, "--cpu-shares "+fmt.Sprint(*opt.CpuShares))
+		cargs = append(cargs, "--cpu-shares="+fmt.Sprint(*opt.CpuShares))
 	}
 	if opt.CpusetCpus != nil {
-		cargs = append(cargs, "--cpuset-cpus "+fmt.Sprint(*opt.CpusetCpus))
+		cargs = append(cargs, "--cpuset-cpus="+fmt.Sprint(*opt.CpusetCpus))
 	}
 	if opt.CpusetMems != nil {
-		cargs = append(cargs, "--cpuset-mems "+fmt.Sprint(*opt.CpusetMems))
+		cargs = append(cargs, "--cpuset-mems="+fmt.Sprint(*opt.CpusetMems))
 	}
 	if opt.DisableContentTrust != nil {
-		cargs = append(cargs, "--disable-content-trust "+fmt.Sprint(*opt.DisableContentTrust))
+		cargs = append(cargs, "--disable-content-trust="+fmt.Sprint(*opt.DisableContentTrust))
 	}
 	if opt.File != nil {
-		cargs = append(cargs, "--file "+fmt.Sprint(*opt.File))
+		cargs = append(cargs, "--file="+fmt.Sprint(*opt.File))
 	}
 	if opt.ForceRm != nil {
-		cargs = append(cargs, "--force-rm "+fmt.Sprint(*opt.ForceRm))
+		cargs = append(cargs, "--force-rm="+fmt.Sprint(*opt.ForceRm))
 	}
 	if opt.Iidfile != nil {
-		cargs = append(cargs, "--iidfile "+fmt.Sprint(*opt.Iidfile))
+		cargs = append(cargs, "--iidfile="+fmt.Sprint(*opt.Iidfile))
 	}
 	if opt.Isolation != nil {
-		cargs = append(cargs, "--isolation "+fmt.Sprint(*opt.Isolation))
+		cargs = append(cargs, "--isolation="+fmt.Sprint(*opt.Isolation))
 	}
 	if opt.Label != nil {
 		for _, str := range opt.Label {
-			cargs = append(cargs, "--label "+str)
+			cargs = append(cargs, "--label")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Memory != nil {
-		cargs = append(cargs, "--memory "+fmt.Sprint(*opt.Memory))
+		cargs = append(cargs, "--memory="+fmt.Sprint(*opt.Memory))
 	}
 	if opt.MemorySwap != nil {
-		cargs = append(cargs, "--memory-swap "+fmt.Sprint(*opt.MemorySwap))
+		cargs = append(cargs, "--memory-swap="+fmt.Sprint(*opt.MemorySwap))
 	}
 	if opt.Network != nil {
-		cargs = append(cargs, "--network "+fmt.Sprint(*opt.Network))
+		cargs = append(cargs, "--network="+fmt.Sprint(*opt.Network))
 	}
 	if opt.NoCache != nil {
-		cargs = append(cargs, "--no-cache "+fmt.Sprint(*opt.NoCache))
+		cargs = append(cargs, "--no-cache="+fmt.Sprint(*opt.NoCache))
 	}
 	if opt.Output != nil {
-		cargs = append(cargs, "--output "+fmt.Sprint(*opt.Output))
+		cargs = append(cargs, "--output="+fmt.Sprint(*opt.Output))
 	}
 	if opt.Platform != nil {
-		cargs = append(cargs, "--platform "+fmt.Sprint(*opt.Platform))
+		cargs = append(cargs, "--platform="+fmt.Sprint(*opt.Platform))
 	}
 	if opt.Progress != nil {
-		cargs = append(cargs, "--progress "+fmt.Sprint(*opt.Progress))
+		cargs = append(cargs, "--progress="+fmt.Sprint(*opt.Progress))
 	}
 	if opt.Pull != nil {
-		cargs = append(cargs, "--pull "+fmt.Sprint(*opt.Pull))
+		cargs = append(cargs, "--pull="+fmt.Sprint(*opt.Pull))
 	}
 	if opt.Quiet != nil {
-		cargs = append(cargs, "--quiet "+fmt.Sprint(*opt.Quiet))
+		cargs = append(cargs, "--quiet="+fmt.Sprint(*opt.Quiet))
 	}
 	if opt.Rm != nil {
-		cargs = append(cargs, "--rm "+fmt.Sprint(*opt.Rm))
+		cargs = append(cargs, "--rm="+fmt.Sprint(*opt.Rm))
 	}
 	if opt.Secret != nil {
-		cargs = append(cargs, "--secret "+fmt.Sprint(*opt.Secret))
+		cargs = append(cargs, "--secret="+fmt.Sprint(*opt.Secret))
 	}
 	if opt.SecurityOpt != nil {
-		cargs = append(cargs, "--security-opt "+fmt.Sprint(*opt.SecurityOpt))
+		cargs = append(cargs, "--security-opt="+fmt.Sprint(*opt.SecurityOpt))
 	}
 	if opt.ShmSize != nil {
-		cargs = append(cargs, "--shm-size "+fmt.Sprint(*opt.ShmSize))
+		cargs = append(cargs, "--shm-size="+fmt.Sprint(*opt.ShmSize))
 	}
 	if opt.Squash != nil {
-		cargs = append(cargs, "--squash "+fmt.Sprint(*opt.Squash))
+		cargs = append(cargs, "--squash="+fmt.Sprint(*opt.Squash))
 	}
 	if opt.Ssh != nil {
-		cargs = append(cargs, "--ssh "+fmt.Sprint(*opt.Ssh))
+		cargs = append(cargs, "--ssh="+fmt.Sprint(*opt.Ssh))
 	}
 	if opt.Stream != nil {
-		cargs = append(cargs, "--stream "+fmt.Sprint(*opt.Stream))
+		cargs = append(cargs, "--stream="+fmt.Sprint(*opt.Stream))
 	}
 	if opt.Tag != nil {
 		for _, str := range opt.Tag {
-			cargs = append(cargs, "--tag "+str)
+			cargs = append(cargs, "--tag")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Target != nil {
-		cargs = append(cargs, "--target "+fmt.Sprint(*opt.Target))
+		cargs = append(cargs, "--target="+fmt.Sprint(*opt.Target))
 	}
 	if opt.Ulimit != nil {
-		cargs = append(cargs, "--ulimit "+fmt.Sprint(*opt.Ulimit))
+		cargs = append(cargs, "--ulimit="+fmt.Sprint(*opt.Ulimit))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerBuilderPruneOption struct {
@@ -803,22 +807,21 @@ Remove build cache
 ------------------------------
 */
 func DockerBuilderPruneCmd(opt DockerBuilderPruneOption, args []string) *exec.Cmd {
-	name := "docker builder prune"
-	cargs := []string{}
+	cargs := []string{"builder", "prune"}
 	if opt.All != nil {
-		cargs = append(cargs, "--all "+fmt.Sprint(*opt.All))
+		cargs = append(cargs, "--all="+fmt.Sprint(*opt.All))
 	}
 	if opt.Filter != nil {
-		cargs = append(cargs, "--filter "+fmt.Sprint(*opt.Filter))
+		cargs = append(cargs, "--filter="+fmt.Sprint(*opt.Filter))
 	}
 	if opt.Force != nil {
-		cargs = append(cargs, "--force "+fmt.Sprint(*opt.Force))
+		cargs = append(cargs, "--force="+fmt.Sprint(*opt.Force))
 	}
 	if opt.KeepStorage != nil {
-		cargs = append(cargs, "--keep-storage "+fmt.Sprint(*opt.KeepStorage))
+		cargs = append(cargs, "--keep-storage="+fmt.Sprint(*opt.KeepStorage))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -829,10 +832,9 @@ Manage checkpoints
 ------------------------------
 */
 func DockerCheckpointCmd(args []string) *exec.Cmd {
-	name := "docker checkpoint"
-	cargs := []string{}
+	cargs := []string{"checkpoint"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerCheckpointCreateOption struct {
@@ -855,16 +857,15 @@ Create a checkpoint from a running container
 ------------------------------
 */
 func DockerCheckpointCreateCmd(opt DockerCheckpointCreateOption, args []string) *exec.Cmd {
-	name := "docker checkpoint create"
-	cargs := []string{}
+	cargs := []string{"checkpoint", "create"}
 	if opt.CheckpointDir != nil {
-		cargs = append(cargs, "--checkpoint-dir "+fmt.Sprint(*opt.CheckpointDir))
+		cargs = append(cargs, "--checkpoint-dir="+fmt.Sprint(*opt.CheckpointDir))
 	}
 	if opt.LeaveRunning != nil {
-		cargs = append(cargs, "--leave-running "+fmt.Sprint(*opt.LeaveRunning))
+		cargs = append(cargs, "--leave-running="+fmt.Sprint(*opt.LeaveRunning))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerCheckpointLsOption struct {
@@ -882,13 +883,12 @@ List checkpoints for a container
 ------------------------------
 */
 func DockerCheckpointLsCmd(opt DockerCheckpointLsOption, args []string) *exec.Cmd {
-	name := "docker checkpoint ls"
-	cargs := []string{}
+	cargs := []string{"checkpoint", "ls"}
 	if opt.CheckpointDir != nil {
-		cargs = append(cargs, "--checkpoint-dir "+fmt.Sprint(*opt.CheckpointDir))
+		cargs = append(cargs, "--checkpoint-dir="+fmt.Sprint(*opt.CheckpointDir))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerCheckpointRmOption struct {
@@ -906,13 +906,12 @@ Remove a checkpoint
 ------------------------------
 */
 func DockerCheckpointRmCmd(opt DockerCheckpointRmOption, args []string) *exec.Cmd {
-	name := "docker checkpoint rm"
-	cargs := []string{}
+	cargs := []string{"checkpoint", "rm"}
 	if opt.CheckpointDir != nil {
-		cargs = append(cargs, "--checkpoint-dir "+fmt.Sprint(*opt.CheckpointDir))
+		cargs = append(cargs, "--checkpoint-dir="+fmt.Sprint(*opt.CheckpointDir))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerCommitOption struct {
@@ -945,24 +944,24 @@ Create a new image from a container's changes
 ------------------------------
 */
 func DockerCommitCmd(opt DockerCommitOption, args []string) *exec.Cmd {
-	name := "docker commit"
-	cargs := []string{}
+	cargs := []string{"commit"}
 	if opt.Author != nil {
-		cargs = append(cargs, "--author "+fmt.Sprint(*opt.Author))
+		cargs = append(cargs, "--author="+fmt.Sprint(*opt.Author))
 	}
 	if opt.Change != nil {
 		for _, str := range opt.Change {
-			cargs = append(cargs, "--change "+str)
+			cargs = append(cargs, "--change")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Message != nil {
-		cargs = append(cargs, "--message "+fmt.Sprint(*opt.Message))
+		cargs = append(cargs, "--message="+fmt.Sprint(*opt.Message))
 	}
 	if opt.Pause != nil {
-		cargs = append(cargs, "--pause "+fmt.Sprint(*opt.Pause))
+		cargs = append(cargs, "--pause="+fmt.Sprint(*opt.Pause))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -973,10 +972,9 @@ Manage Docker configs
 ------------------------------
 */
 func DockerConfigCmd(args []string) *exec.Cmd {
-	name := "docker config"
-	cargs := []string{}
+	cargs := []string{"config"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerConfigCreateOption struct {
@@ -999,18 +997,18 @@ Create a config from a file or STDIN
 ------------------------------
 */
 func DockerConfigCreateCmd(opt DockerConfigCreateOption, args []string) *exec.Cmd {
-	name := "docker config create"
-	cargs := []string{}
+	cargs := []string{"config", "create"}
 	if opt.Label != nil {
 		for _, str := range opt.Label {
-			cargs = append(cargs, "--label "+str)
+			cargs = append(cargs, "--label")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.TemplateDriver != nil {
-		cargs = append(cargs, "--template-driver "+fmt.Sprint(*opt.TemplateDriver))
+		cargs = append(cargs, "--template-driver="+fmt.Sprint(*opt.TemplateDriver))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerConfigInspectOption struct {
@@ -1033,16 +1031,15 @@ Display detailed information on one or more configs
 ------------------------------
 */
 func DockerConfigInspectCmd(opt DockerConfigInspectOption, args []string) *exec.Cmd {
-	name := "docker config inspect"
-	cargs := []string{}
+	cargs := []string{"config", "inspect"}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	if opt.Pretty != nil {
-		cargs = append(cargs, "--pretty "+fmt.Sprint(*opt.Pretty))
+		cargs = append(cargs, "--pretty="+fmt.Sprint(*opt.Pretty))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerConfigLsOption struct {
@@ -1070,19 +1067,18 @@ List configs
 ------------------------------
 */
 func DockerConfigLsCmd(opt DockerConfigLsOption, args []string) *exec.Cmd {
-	name := "docker config ls"
-	cargs := []string{}
+	cargs := []string{"config", "ls"}
 	if opt.Filter != nil {
-		cargs = append(cargs, "--filter "+fmt.Sprint(*opt.Filter))
+		cargs = append(cargs, "--filter="+fmt.Sprint(*opt.Filter))
 	}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	if opt.Quiet != nil {
-		cargs = append(cargs, "--quiet "+fmt.Sprint(*opt.Quiet))
+		cargs = append(cargs, "--quiet="+fmt.Sprint(*opt.Quiet))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -1093,10 +1089,9 @@ Remove one or more configs
 ------------------------------
 */
 func DockerConfigRmCmd(args []string) *exec.Cmd {
-	name := "docker config rm"
-	cargs := []string{}
+	cargs := []string{"config", "rm"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -1107,10 +1102,9 @@ Manage containers
 ------------------------------
 */
 func DockerContainerCmd(args []string) *exec.Cmd {
-	name := "docker container"
-	cargs := []string{}
+	cargs := []string{"container"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerContainerAttachOption struct {
@@ -1138,19 +1132,18 @@ Attach local standard input, output, and error streams to a running container
 ------------------------------
 */
 func DockerContainerAttachCmd(opt DockerContainerAttachOption, args []string) *exec.Cmd {
-	name := "docker container attach"
-	cargs := []string{}
+	cargs := []string{"container", "attach"}
 	if opt.DetachKeys != nil {
-		cargs = append(cargs, "--detach-keys "+fmt.Sprint(*opt.DetachKeys))
+		cargs = append(cargs, "--detach-keys="+fmt.Sprint(*opt.DetachKeys))
 	}
 	if opt.NoStdin != nil {
-		cargs = append(cargs, "--no-stdin "+fmt.Sprint(*opt.NoStdin))
+		cargs = append(cargs, "--no-stdin="+fmt.Sprint(*opt.NoStdin))
 	}
 	if opt.SigProxy != nil {
-		cargs = append(cargs, "--sig-proxy "+fmt.Sprint(*opt.SigProxy))
+		cargs = append(cargs, "--sig-proxy="+fmt.Sprint(*opt.SigProxy))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerContainerCommitOption struct {
@@ -1183,24 +1176,24 @@ Create a new image from a container's changes
 ------------------------------
 */
 func DockerContainerCommitCmd(opt DockerContainerCommitOption, args []string) *exec.Cmd {
-	name := "docker container commit"
-	cargs := []string{}
+	cargs := []string{"container", "commit"}
 	if opt.Author != nil {
-		cargs = append(cargs, "--author "+fmt.Sprint(*opt.Author))
+		cargs = append(cargs, "--author="+fmt.Sprint(*opt.Author))
 	}
 	if opt.Change != nil {
 		for _, str := range opt.Change {
-			cargs = append(cargs, "--change "+str)
+			cargs = append(cargs, "--change")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Message != nil {
-		cargs = append(cargs, "--message "+fmt.Sprint(*opt.Message))
+		cargs = append(cargs, "--message="+fmt.Sprint(*opt.Message))
 	}
 	if opt.Pause != nil {
-		cargs = append(cargs, "--pause "+fmt.Sprint(*opt.Pause))
+		cargs = append(cargs, "--pause="+fmt.Sprint(*opt.Pause))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerContainerCpOption struct {
@@ -1226,16 +1219,15 @@ Copy files/folders between a container and the local filesystem
 ------------------------------
 */
 func DockerContainerCpCmd(opt DockerContainerCpOption, args []string) *exec.Cmd {
-	name := "docker container cp"
-	cargs := []string{}
+	cargs := []string{"container", "cp"}
 	if opt.Archive != nil {
-		cargs = append(cargs, "--archive "+fmt.Sprint(*opt.Archive))
+		cargs = append(cargs, "--archive="+fmt.Sprint(*opt.Archive))
 	}
 	if opt.FollowLink != nil {
-		cargs = append(cargs, "--follow-link "+fmt.Sprint(*opt.FollowLink))
+		cargs = append(cargs, "--follow-link="+fmt.Sprint(*opt.FollowLink))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerContainerCreateOption struct {
@@ -1752,376 +1744,408 @@ Create a new container
 ------------------------------
 */
 func DockerContainerCreateCmd(opt DockerContainerCreateOption, args []string) *exec.Cmd {
-	name := "docker container create"
-	cargs := []string{}
+	cargs := []string{"container", "create"}
 	if opt.AddHost != nil {
 		for _, str := range opt.AddHost {
-			cargs = append(cargs, "--add-host "+str)
+			cargs = append(cargs, "--add-host")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Attach != nil {
 		for _, str := range opt.Attach {
-			cargs = append(cargs, "--attach "+str)
+			cargs = append(cargs, "--attach")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.BlkioWeight != nil {
-		cargs = append(cargs, "--blkio-weight "+fmt.Sprint(*opt.BlkioWeight))
+		cargs = append(cargs, "--blkio-weight="+fmt.Sprint(*opt.BlkioWeight))
 	}
 	if opt.BlkioWeightDevice != nil {
 		for _, str := range opt.BlkioWeightDevice {
-			cargs = append(cargs, "--blkio-weight-device "+str)
+			cargs = append(cargs, "--blkio-weight-device")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.CapAdd != nil {
 		for _, str := range opt.CapAdd {
-			cargs = append(cargs, "--cap-add "+str)
+			cargs = append(cargs, "--cap-add")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.CapDrop != nil {
 		for _, str := range opt.CapDrop {
-			cargs = append(cargs, "--cap-drop "+str)
+			cargs = append(cargs, "--cap-drop")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.CgroupParent != nil {
-		cargs = append(cargs, "--cgroup-parent "+fmt.Sprint(*opt.CgroupParent))
+		cargs = append(cargs, "--cgroup-parent="+fmt.Sprint(*opt.CgroupParent))
 	}
 	if opt.Cgroupns != nil {
-		cargs = append(cargs, "--cgroupns "+fmt.Sprint(*opt.Cgroupns))
+		cargs = append(cargs, "--cgroupns="+fmt.Sprint(*opt.Cgroupns))
 	}
 	if opt.Cidfile != nil {
-		cargs = append(cargs, "--cidfile "+fmt.Sprint(*opt.Cidfile))
+		cargs = append(cargs, "--cidfile="+fmt.Sprint(*opt.Cidfile))
 	}
 	if opt.CpuCount != nil {
-		cargs = append(cargs, "--cpu-count "+fmt.Sprint(*opt.CpuCount))
+		cargs = append(cargs, "--cpu-count="+fmt.Sprint(*opt.CpuCount))
 	}
 	if opt.CpuPercent != nil {
-		cargs = append(cargs, "--cpu-percent "+fmt.Sprint(*opt.CpuPercent))
+		cargs = append(cargs, "--cpu-percent="+fmt.Sprint(*opt.CpuPercent))
 	}
 	if opt.CpuPeriod != nil {
-		cargs = append(cargs, "--cpu-period "+fmt.Sprint(*opt.CpuPeriod))
+		cargs = append(cargs, "--cpu-period="+fmt.Sprint(*opt.CpuPeriod))
 	}
 	if opt.CpuQuota != nil {
-		cargs = append(cargs, "--cpu-quota "+fmt.Sprint(*opt.CpuQuota))
+		cargs = append(cargs, "--cpu-quota="+fmt.Sprint(*opt.CpuQuota))
 	}
 	if opt.CpuRtPeriod != nil {
-		cargs = append(cargs, "--cpu-rt-period "+fmt.Sprint(*opt.CpuRtPeriod))
+		cargs = append(cargs, "--cpu-rt-period="+fmt.Sprint(*opt.CpuRtPeriod))
 	}
 	if opt.CpuRtRuntime != nil {
-		cargs = append(cargs, "--cpu-rt-runtime "+fmt.Sprint(*opt.CpuRtRuntime))
+		cargs = append(cargs, "--cpu-rt-runtime="+fmt.Sprint(*opt.CpuRtRuntime))
 	}
 	if opt.CpuShares != nil {
-		cargs = append(cargs, "--cpu-shares "+fmt.Sprint(*opt.CpuShares))
+		cargs = append(cargs, "--cpu-shares="+fmt.Sprint(*opt.CpuShares))
 	}
 	if opt.Cpus != nil {
-		cargs = append(cargs, "--cpus "+fmt.Sprint(*opt.Cpus))
+		cargs = append(cargs, "--cpus="+fmt.Sprint(*opt.Cpus))
 	}
 	if opt.CpusetCpus != nil {
-		cargs = append(cargs, "--cpuset-cpus "+fmt.Sprint(*opt.CpusetCpus))
+		cargs = append(cargs, "--cpuset-cpus="+fmt.Sprint(*opt.CpusetCpus))
 	}
 	if opt.CpusetMems != nil {
-		cargs = append(cargs, "--cpuset-mems "+fmt.Sprint(*opt.CpusetMems))
+		cargs = append(cargs, "--cpuset-mems="+fmt.Sprint(*opt.CpusetMems))
 	}
 	if opt.Device != nil {
 		for _, str := range opt.Device {
-			cargs = append(cargs, "--device "+str)
+			cargs = append(cargs, "--device")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DeviceCgroupRule != nil {
 		for _, str := range opt.DeviceCgroupRule {
-			cargs = append(cargs, "--device-cgroup-rule "+str)
+			cargs = append(cargs, "--device-cgroup-rule")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DeviceReadBps != nil {
 		for _, str := range opt.DeviceReadBps {
-			cargs = append(cargs, "--device-read-bps "+str)
+			cargs = append(cargs, "--device-read-bps")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DeviceReadIops != nil {
 		for _, str := range opt.DeviceReadIops {
-			cargs = append(cargs, "--device-read-iops "+str)
+			cargs = append(cargs, "--device-read-iops")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DeviceWriteBps != nil {
 		for _, str := range opt.DeviceWriteBps {
-			cargs = append(cargs, "--device-write-bps "+str)
+			cargs = append(cargs, "--device-write-bps")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DeviceWriteIops != nil {
 		for _, str := range opt.DeviceWriteIops {
-			cargs = append(cargs, "--device-write-iops "+str)
+			cargs = append(cargs, "--device-write-iops")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DisableContentTrust != nil {
-		cargs = append(cargs, "--disable-content-trust "+fmt.Sprint(*opt.DisableContentTrust))
+		cargs = append(cargs, "--disable-content-trust="+fmt.Sprint(*opt.DisableContentTrust))
 	}
 	if opt.Dns != nil {
 		for _, str := range opt.Dns {
-			cargs = append(cargs, "--dns "+str)
+			cargs = append(cargs, "--dns")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DnsOpt != nil {
 		for _, str := range opt.DnsOpt {
-			cargs = append(cargs, "--dns-opt "+str)
+			cargs = append(cargs, "--dns-opt")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DnsOption != nil {
 		for _, str := range opt.DnsOption {
-			cargs = append(cargs, "--dns-option "+str)
+			cargs = append(cargs, "--dns-option")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DnsSearch != nil {
 		for _, str := range opt.DnsSearch {
-			cargs = append(cargs, "--dns-search "+str)
+			cargs = append(cargs, "--dns-search")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Domainname != nil {
-		cargs = append(cargs, "--domainname "+fmt.Sprint(*opt.Domainname))
+		cargs = append(cargs, "--domainname="+fmt.Sprint(*opt.Domainname))
 	}
 	if opt.Entrypoint != nil {
-		cargs = append(cargs, "--entrypoint "+fmt.Sprint(*opt.Entrypoint))
+		cargs = append(cargs, "--entrypoint="+fmt.Sprint(*opt.Entrypoint))
 	}
 	if opt.Env != nil {
 		for _, str := range opt.Env {
-			cargs = append(cargs, "--env "+str)
+			cargs = append(cargs, "--env")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.EnvFile != nil {
 		for _, str := range opt.EnvFile {
-			cargs = append(cargs, "--env-file "+str)
+			cargs = append(cargs, "--env-file")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Expose != nil {
 		for _, str := range opt.Expose {
-			cargs = append(cargs, "--expose "+str)
+			cargs = append(cargs, "--expose")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Gpus != nil {
-		cargs = append(cargs, "--gpus "+fmt.Sprint(*opt.Gpus))
+		cargs = append(cargs, "--gpus="+fmt.Sprint(*opt.Gpus))
 	}
 	if opt.GroupAdd != nil {
 		for _, str := range opt.GroupAdd {
-			cargs = append(cargs, "--group-add "+str)
+			cargs = append(cargs, "--group-add")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.HealthCmd != nil {
-		cargs = append(cargs, "--health-cmd "+fmt.Sprint(*opt.HealthCmd))
+		cargs = append(cargs, "--health-cmd="+fmt.Sprint(*opt.HealthCmd))
 	}
 	if opt.HealthInterval != nil {
-		cargs = append(cargs, "--health-interval "+fmt.Sprint(*opt.HealthInterval))
+		cargs = append(cargs, "--health-interval="+fmt.Sprint(*opt.HealthInterval))
 	}
 	if opt.HealthRetries != nil {
-		cargs = append(cargs, "--health-retries "+fmt.Sprint(*opt.HealthRetries))
+		cargs = append(cargs, "--health-retries="+fmt.Sprint(*opt.HealthRetries))
 	}
 	if opt.HealthStartPeriod != nil {
-		cargs = append(cargs, "--health-start-period "+fmt.Sprint(*opt.HealthStartPeriod))
+		cargs = append(cargs, "--health-start-period="+fmt.Sprint(*opt.HealthStartPeriod))
 	}
 	if opt.HealthTimeout != nil {
-		cargs = append(cargs, "--health-timeout "+fmt.Sprint(*opt.HealthTimeout))
+		cargs = append(cargs, "--health-timeout="+fmt.Sprint(*opt.HealthTimeout))
 	}
 	if opt.Help != nil {
-		cargs = append(cargs, "--help "+fmt.Sprint(*opt.Help))
+		cargs = append(cargs, "--help="+fmt.Sprint(*opt.Help))
 	}
 	if opt.Hostname != nil {
-		cargs = append(cargs, "--hostname "+fmt.Sprint(*opt.Hostname))
+		cargs = append(cargs, "--hostname="+fmt.Sprint(*opt.Hostname))
 	}
 	if opt.Init != nil {
-		cargs = append(cargs, "--init "+fmt.Sprint(*opt.Init))
+		cargs = append(cargs, "--init="+fmt.Sprint(*opt.Init))
 	}
 	if opt.Interactive != nil {
-		cargs = append(cargs, "--interactive "+fmt.Sprint(*opt.Interactive))
+		cargs = append(cargs, "--interactive="+fmt.Sprint(*opt.Interactive))
 	}
 	if opt.IoMaxbandwidth != nil {
-		cargs = append(cargs, "--io-maxbandwidth "+fmt.Sprint(*opt.IoMaxbandwidth))
+		cargs = append(cargs, "--io-maxbandwidth="+fmt.Sprint(*opt.IoMaxbandwidth))
 	}
 	if opt.IoMaxiops != nil {
-		cargs = append(cargs, "--io-maxiops "+fmt.Sprint(*opt.IoMaxiops))
+		cargs = append(cargs, "--io-maxiops="+fmt.Sprint(*opt.IoMaxiops))
 	}
 	if opt.Ip != nil {
-		cargs = append(cargs, "--ip "+fmt.Sprint(*opt.Ip))
+		cargs = append(cargs, "--ip="+fmt.Sprint(*opt.Ip))
 	}
 	if opt.Ip6 != nil {
-		cargs = append(cargs, "--ip6 "+fmt.Sprint(*opt.Ip6))
+		cargs = append(cargs, "--ip6="+fmt.Sprint(*opt.Ip6))
 	}
 	if opt.Ipc != nil {
-		cargs = append(cargs, "--ipc "+fmt.Sprint(*opt.Ipc))
+		cargs = append(cargs, "--ipc="+fmt.Sprint(*opt.Ipc))
 	}
 	if opt.Isolation != nil {
-		cargs = append(cargs, "--isolation "+fmt.Sprint(*opt.Isolation))
+		cargs = append(cargs, "--isolation="+fmt.Sprint(*opt.Isolation))
 	}
 	if opt.KernelMemory != nil {
-		cargs = append(cargs, "--kernel-memory "+fmt.Sprint(*opt.KernelMemory))
+		cargs = append(cargs, "--kernel-memory="+fmt.Sprint(*opt.KernelMemory))
 	}
 	if opt.Label != nil {
 		for _, str := range opt.Label {
-			cargs = append(cargs, "--label "+str)
+			cargs = append(cargs, "--label")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.LabelFile != nil {
 		for _, str := range opt.LabelFile {
-			cargs = append(cargs, "--label-file "+str)
+			cargs = append(cargs, "--label-file")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Link != nil {
 		for _, str := range opt.Link {
-			cargs = append(cargs, "--link "+str)
+			cargs = append(cargs, "--link")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.LinkLocalIp != nil {
 		for _, str := range opt.LinkLocalIp {
-			cargs = append(cargs, "--link-local-ip "+str)
+			cargs = append(cargs, "--link-local-ip")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.LogDriver != nil {
-		cargs = append(cargs, "--log-driver "+fmt.Sprint(*opt.LogDriver))
+		cargs = append(cargs, "--log-driver="+fmt.Sprint(*opt.LogDriver))
 	}
 	if opt.LogOpt != nil {
 		for _, str := range opt.LogOpt {
-			cargs = append(cargs, "--log-opt "+str)
+			cargs = append(cargs, "--log-opt")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.MacAddress != nil {
-		cargs = append(cargs, "--mac-address "+fmt.Sprint(*opt.MacAddress))
+		cargs = append(cargs, "--mac-address="+fmt.Sprint(*opt.MacAddress))
 	}
 	if opt.Memory != nil {
-		cargs = append(cargs, "--memory "+fmt.Sprint(*opt.Memory))
+		cargs = append(cargs, "--memory="+fmt.Sprint(*opt.Memory))
 	}
 	if opt.MemoryReservation != nil {
-		cargs = append(cargs, "--memory-reservation "+fmt.Sprint(*opt.MemoryReservation))
+		cargs = append(cargs, "--memory-reservation="+fmt.Sprint(*opt.MemoryReservation))
 	}
 	if opt.MemorySwap != nil {
-		cargs = append(cargs, "--memory-swap "+fmt.Sprint(*opt.MemorySwap))
+		cargs = append(cargs, "--memory-swap="+fmt.Sprint(*opt.MemorySwap))
 	}
 	if opt.MemorySwappiness != nil {
-		cargs = append(cargs, "--memory-swappiness "+fmt.Sprint(*opt.MemorySwappiness))
+		cargs = append(cargs, "--memory-swappiness="+fmt.Sprint(*opt.MemorySwappiness))
 	}
 	if opt.Mount != nil {
-		cargs = append(cargs, "--mount "+fmt.Sprint(*opt.Mount))
+		cargs = append(cargs, "--mount="+fmt.Sprint(*opt.Mount))
 	}
 	if opt.Name != nil {
-		cargs = append(cargs, "--name "+fmt.Sprint(*opt.Name))
+		cargs = append(cargs, "--name="+fmt.Sprint(*opt.Name))
 	}
 	if opt.Net != nil {
-		cargs = append(cargs, "--net "+fmt.Sprint(*opt.Net))
+		cargs = append(cargs, "--net="+fmt.Sprint(*opt.Net))
 	}
 	if opt.NetAlias != nil {
 		for _, str := range opt.NetAlias {
-			cargs = append(cargs, "--net-alias "+str)
+			cargs = append(cargs, "--net-alias")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Network != nil {
-		cargs = append(cargs, "--network "+fmt.Sprint(*opt.Network))
+		cargs = append(cargs, "--network="+fmt.Sprint(*opt.Network))
 	}
 	if opt.NetworkAlias != nil {
 		for _, str := range opt.NetworkAlias {
-			cargs = append(cargs, "--network-alias "+str)
+			cargs = append(cargs, "--network-alias")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.NoHealthcheck != nil {
-		cargs = append(cargs, "--no-healthcheck "+fmt.Sprint(*opt.NoHealthcheck))
+		cargs = append(cargs, "--no-healthcheck="+fmt.Sprint(*opt.NoHealthcheck))
 	}
 	if opt.OomKillDisable != nil {
-		cargs = append(cargs, "--oom-kill-disable "+fmt.Sprint(*opt.OomKillDisable))
+		cargs = append(cargs, "--oom-kill-disable="+fmt.Sprint(*opt.OomKillDisable))
 	}
 	if opt.OomScoreAdj != nil {
-		cargs = append(cargs, "--oom-score-adj "+fmt.Sprint(*opt.OomScoreAdj))
+		cargs = append(cargs, "--oom-score-adj="+fmt.Sprint(*opt.OomScoreAdj))
 	}
 	if opt.Pid != nil {
-		cargs = append(cargs, "--pid "+fmt.Sprint(*opt.Pid))
+		cargs = append(cargs, "--pid="+fmt.Sprint(*opt.Pid))
 	}
 	if opt.PidsLimit != nil {
-		cargs = append(cargs, "--pids-limit "+fmt.Sprint(*opt.PidsLimit))
+		cargs = append(cargs, "--pids-limit="+fmt.Sprint(*opt.PidsLimit))
 	}
 	if opt.Platform != nil {
-		cargs = append(cargs, "--platform "+fmt.Sprint(*opt.Platform))
+		cargs = append(cargs, "--platform="+fmt.Sprint(*opt.Platform))
 	}
 	if opt.Privileged != nil {
-		cargs = append(cargs, "--privileged "+fmt.Sprint(*opt.Privileged))
+		cargs = append(cargs, "--privileged="+fmt.Sprint(*opt.Privileged))
 	}
 	if opt.Publish != nil {
 		for _, str := range opt.Publish {
-			cargs = append(cargs, "--publish "+str)
+			cargs = append(cargs, "--publish")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.PublishAll != nil {
-		cargs = append(cargs, "--publish-all "+fmt.Sprint(*opt.PublishAll))
+		cargs = append(cargs, "--publish-all="+fmt.Sprint(*opt.PublishAll))
 	}
 	if opt.Pull != nil {
-		cargs = append(cargs, "--pull "+fmt.Sprint(*opt.Pull))
+		cargs = append(cargs, "--pull="+fmt.Sprint(*opt.Pull))
 	}
 	if opt.ReadOnly != nil {
-		cargs = append(cargs, "--read-only "+fmt.Sprint(*opt.ReadOnly))
+		cargs = append(cargs, "--read-only="+fmt.Sprint(*opt.ReadOnly))
 	}
 	if opt.Restart != nil {
-		cargs = append(cargs, "--restart "+fmt.Sprint(*opt.Restart))
+		cargs = append(cargs, "--restart="+fmt.Sprint(*opt.Restart))
 	}
 	if opt.Rm != nil {
-		cargs = append(cargs, "--rm "+fmt.Sprint(*opt.Rm))
+		cargs = append(cargs, "--rm="+fmt.Sprint(*opt.Rm))
 	}
 	if opt.Runtime != nil {
-		cargs = append(cargs, "--runtime "+fmt.Sprint(*opt.Runtime))
+		cargs = append(cargs, "--runtime="+fmt.Sprint(*opt.Runtime))
 	}
 	if opt.SecurityOpt != nil {
 		for _, str := range opt.SecurityOpt {
-			cargs = append(cargs, "--security-opt "+str)
+			cargs = append(cargs, "--security-opt")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.ShmSize != nil {
-		cargs = append(cargs, "--shm-size "+fmt.Sprint(*opt.ShmSize))
+		cargs = append(cargs, "--shm-size="+fmt.Sprint(*opt.ShmSize))
 	}
 	if opt.StopSignal != nil {
-		cargs = append(cargs, "--stop-signal "+fmt.Sprint(*opt.StopSignal))
+		cargs = append(cargs, "--stop-signal="+fmt.Sprint(*opt.StopSignal))
 	}
 	if opt.StopTimeout != nil {
-		cargs = append(cargs, "--stop-timeout "+fmt.Sprint(*opt.StopTimeout))
+		cargs = append(cargs, "--stop-timeout="+fmt.Sprint(*opt.StopTimeout))
 	}
 	if opt.StorageOpt != nil {
 		for _, str := range opt.StorageOpt {
-			cargs = append(cargs, "--storage-opt "+str)
+			cargs = append(cargs, "--storage-opt")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Sysctl != nil {
 		for key, val := range opt.Sysctl {
-			cargs = append(cargs, "--sysctl "+key+"="+val)
+			cargs = append(cargs, "--sysctl")
+			cargs = append(cargs, key+"="+val)
 		}
 	}
 	if opt.Tmpfs != nil {
 		for _, str := range opt.Tmpfs {
-			cargs = append(cargs, "--tmpfs "+str)
+			cargs = append(cargs, "--tmpfs")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Tty != nil {
-		cargs = append(cargs, "--tty "+fmt.Sprint(*opt.Tty))
+		cargs = append(cargs, "--tty="+fmt.Sprint(*opt.Tty))
 	}
 	if opt.Ulimit != nil {
-		cargs = append(cargs, "--ulimit "+fmt.Sprint(*opt.Ulimit))
+		cargs = append(cargs, "--ulimit="+fmt.Sprint(*opt.Ulimit))
 	}
 	if opt.User != nil {
-		cargs = append(cargs, "--user "+fmt.Sprint(*opt.User))
+		cargs = append(cargs, "--user="+fmt.Sprint(*opt.User))
 	}
 	if opt.Userns != nil {
-		cargs = append(cargs, "--userns "+fmt.Sprint(*opt.Userns))
+		cargs = append(cargs, "--userns="+fmt.Sprint(*opt.Userns))
 	}
 	if opt.Uts != nil {
-		cargs = append(cargs, "--uts "+fmt.Sprint(*opt.Uts))
+		cargs = append(cargs, "--uts="+fmt.Sprint(*opt.Uts))
 	}
 	if opt.Volume != nil {
 		for _, str := range opt.Volume {
-			cargs = append(cargs, "--volume "+str)
+			cargs = append(cargs, "--volume")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.VolumeDriver != nil {
-		cargs = append(cargs, "--volume-driver "+fmt.Sprint(*opt.VolumeDriver))
+		cargs = append(cargs, "--volume-driver="+fmt.Sprint(*opt.VolumeDriver))
 	}
 	if opt.VolumesFrom != nil {
 		for _, str := range opt.VolumesFrom {
-			cargs = append(cargs, "--volumes-from "+str)
+			cargs = append(cargs, "--volumes-from")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Workdir != nil {
-		cargs = append(cargs, "--workdir "+fmt.Sprint(*opt.Workdir))
+		cargs = append(cargs, "--workdir="+fmt.Sprint(*opt.Workdir))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -2132,10 +2156,9 @@ Inspect changes to files or directories on a container's filesystem
 ------------------------------
 */
 func DockerContainerDiffCmd(args []string) *exec.Cmd {
-	name := "docker container diff"
-	cargs := []string{}
+	cargs := []string{"container", "diff"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerContainerExecOption struct {
@@ -2193,41 +2216,42 @@ Run a command in a running container
 ------------------------------
 */
 func DockerContainerExecCmd(opt DockerContainerExecOption, args []string) *exec.Cmd {
-	name := "docker container exec"
-	cargs := []string{}
+	cargs := []string{"container", "exec"}
 	if opt.Detach != nil {
-		cargs = append(cargs, "--detach "+fmt.Sprint(*opt.Detach))
+		cargs = append(cargs, "--detach="+fmt.Sprint(*opt.Detach))
 	}
 	if opt.DetachKeys != nil {
-		cargs = append(cargs, "--detach-keys "+fmt.Sprint(*opt.DetachKeys))
+		cargs = append(cargs, "--detach-keys="+fmt.Sprint(*opt.DetachKeys))
 	}
 	if opt.Env != nil {
 		for _, str := range opt.Env {
-			cargs = append(cargs, "--env "+str)
+			cargs = append(cargs, "--env")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.EnvFile != nil {
 		for _, str := range opt.EnvFile {
-			cargs = append(cargs, "--env-file "+str)
+			cargs = append(cargs, "--env-file")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Interactive != nil {
-		cargs = append(cargs, "--interactive "+fmt.Sprint(*opt.Interactive))
+		cargs = append(cargs, "--interactive="+fmt.Sprint(*opt.Interactive))
 	}
 	if opt.Privileged != nil {
-		cargs = append(cargs, "--privileged "+fmt.Sprint(*opt.Privileged))
+		cargs = append(cargs, "--privileged="+fmt.Sprint(*opt.Privileged))
 	}
 	if opt.Tty != nil {
-		cargs = append(cargs, "--tty "+fmt.Sprint(*opt.Tty))
+		cargs = append(cargs, "--tty="+fmt.Sprint(*opt.Tty))
 	}
 	if opt.User != nil {
-		cargs = append(cargs, "--user "+fmt.Sprint(*opt.User))
+		cargs = append(cargs, "--user="+fmt.Sprint(*opt.User))
 	}
 	if opt.Workdir != nil {
-		cargs = append(cargs, "--workdir "+fmt.Sprint(*opt.Workdir))
+		cargs = append(cargs, "--workdir="+fmt.Sprint(*opt.Workdir))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerContainerExportOption struct {
@@ -2245,13 +2269,12 @@ Export a container's filesystem as a tar archive
 ------------------------------
 */
 func DockerContainerExportCmd(opt DockerContainerExportOption, args []string) *exec.Cmd {
-	name := "docker container export"
-	cargs := []string{}
+	cargs := []string{"container", "export"}
 	if opt.Output != nil {
-		cargs = append(cargs, "--output "+fmt.Sprint(*opt.Output))
+		cargs = append(cargs, "--output="+fmt.Sprint(*opt.Output))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerContainerInspectOption struct {
@@ -2274,16 +2297,15 @@ Display detailed information on one or more containers
 ------------------------------
 */
 func DockerContainerInspectCmd(opt DockerContainerInspectOption, args []string) *exec.Cmd {
-	name := "docker container inspect"
-	cargs := []string{}
+	cargs := []string{"container", "inspect"}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	if opt.Size != nil {
-		cargs = append(cargs, "--size "+fmt.Sprint(*opt.Size))
+		cargs = append(cargs, "--size="+fmt.Sprint(*opt.Size))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerContainerKillOption struct {
@@ -2301,13 +2323,12 @@ Kill one or more running containers
 ------------------------------
 */
 func DockerContainerKillCmd(opt DockerContainerKillOption, args []string) *exec.Cmd {
-	name := "docker container kill"
-	cargs := []string{}
+	cargs := []string{"container", "kill"}
 	if opt.Signal != nil {
-		cargs = append(cargs, "--signal "+fmt.Sprint(*opt.Signal))
+		cargs = append(cargs, "--signal="+fmt.Sprint(*opt.Signal))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerContainerLogsOption struct {
@@ -2350,28 +2371,27 @@ Fetch the logs of a container
 ------------------------------
 */
 func DockerContainerLogsCmd(opt DockerContainerLogsOption, args []string) *exec.Cmd {
-	name := "docker container logs"
-	cargs := []string{}
+	cargs := []string{"container", "logs"}
 	if opt.Details != nil {
-		cargs = append(cargs, "--details "+fmt.Sprint(*opt.Details))
+		cargs = append(cargs, "--details="+fmt.Sprint(*opt.Details))
 	}
 	if opt.Follow != nil {
-		cargs = append(cargs, "--follow "+fmt.Sprint(*opt.Follow))
+		cargs = append(cargs, "--follow="+fmt.Sprint(*opt.Follow))
 	}
 	if opt.Since != nil {
-		cargs = append(cargs, "--since "+fmt.Sprint(*opt.Since))
+		cargs = append(cargs, "--since="+fmt.Sprint(*opt.Since))
 	}
 	if opt.Tail != nil {
-		cargs = append(cargs, "--tail "+fmt.Sprint(*opt.Tail))
+		cargs = append(cargs, "--tail="+fmt.Sprint(*opt.Tail))
 	}
 	if opt.Timestamps != nil {
-		cargs = append(cargs, "--timestamps "+fmt.Sprint(*opt.Timestamps))
+		cargs = append(cargs, "--timestamps="+fmt.Sprint(*opt.Timestamps))
 	}
 	if opt.Until != nil {
-		cargs = append(cargs, "--until "+fmt.Sprint(*opt.Until))
+		cargs = append(cargs, "--until="+fmt.Sprint(*opt.Until))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerContainerLsOption struct {
@@ -2424,34 +2444,33 @@ List containers
 ------------------------------
 */
 func DockerContainerLsCmd(opt DockerContainerLsOption, args []string) *exec.Cmd {
-	name := "docker container ls"
-	cargs := []string{}
+	cargs := []string{"container", "ls"}
 	if opt.All != nil {
-		cargs = append(cargs, "--all "+fmt.Sprint(*opt.All))
+		cargs = append(cargs, "--all="+fmt.Sprint(*opt.All))
 	}
 	if opt.Filter != nil {
-		cargs = append(cargs, "--filter "+fmt.Sprint(*opt.Filter))
+		cargs = append(cargs, "--filter="+fmt.Sprint(*opt.Filter))
 	}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	if opt.Last != nil {
-		cargs = append(cargs, "--last "+fmt.Sprint(*opt.Last))
+		cargs = append(cargs, "--last="+fmt.Sprint(*opt.Last))
 	}
 	if opt.Latest != nil {
-		cargs = append(cargs, "--latest "+fmt.Sprint(*opt.Latest))
+		cargs = append(cargs, "--latest="+fmt.Sprint(*opt.Latest))
 	}
 	if opt.NoTrunc != nil {
-		cargs = append(cargs, "--no-trunc "+fmt.Sprint(*opt.NoTrunc))
+		cargs = append(cargs, "--no-trunc="+fmt.Sprint(*opt.NoTrunc))
 	}
 	if opt.Quiet != nil {
-		cargs = append(cargs, "--quiet "+fmt.Sprint(*opt.Quiet))
+		cargs = append(cargs, "--quiet="+fmt.Sprint(*opt.Quiet))
 	}
 	if opt.Size != nil {
-		cargs = append(cargs, "--size "+fmt.Sprint(*opt.Size))
+		cargs = append(cargs, "--size="+fmt.Sprint(*opt.Size))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -2462,10 +2481,9 @@ Pause all processes within one or more containers
 ------------------------------
 */
 func DockerContainerPauseCmd(args []string) *exec.Cmd {
-	name := "docker container pause"
-	cargs := []string{}
+	cargs := []string{"container", "pause"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -2476,10 +2494,9 @@ List port mappings or a specific mapping for the container
 ------------------------------
 */
 func DockerContainerPortCmd(args []string) *exec.Cmd {
-	name := "docker container port"
-	cargs := []string{}
+	cargs := []string{"container", "port"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerContainerPruneOption struct {
@@ -2502,16 +2519,15 @@ Remove all stopped containers
 ------------------------------
 */
 func DockerContainerPruneCmd(opt DockerContainerPruneOption, args []string) *exec.Cmd {
-	name := "docker container prune"
-	cargs := []string{}
+	cargs := []string{"container", "prune"}
 	if opt.Filter != nil {
-		cargs = append(cargs, "--filter "+fmt.Sprint(*opt.Filter))
+		cargs = append(cargs, "--filter="+fmt.Sprint(*opt.Filter))
 	}
 	if opt.Force != nil {
-		cargs = append(cargs, "--force "+fmt.Sprint(*opt.Force))
+		cargs = append(cargs, "--force="+fmt.Sprint(*opt.Force))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -2522,10 +2538,9 @@ Rename a container
 ------------------------------
 */
 func DockerContainerRenameCmd(args []string) *exec.Cmd {
-	name := "docker container rename"
-	cargs := []string{}
+	cargs := []string{"container", "rename"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerContainerRestartOption struct {
@@ -2543,13 +2558,12 @@ Restart one or more containers
 ------------------------------
 */
 func DockerContainerRestartCmd(opt DockerContainerRestartOption, args []string) *exec.Cmd {
-	name := "docker container restart"
-	cargs := []string{}
+	cargs := []string{"container", "restart"}
 	if opt.Time != nil {
-		cargs = append(cargs, "--time "+fmt.Sprint(*opt.Time))
+		cargs = append(cargs, "--time="+fmt.Sprint(*opt.Time))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerContainerRmOption struct {
@@ -2577,19 +2591,18 @@ Remove one or more containers
 ------------------------------
 */
 func DockerContainerRmCmd(opt DockerContainerRmOption, args []string) *exec.Cmd {
-	name := "docker container rm"
-	cargs := []string{}
+	cargs := []string{"container", "rm"}
 	if opt.Force != nil {
-		cargs = append(cargs, "--force "+fmt.Sprint(*opt.Force))
+		cargs = append(cargs, "--force="+fmt.Sprint(*opt.Force))
 	}
 	if opt.Link != nil {
-		cargs = append(cargs, "--link "+fmt.Sprint(*opt.Link))
+		cargs = append(cargs, "--link="+fmt.Sprint(*opt.Link))
 	}
 	if opt.Volumes != nil {
-		cargs = append(cargs, "--volumes "+fmt.Sprint(*opt.Volumes))
+		cargs = append(cargs, "--volumes="+fmt.Sprint(*opt.Volumes))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerContainerRunOption struct {
@@ -3121,385 +3134,417 @@ Run a command in a new container
 ------------------------------
 */
 func DockerContainerRunCmd(opt DockerContainerRunOption, args []string) *exec.Cmd {
-	name := "docker container run"
-	cargs := []string{}
+	cargs := []string{"container", "run"}
 	if opt.AddHost != nil {
 		for _, str := range opt.AddHost {
-			cargs = append(cargs, "--add-host "+str)
+			cargs = append(cargs, "--add-host")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Attach != nil {
 		for _, str := range opt.Attach {
-			cargs = append(cargs, "--attach "+str)
+			cargs = append(cargs, "--attach")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.BlkioWeight != nil {
-		cargs = append(cargs, "--blkio-weight "+fmt.Sprint(*opt.BlkioWeight))
+		cargs = append(cargs, "--blkio-weight="+fmt.Sprint(*opt.BlkioWeight))
 	}
 	if opt.BlkioWeightDevice != nil {
 		for _, str := range opt.BlkioWeightDevice {
-			cargs = append(cargs, "--blkio-weight-device "+str)
+			cargs = append(cargs, "--blkio-weight-device")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.CapAdd != nil {
 		for _, str := range opt.CapAdd {
-			cargs = append(cargs, "--cap-add "+str)
+			cargs = append(cargs, "--cap-add")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.CapDrop != nil {
 		for _, str := range opt.CapDrop {
-			cargs = append(cargs, "--cap-drop "+str)
+			cargs = append(cargs, "--cap-drop")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.CgroupParent != nil {
-		cargs = append(cargs, "--cgroup-parent "+fmt.Sprint(*opt.CgroupParent))
+		cargs = append(cargs, "--cgroup-parent="+fmt.Sprint(*opt.CgroupParent))
 	}
 	if opt.Cgroupns != nil {
-		cargs = append(cargs, "--cgroupns "+fmt.Sprint(*opt.Cgroupns))
+		cargs = append(cargs, "--cgroupns="+fmt.Sprint(*opt.Cgroupns))
 	}
 	if opt.Cidfile != nil {
-		cargs = append(cargs, "--cidfile "+fmt.Sprint(*opt.Cidfile))
+		cargs = append(cargs, "--cidfile="+fmt.Sprint(*opt.Cidfile))
 	}
 	if opt.CpuCount != nil {
-		cargs = append(cargs, "--cpu-count "+fmt.Sprint(*opt.CpuCount))
+		cargs = append(cargs, "--cpu-count="+fmt.Sprint(*opt.CpuCount))
 	}
 	if opt.CpuPercent != nil {
-		cargs = append(cargs, "--cpu-percent "+fmt.Sprint(*opt.CpuPercent))
+		cargs = append(cargs, "--cpu-percent="+fmt.Sprint(*opt.CpuPercent))
 	}
 	if opt.CpuPeriod != nil {
-		cargs = append(cargs, "--cpu-period "+fmt.Sprint(*opt.CpuPeriod))
+		cargs = append(cargs, "--cpu-period="+fmt.Sprint(*opt.CpuPeriod))
 	}
 	if opt.CpuQuota != nil {
-		cargs = append(cargs, "--cpu-quota "+fmt.Sprint(*opt.CpuQuota))
+		cargs = append(cargs, "--cpu-quota="+fmt.Sprint(*opt.CpuQuota))
 	}
 	if opt.CpuRtPeriod != nil {
-		cargs = append(cargs, "--cpu-rt-period "+fmt.Sprint(*opt.CpuRtPeriod))
+		cargs = append(cargs, "--cpu-rt-period="+fmt.Sprint(*opt.CpuRtPeriod))
 	}
 	if opt.CpuRtRuntime != nil {
-		cargs = append(cargs, "--cpu-rt-runtime "+fmt.Sprint(*opt.CpuRtRuntime))
+		cargs = append(cargs, "--cpu-rt-runtime="+fmt.Sprint(*opt.CpuRtRuntime))
 	}
 	if opt.CpuShares != nil {
-		cargs = append(cargs, "--cpu-shares "+fmt.Sprint(*opt.CpuShares))
+		cargs = append(cargs, "--cpu-shares="+fmt.Sprint(*opt.CpuShares))
 	}
 	if opt.Cpus != nil {
-		cargs = append(cargs, "--cpus "+fmt.Sprint(*opt.Cpus))
+		cargs = append(cargs, "--cpus="+fmt.Sprint(*opt.Cpus))
 	}
 	if opt.CpusetCpus != nil {
-		cargs = append(cargs, "--cpuset-cpus "+fmt.Sprint(*opt.CpusetCpus))
+		cargs = append(cargs, "--cpuset-cpus="+fmt.Sprint(*opt.CpusetCpus))
 	}
 	if opt.CpusetMems != nil {
-		cargs = append(cargs, "--cpuset-mems "+fmt.Sprint(*opt.CpusetMems))
+		cargs = append(cargs, "--cpuset-mems="+fmt.Sprint(*opt.CpusetMems))
 	}
 	if opt.Detach != nil {
-		cargs = append(cargs, "--detach "+fmt.Sprint(*opt.Detach))
+		cargs = append(cargs, "--detach="+fmt.Sprint(*opt.Detach))
 	}
 	if opt.DetachKeys != nil {
-		cargs = append(cargs, "--detach-keys "+fmt.Sprint(*opt.DetachKeys))
+		cargs = append(cargs, "--detach-keys="+fmt.Sprint(*opt.DetachKeys))
 	}
 	if opt.Device != nil {
 		for _, str := range opt.Device {
-			cargs = append(cargs, "--device "+str)
+			cargs = append(cargs, "--device")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DeviceCgroupRule != nil {
 		for _, str := range opt.DeviceCgroupRule {
-			cargs = append(cargs, "--device-cgroup-rule "+str)
+			cargs = append(cargs, "--device-cgroup-rule")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DeviceReadBps != nil {
 		for _, str := range opt.DeviceReadBps {
-			cargs = append(cargs, "--device-read-bps "+str)
+			cargs = append(cargs, "--device-read-bps")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DeviceReadIops != nil {
 		for _, str := range opt.DeviceReadIops {
-			cargs = append(cargs, "--device-read-iops "+str)
+			cargs = append(cargs, "--device-read-iops")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DeviceWriteBps != nil {
 		for _, str := range opt.DeviceWriteBps {
-			cargs = append(cargs, "--device-write-bps "+str)
+			cargs = append(cargs, "--device-write-bps")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DeviceWriteIops != nil {
 		for _, str := range opt.DeviceWriteIops {
-			cargs = append(cargs, "--device-write-iops "+str)
+			cargs = append(cargs, "--device-write-iops")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DisableContentTrust != nil {
-		cargs = append(cargs, "--disable-content-trust "+fmt.Sprint(*opt.DisableContentTrust))
+		cargs = append(cargs, "--disable-content-trust="+fmt.Sprint(*opt.DisableContentTrust))
 	}
 	if opt.Dns != nil {
 		for _, str := range opt.Dns {
-			cargs = append(cargs, "--dns "+str)
+			cargs = append(cargs, "--dns")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DnsOpt != nil {
 		for _, str := range opt.DnsOpt {
-			cargs = append(cargs, "--dns-opt "+str)
+			cargs = append(cargs, "--dns-opt")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DnsOption != nil {
 		for _, str := range opt.DnsOption {
-			cargs = append(cargs, "--dns-option "+str)
+			cargs = append(cargs, "--dns-option")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DnsSearch != nil {
 		for _, str := range opt.DnsSearch {
-			cargs = append(cargs, "--dns-search "+str)
+			cargs = append(cargs, "--dns-search")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Domainname != nil {
-		cargs = append(cargs, "--domainname "+fmt.Sprint(*opt.Domainname))
+		cargs = append(cargs, "--domainname="+fmt.Sprint(*opt.Domainname))
 	}
 	if opt.Entrypoint != nil {
-		cargs = append(cargs, "--entrypoint "+fmt.Sprint(*opt.Entrypoint))
+		cargs = append(cargs, "--entrypoint="+fmt.Sprint(*opt.Entrypoint))
 	}
 	if opt.Env != nil {
 		for _, str := range opt.Env {
-			cargs = append(cargs, "--env "+str)
+			cargs = append(cargs, "--env")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.EnvFile != nil {
 		for _, str := range opt.EnvFile {
-			cargs = append(cargs, "--env-file "+str)
+			cargs = append(cargs, "--env-file")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Expose != nil {
 		for _, str := range opt.Expose {
-			cargs = append(cargs, "--expose "+str)
+			cargs = append(cargs, "--expose")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Gpus != nil {
-		cargs = append(cargs, "--gpus "+fmt.Sprint(*opt.Gpus))
+		cargs = append(cargs, "--gpus="+fmt.Sprint(*opt.Gpus))
 	}
 	if opt.GroupAdd != nil {
 		for _, str := range opt.GroupAdd {
-			cargs = append(cargs, "--group-add "+str)
+			cargs = append(cargs, "--group-add")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.HealthCmd != nil {
-		cargs = append(cargs, "--health-cmd "+fmt.Sprint(*opt.HealthCmd))
+		cargs = append(cargs, "--health-cmd="+fmt.Sprint(*opt.HealthCmd))
 	}
 	if opt.HealthInterval != nil {
-		cargs = append(cargs, "--health-interval "+fmt.Sprint(*opt.HealthInterval))
+		cargs = append(cargs, "--health-interval="+fmt.Sprint(*opt.HealthInterval))
 	}
 	if opt.HealthRetries != nil {
-		cargs = append(cargs, "--health-retries "+fmt.Sprint(*opt.HealthRetries))
+		cargs = append(cargs, "--health-retries="+fmt.Sprint(*opt.HealthRetries))
 	}
 	if opt.HealthStartPeriod != nil {
-		cargs = append(cargs, "--health-start-period "+fmt.Sprint(*opt.HealthStartPeriod))
+		cargs = append(cargs, "--health-start-period="+fmt.Sprint(*opt.HealthStartPeriod))
 	}
 	if opt.HealthTimeout != nil {
-		cargs = append(cargs, "--health-timeout "+fmt.Sprint(*opt.HealthTimeout))
+		cargs = append(cargs, "--health-timeout="+fmt.Sprint(*opt.HealthTimeout))
 	}
 	if opt.Help != nil {
-		cargs = append(cargs, "--help "+fmt.Sprint(*opt.Help))
+		cargs = append(cargs, "--help="+fmt.Sprint(*opt.Help))
 	}
 	if opt.Hostname != nil {
-		cargs = append(cargs, "--hostname "+fmt.Sprint(*opt.Hostname))
+		cargs = append(cargs, "--hostname="+fmt.Sprint(*opt.Hostname))
 	}
 	if opt.Init != nil {
-		cargs = append(cargs, "--init "+fmt.Sprint(*opt.Init))
+		cargs = append(cargs, "--init="+fmt.Sprint(*opt.Init))
 	}
 	if opt.Interactive != nil {
-		cargs = append(cargs, "--interactive "+fmt.Sprint(*opt.Interactive))
+		cargs = append(cargs, "--interactive="+fmt.Sprint(*opt.Interactive))
 	}
 	if opt.IoMaxbandwidth != nil {
-		cargs = append(cargs, "--io-maxbandwidth "+fmt.Sprint(*opt.IoMaxbandwidth))
+		cargs = append(cargs, "--io-maxbandwidth="+fmt.Sprint(*opt.IoMaxbandwidth))
 	}
 	if opt.IoMaxiops != nil {
-		cargs = append(cargs, "--io-maxiops "+fmt.Sprint(*opt.IoMaxiops))
+		cargs = append(cargs, "--io-maxiops="+fmt.Sprint(*opt.IoMaxiops))
 	}
 	if opt.Ip != nil {
-		cargs = append(cargs, "--ip "+fmt.Sprint(*opt.Ip))
+		cargs = append(cargs, "--ip="+fmt.Sprint(*opt.Ip))
 	}
 	if opt.Ip6 != nil {
-		cargs = append(cargs, "--ip6 "+fmt.Sprint(*opt.Ip6))
+		cargs = append(cargs, "--ip6="+fmt.Sprint(*opt.Ip6))
 	}
 	if opt.Ipc != nil {
-		cargs = append(cargs, "--ipc "+fmt.Sprint(*opt.Ipc))
+		cargs = append(cargs, "--ipc="+fmt.Sprint(*opt.Ipc))
 	}
 	if opt.Isolation != nil {
-		cargs = append(cargs, "--isolation "+fmt.Sprint(*opt.Isolation))
+		cargs = append(cargs, "--isolation="+fmt.Sprint(*opt.Isolation))
 	}
 	if opt.KernelMemory != nil {
-		cargs = append(cargs, "--kernel-memory "+fmt.Sprint(*opt.KernelMemory))
+		cargs = append(cargs, "--kernel-memory="+fmt.Sprint(*opt.KernelMemory))
 	}
 	if opt.Label != nil {
 		for _, str := range opt.Label {
-			cargs = append(cargs, "--label "+str)
+			cargs = append(cargs, "--label")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.LabelFile != nil {
 		for _, str := range opt.LabelFile {
-			cargs = append(cargs, "--label-file "+str)
+			cargs = append(cargs, "--label-file")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Link != nil {
 		for _, str := range opt.Link {
-			cargs = append(cargs, "--link "+str)
+			cargs = append(cargs, "--link")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.LinkLocalIp != nil {
 		for _, str := range opt.LinkLocalIp {
-			cargs = append(cargs, "--link-local-ip "+str)
+			cargs = append(cargs, "--link-local-ip")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.LogDriver != nil {
-		cargs = append(cargs, "--log-driver "+fmt.Sprint(*opt.LogDriver))
+		cargs = append(cargs, "--log-driver="+fmt.Sprint(*opt.LogDriver))
 	}
 	if opt.LogOpt != nil {
 		for _, str := range opt.LogOpt {
-			cargs = append(cargs, "--log-opt "+str)
+			cargs = append(cargs, "--log-opt")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.MacAddress != nil {
-		cargs = append(cargs, "--mac-address "+fmt.Sprint(*opt.MacAddress))
+		cargs = append(cargs, "--mac-address="+fmt.Sprint(*opt.MacAddress))
 	}
 	if opt.Memory != nil {
-		cargs = append(cargs, "--memory "+fmt.Sprint(*opt.Memory))
+		cargs = append(cargs, "--memory="+fmt.Sprint(*opt.Memory))
 	}
 	if opt.MemoryReservation != nil {
-		cargs = append(cargs, "--memory-reservation "+fmt.Sprint(*opt.MemoryReservation))
+		cargs = append(cargs, "--memory-reservation="+fmt.Sprint(*opt.MemoryReservation))
 	}
 	if opt.MemorySwap != nil {
-		cargs = append(cargs, "--memory-swap "+fmt.Sprint(*opt.MemorySwap))
+		cargs = append(cargs, "--memory-swap="+fmt.Sprint(*opt.MemorySwap))
 	}
 	if opt.MemorySwappiness != nil {
-		cargs = append(cargs, "--memory-swappiness "+fmt.Sprint(*opt.MemorySwappiness))
+		cargs = append(cargs, "--memory-swappiness="+fmt.Sprint(*opt.MemorySwappiness))
 	}
 	if opt.Mount != nil {
-		cargs = append(cargs, "--mount "+fmt.Sprint(*opt.Mount))
+		cargs = append(cargs, "--mount="+fmt.Sprint(*opt.Mount))
 	}
 	if opt.Name != nil {
-		cargs = append(cargs, "--name "+fmt.Sprint(*opt.Name))
+		cargs = append(cargs, "--name="+fmt.Sprint(*opt.Name))
 	}
 	if opt.Net != nil {
-		cargs = append(cargs, "--net "+fmt.Sprint(*opt.Net))
+		cargs = append(cargs, "--net="+fmt.Sprint(*opt.Net))
 	}
 	if opt.NetAlias != nil {
 		for _, str := range opt.NetAlias {
-			cargs = append(cargs, "--net-alias "+str)
+			cargs = append(cargs, "--net-alias")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Network != nil {
-		cargs = append(cargs, "--network "+fmt.Sprint(*opt.Network))
+		cargs = append(cargs, "--network="+fmt.Sprint(*opt.Network))
 	}
 	if opt.NetworkAlias != nil {
 		for _, str := range opt.NetworkAlias {
-			cargs = append(cargs, "--network-alias "+str)
+			cargs = append(cargs, "--network-alias")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.NoHealthcheck != nil {
-		cargs = append(cargs, "--no-healthcheck "+fmt.Sprint(*opt.NoHealthcheck))
+		cargs = append(cargs, "--no-healthcheck="+fmt.Sprint(*opt.NoHealthcheck))
 	}
 	if opt.OomKillDisable != nil {
-		cargs = append(cargs, "--oom-kill-disable "+fmt.Sprint(*opt.OomKillDisable))
+		cargs = append(cargs, "--oom-kill-disable="+fmt.Sprint(*opt.OomKillDisable))
 	}
 	if opt.OomScoreAdj != nil {
-		cargs = append(cargs, "--oom-score-adj "+fmt.Sprint(*opt.OomScoreAdj))
+		cargs = append(cargs, "--oom-score-adj="+fmt.Sprint(*opt.OomScoreAdj))
 	}
 	if opt.Pid != nil {
-		cargs = append(cargs, "--pid "+fmt.Sprint(*opt.Pid))
+		cargs = append(cargs, "--pid="+fmt.Sprint(*opt.Pid))
 	}
 	if opt.PidsLimit != nil {
-		cargs = append(cargs, "--pids-limit "+fmt.Sprint(*opt.PidsLimit))
+		cargs = append(cargs, "--pids-limit="+fmt.Sprint(*opt.PidsLimit))
 	}
 	if opt.Platform != nil {
-		cargs = append(cargs, "--platform "+fmt.Sprint(*opt.Platform))
+		cargs = append(cargs, "--platform="+fmt.Sprint(*opt.Platform))
 	}
 	if opt.Privileged != nil {
-		cargs = append(cargs, "--privileged "+fmt.Sprint(*opt.Privileged))
+		cargs = append(cargs, "--privileged="+fmt.Sprint(*opt.Privileged))
 	}
 	if opt.Publish != nil {
 		for _, str := range opt.Publish {
-			cargs = append(cargs, "--publish "+str)
+			cargs = append(cargs, "--publish")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.PublishAll != nil {
-		cargs = append(cargs, "--publish-all "+fmt.Sprint(*opt.PublishAll))
+		cargs = append(cargs, "--publish-all="+fmt.Sprint(*opt.PublishAll))
 	}
 	if opt.Pull != nil {
-		cargs = append(cargs, "--pull "+fmt.Sprint(*opt.Pull))
+		cargs = append(cargs, "--pull="+fmt.Sprint(*opt.Pull))
 	}
 	if opt.ReadOnly != nil {
-		cargs = append(cargs, "--read-only "+fmt.Sprint(*opt.ReadOnly))
+		cargs = append(cargs, "--read-only="+fmt.Sprint(*opt.ReadOnly))
 	}
 	if opt.Restart != nil {
-		cargs = append(cargs, "--restart "+fmt.Sprint(*opt.Restart))
+		cargs = append(cargs, "--restart="+fmt.Sprint(*opt.Restart))
 	}
 	if opt.Rm != nil {
-		cargs = append(cargs, "--rm "+fmt.Sprint(*opt.Rm))
+		cargs = append(cargs, "--rm="+fmt.Sprint(*opt.Rm))
 	}
 	if opt.Runtime != nil {
-		cargs = append(cargs, "--runtime "+fmt.Sprint(*opt.Runtime))
+		cargs = append(cargs, "--runtime="+fmt.Sprint(*opt.Runtime))
 	}
 	if opt.SecurityOpt != nil {
 		for _, str := range opt.SecurityOpt {
-			cargs = append(cargs, "--security-opt "+str)
+			cargs = append(cargs, "--security-opt")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.ShmSize != nil {
-		cargs = append(cargs, "--shm-size "+fmt.Sprint(*opt.ShmSize))
+		cargs = append(cargs, "--shm-size="+fmt.Sprint(*opt.ShmSize))
 	}
 	if opt.SigProxy != nil {
-		cargs = append(cargs, "--sig-proxy "+fmt.Sprint(*opt.SigProxy))
+		cargs = append(cargs, "--sig-proxy="+fmt.Sprint(*opt.SigProxy))
 	}
 	if opt.StopSignal != nil {
-		cargs = append(cargs, "--stop-signal "+fmt.Sprint(*opt.StopSignal))
+		cargs = append(cargs, "--stop-signal="+fmt.Sprint(*opt.StopSignal))
 	}
 	if opt.StopTimeout != nil {
-		cargs = append(cargs, "--stop-timeout "+fmt.Sprint(*opt.StopTimeout))
+		cargs = append(cargs, "--stop-timeout="+fmt.Sprint(*opt.StopTimeout))
 	}
 	if opt.StorageOpt != nil {
 		for _, str := range opt.StorageOpt {
-			cargs = append(cargs, "--storage-opt "+str)
+			cargs = append(cargs, "--storage-opt")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Sysctl != nil {
 		for key, val := range opt.Sysctl {
-			cargs = append(cargs, "--sysctl "+key+"="+val)
+			cargs = append(cargs, "--sysctl")
+			cargs = append(cargs, key+"="+val)
 		}
 	}
 	if opt.Tmpfs != nil {
 		for _, str := range opt.Tmpfs {
-			cargs = append(cargs, "--tmpfs "+str)
+			cargs = append(cargs, "--tmpfs")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Tty != nil {
-		cargs = append(cargs, "--tty "+fmt.Sprint(*opt.Tty))
+		cargs = append(cargs, "--tty="+fmt.Sprint(*opt.Tty))
 	}
 	if opt.Ulimit != nil {
-		cargs = append(cargs, "--ulimit "+fmt.Sprint(*opt.Ulimit))
+		cargs = append(cargs, "--ulimit="+fmt.Sprint(*opt.Ulimit))
 	}
 	if opt.User != nil {
-		cargs = append(cargs, "--user "+fmt.Sprint(*opt.User))
+		cargs = append(cargs, "--user="+fmt.Sprint(*opt.User))
 	}
 	if opt.Userns != nil {
-		cargs = append(cargs, "--userns "+fmt.Sprint(*opt.Userns))
+		cargs = append(cargs, "--userns="+fmt.Sprint(*opt.Userns))
 	}
 	if opt.Uts != nil {
-		cargs = append(cargs, "--uts "+fmt.Sprint(*opt.Uts))
+		cargs = append(cargs, "--uts="+fmt.Sprint(*opt.Uts))
 	}
 	if opt.Volume != nil {
 		for _, str := range opt.Volume {
-			cargs = append(cargs, "--volume "+str)
+			cargs = append(cargs, "--volume")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.VolumeDriver != nil {
-		cargs = append(cargs, "--volume-driver "+fmt.Sprint(*opt.VolumeDriver))
+		cargs = append(cargs, "--volume-driver="+fmt.Sprint(*opt.VolumeDriver))
 	}
 	if opt.VolumesFrom != nil {
 		for _, str := range opt.VolumesFrom {
-			cargs = append(cargs, "--volumes-from "+str)
+			cargs = append(cargs, "--volumes-from")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Workdir != nil {
-		cargs = append(cargs, "--workdir "+fmt.Sprint(*opt.Workdir))
+		cargs = append(cargs, "--workdir="+fmt.Sprint(*opt.Workdir))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerContainerStartOption struct {
@@ -3537,25 +3582,24 @@ Start one or more stopped containers
 ------------------------------
 */
 func DockerContainerStartCmd(opt DockerContainerStartOption, args []string) *exec.Cmd {
-	name := "docker container start"
-	cargs := []string{}
+	cargs := []string{"container", "start"}
 	if opt.Attach != nil {
-		cargs = append(cargs, "--attach "+fmt.Sprint(*opt.Attach))
+		cargs = append(cargs, "--attach="+fmt.Sprint(*opt.Attach))
 	}
 	if opt.Checkpoint != nil {
-		cargs = append(cargs, "--checkpoint "+fmt.Sprint(*opt.Checkpoint))
+		cargs = append(cargs, "--checkpoint="+fmt.Sprint(*opt.Checkpoint))
 	}
 	if opt.CheckpointDir != nil {
-		cargs = append(cargs, "--checkpoint-dir "+fmt.Sprint(*opt.CheckpointDir))
+		cargs = append(cargs, "--checkpoint-dir="+fmt.Sprint(*opt.CheckpointDir))
 	}
 	if opt.DetachKeys != nil {
-		cargs = append(cargs, "--detach-keys "+fmt.Sprint(*opt.DetachKeys))
+		cargs = append(cargs, "--detach-keys="+fmt.Sprint(*opt.DetachKeys))
 	}
 	if opt.Interactive != nil {
-		cargs = append(cargs, "--interactive "+fmt.Sprint(*opt.Interactive))
+		cargs = append(cargs, "--interactive="+fmt.Sprint(*opt.Interactive))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerContainerStatsOption struct {
@@ -3588,22 +3632,21 @@ Display a live stream of container(s) resource usage statistics
 ------------------------------
 */
 func DockerContainerStatsCmd(opt DockerContainerStatsOption, args []string) *exec.Cmd {
-	name := "docker container stats"
-	cargs := []string{}
+	cargs := []string{"container", "stats"}
 	if opt.All != nil {
-		cargs = append(cargs, "--all "+fmt.Sprint(*opt.All))
+		cargs = append(cargs, "--all="+fmt.Sprint(*opt.All))
 	}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	if opt.NoStream != nil {
-		cargs = append(cargs, "--no-stream "+fmt.Sprint(*opt.NoStream))
+		cargs = append(cargs, "--no-stream="+fmt.Sprint(*opt.NoStream))
 	}
 	if opt.NoTrunc != nil {
-		cargs = append(cargs, "--no-trunc "+fmt.Sprint(*opt.NoTrunc))
+		cargs = append(cargs, "--no-trunc="+fmt.Sprint(*opt.NoTrunc))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerContainerStopOption struct {
@@ -3621,13 +3664,12 @@ Stop one or more running containers
 ------------------------------
 */
 func DockerContainerStopCmd(opt DockerContainerStopOption, args []string) *exec.Cmd {
-	name := "docker container stop"
-	cargs := []string{}
+	cargs := []string{"container", "stop"}
 	if opt.Time != nil {
-		cargs = append(cargs, "--time "+fmt.Sprint(*opt.Time))
+		cargs = append(cargs, "--time="+fmt.Sprint(*opt.Time))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -3638,10 +3680,9 @@ Display the running processes of a container
 ------------------------------
 */
 func DockerContainerTopCmd(args []string) *exec.Cmd {
-	name := "docker container top"
-	cargs := []string{}
+	cargs := []string{"container", "top"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -3652,10 +3693,9 @@ Unpause all processes within one or more containers
 ------------------------------
 */
 func DockerContainerUnpauseCmd(args []string) *exec.Cmd {
-	name := "docker container unpause"
-	cargs := []string{}
+	cargs := []string{"container", "unpause"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerContainerUpdateOption struct {
@@ -3743,55 +3783,54 @@ Update configuration of one or more containers
 ------------------------------
 */
 func DockerContainerUpdateCmd(opt DockerContainerUpdateOption, args []string) *exec.Cmd {
-	name := "docker container update"
-	cargs := []string{}
+	cargs := []string{"container", "update"}
 	if opt.BlkioWeight != nil {
-		cargs = append(cargs, "--blkio-weight "+fmt.Sprint(*opt.BlkioWeight))
+		cargs = append(cargs, "--blkio-weight="+fmt.Sprint(*opt.BlkioWeight))
 	}
 	if opt.CpuPeriod != nil {
-		cargs = append(cargs, "--cpu-period "+fmt.Sprint(*opt.CpuPeriod))
+		cargs = append(cargs, "--cpu-period="+fmt.Sprint(*opt.CpuPeriod))
 	}
 	if opt.CpuQuota != nil {
-		cargs = append(cargs, "--cpu-quota "+fmt.Sprint(*opt.CpuQuota))
+		cargs = append(cargs, "--cpu-quota="+fmt.Sprint(*opt.CpuQuota))
 	}
 	if opt.CpuRtPeriod != nil {
-		cargs = append(cargs, "--cpu-rt-period "+fmt.Sprint(*opt.CpuRtPeriod))
+		cargs = append(cargs, "--cpu-rt-period="+fmt.Sprint(*opt.CpuRtPeriod))
 	}
 	if opt.CpuRtRuntime != nil {
-		cargs = append(cargs, "--cpu-rt-runtime "+fmt.Sprint(*opt.CpuRtRuntime))
+		cargs = append(cargs, "--cpu-rt-runtime="+fmt.Sprint(*opt.CpuRtRuntime))
 	}
 	if opt.CpuShares != nil {
-		cargs = append(cargs, "--cpu-shares "+fmt.Sprint(*opt.CpuShares))
+		cargs = append(cargs, "--cpu-shares="+fmt.Sprint(*opt.CpuShares))
 	}
 	if opt.Cpus != nil {
-		cargs = append(cargs, "--cpus "+fmt.Sprint(*opt.Cpus))
+		cargs = append(cargs, "--cpus="+fmt.Sprint(*opt.Cpus))
 	}
 	if opt.CpusetCpus != nil {
-		cargs = append(cargs, "--cpuset-cpus "+fmt.Sprint(*opt.CpusetCpus))
+		cargs = append(cargs, "--cpuset-cpus="+fmt.Sprint(*opt.CpusetCpus))
 	}
 	if opt.CpusetMems != nil {
-		cargs = append(cargs, "--cpuset-mems "+fmt.Sprint(*opt.CpusetMems))
+		cargs = append(cargs, "--cpuset-mems="+fmt.Sprint(*opt.CpusetMems))
 	}
 	if opt.KernelMemory != nil {
-		cargs = append(cargs, "--kernel-memory "+fmt.Sprint(*opt.KernelMemory))
+		cargs = append(cargs, "--kernel-memory="+fmt.Sprint(*opt.KernelMemory))
 	}
 	if opt.Memory != nil {
-		cargs = append(cargs, "--memory "+fmt.Sprint(*opt.Memory))
+		cargs = append(cargs, "--memory="+fmt.Sprint(*opt.Memory))
 	}
 	if opt.MemoryReservation != nil {
-		cargs = append(cargs, "--memory-reservation "+fmt.Sprint(*opt.MemoryReservation))
+		cargs = append(cargs, "--memory-reservation="+fmt.Sprint(*opt.MemoryReservation))
 	}
 	if opt.MemorySwap != nil {
-		cargs = append(cargs, "--memory-swap "+fmt.Sprint(*opt.MemorySwap))
+		cargs = append(cargs, "--memory-swap="+fmt.Sprint(*opt.MemorySwap))
 	}
 	if opt.PidsLimit != nil {
-		cargs = append(cargs, "--pids-limit "+fmt.Sprint(*opt.PidsLimit))
+		cargs = append(cargs, "--pids-limit="+fmt.Sprint(*opt.PidsLimit))
 	}
 	if opt.Restart != nil {
-		cargs = append(cargs, "--restart "+fmt.Sprint(*opt.Restart))
+		cargs = append(cargs, "--restart="+fmt.Sprint(*opt.Restart))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -3802,10 +3841,9 @@ Block until one or more containers stop, then print their exit codes
 ------------------------------
 */
 func DockerContainerWaitCmd(args []string) *exec.Cmd {
-	name := "docker container wait"
-	cargs := []string{}
+	cargs := []string{"container", "wait"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -3816,10 +3854,9 @@ Manage contexts
 ------------------------------
 */
 func DockerContextCmd(args []string) *exec.Cmd {
-	name := "docker context"
-	cargs := []string{}
+	cargs := []string{"context"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerContextCreateOption struct {
@@ -3857,25 +3894,24 @@ Create a context
 ------------------------------
 */
 func DockerContextCreateCmd(opt DockerContextCreateOption, args []string) *exec.Cmd {
-	name := "docker context create"
-	cargs := []string{}
+	cargs := []string{"context", "create"}
 	if opt.DefaultStackOrchestrator != nil {
-		cargs = append(cargs, "--default-stack-orchestrator "+fmt.Sprint(*opt.DefaultStackOrchestrator))
+		cargs = append(cargs, "--default-stack-orchestrator="+fmt.Sprint(*opt.DefaultStackOrchestrator))
 	}
 	if opt.Description != nil {
-		cargs = append(cargs, "--description "+fmt.Sprint(*opt.Description))
+		cargs = append(cargs, "--description="+fmt.Sprint(*opt.Description))
 	}
 	if opt.Docker != nil {
-		cargs = append(cargs, "--docker "+fmt.Sprint(*opt.Docker))
+		cargs = append(cargs, "--docker="+fmt.Sprint(*opt.Docker))
 	}
 	if opt.From != nil {
-		cargs = append(cargs, "--from "+fmt.Sprint(*opt.From))
+		cargs = append(cargs, "--from="+fmt.Sprint(*opt.From))
 	}
 	if opt.Kubernetes != nil {
-		cargs = append(cargs, "--kubernetes "+fmt.Sprint(*opt.Kubernetes))
+		cargs = append(cargs, "--kubernetes="+fmt.Sprint(*opt.Kubernetes))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerContextExportOption struct {
@@ -3893,13 +3929,12 @@ Export a context to a tar or kubeconfig file
 ------------------------------
 */
 func DockerContextExportCmd(opt DockerContextExportOption, args []string) *exec.Cmd {
-	name := "docker context export"
-	cargs := []string{}
+	cargs := []string{"context", "export"}
 	if opt.Kubeconfig != nil {
-		cargs = append(cargs, "--kubeconfig "+fmt.Sprint(*opt.Kubeconfig))
+		cargs = append(cargs, "--kubeconfig="+fmt.Sprint(*opt.Kubeconfig))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -3910,10 +3945,9 @@ Import a context from a tar or zip file
 ------------------------------
 */
 func DockerContextImportCmd(args []string) *exec.Cmd {
-	name := "docker context import"
-	cargs := []string{}
+	cargs := []string{"context", "import"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerContextInspectOption struct {
@@ -3931,13 +3965,12 @@ Display detailed information on one or more contexts
 ------------------------------
 */
 func DockerContextInspectCmd(opt DockerContextInspectOption, args []string) *exec.Cmd {
-	name := "docker context inspect"
-	cargs := []string{}
+	cargs := []string{"context", "inspect"}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerContextLsOption struct {
@@ -3960,16 +3993,15 @@ List contexts
 ------------------------------
 */
 func DockerContextLsCmd(opt DockerContextLsOption, args []string) *exec.Cmd {
-	name := "docker context ls"
-	cargs := []string{}
+	cargs := []string{"context", "ls"}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	if opt.Quiet != nil {
-		cargs = append(cargs, "--quiet "+fmt.Sprint(*opt.Quiet))
+		cargs = append(cargs, "--quiet="+fmt.Sprint(*opt.Quiet))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerContextRmOption struct {
@@ -3987,13 +4019,12 @@ Remove one or more contexts
 ------------------------------
 */
 func DockerContextRmCmd(opt DockerContextRmOption, args []string) *exec.Cmd {
-	name := "docker context rm"
-	cargs := []string{}
+	cargs := []string{"context", "rm"}
 	if opt.Force != nil {
-		cargs = append(cargs, "--force "+fmt.Sprint(*opt.Force))
+		cargs = append(cargs, "--force="+fmt.Sprint(*opt.Force))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerContextUpdateOption struct {
@@ -4026,22 +4057,21 @@ Update a context
 ------------------------------
 */
 func DockerContextUpdateCmd(opt DockerContextUpdateOption, args []string) *exec.Cmd {
-	name := "docker context update"
-	cargs := []string{}
+	cargs := []string{"context", "update"}
 	if opt.DefaultStackOrchestrator != nil {
-		cargs = append(cargs, "--default-stack-orchestrator "+fmt.Sprint(*opt.DefaultStackOrchestrator))
+		cargs = append(cargs, "--default-stack-orchestrator="+fmt.Sprint(*opt.DefaultStackOrchestrator))
 	}
 	if opt.Description != nil {
-		cargs = append(cargs, "--description "+fmt.Sprint(*opt.Description))
+		cargs = append(cargs, "--description="+fmt.Sprint(*opt.Description))
 	}
 	if opt.Docker != nil {
-		cargs = append(cargs, "--docker "+fmt.Sprint(*opt.Docker))
+		cargs = append(cargs, "--docker="+fmt.Sprint(*opt.Docker))
 	}
 	if opt.Kubernetes != nil {
-		cargs = append(cargs, "--kubernetes "+fmt.Sprint(*opt.Kubernetes))
+		cargs = append(cargs, "--kubernetes="+fmt.Sprint(*opt.Kubernetes))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -4052,10 +4082,9 @@ Set the current docker context
 ------------------------------
 */
 func DockerContextUseCmd(args []string) *exec.Cmd {
-	name := "docker context use"
-	cargs := []string{}
+	cargs := []string{"context", "use"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerCpOption struct {
@@ -4081,16 +4110,15 @@ Copy files/folders between a container and the local filesystem
 ------------------------------
 */
 func DockerCpCmd(opt DockerCpOption, args []string) *exec.Cmd {
-	name := "docker cp"
-	cargs := []string{}
+	cargs := []string{"cp"}
 	if opt.Archive != nil {
-		cargs = append(cargs, "--archive "+fmt.Sprint(*opt.Archive))
+		cargs = append(cargs, "--archive="+fmt.Sprint(*opt.Archive))
 	}
 	if opt.FollowLink != nil {
-		cargs = append(cargs, "--follow-link "+fmt.Sprint(*opt.FollowLink))
+		cargs = append(cargs, "--follow-link="+fmt.Sprint(*opt.FollowLink))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerCreateOption struct {
@@ -4607,376 +4635,408 @@ Create a new container
 ------------------------------
 */
 func DockerCreateCmd(opt DockerCreateOption, args []string) *exec.Cmd {
-	name := "docker create"
-	cargs := []string{}
+	cargs := []string{"create"}
 	if opt.AddHost != nil {
 		for _, str := range opt.AddHost {
-			cargs = append(cargs, "--add-host "+str)
+			cargs = append(cargs, "--add-host")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Attach != nil {
 		for _, str := range opt.Attach {
-			cargs = append(cargs, "--attach "+str)
+			cargs = append(cargs, "--attach")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.BlkioWeight != nil {
-		cargs = append(cargs, "--blkio-weight "+fmt.Sprint(*opt.BlkioWeight))
+		cargs = append(cargs, "--blkio-weight="+fmt.Sprint(*opt.BlkioWeight))
 	}
 	if opt.BlkioWeightDevice != nil {
 		for _, str := range opt.BlkioWeightDevice {
-			cargs = append(cargs, "--blkio-weight-device "+str)
+			cargs = append(cargs, "--blkio-weight-device")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.CapAdd != nil {
 		for _, str := range opt.CapAdd {
-			cargs = append(cargs, "--cap-add "+str)
+			cargs = append(cargs, "--cap-add")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.CapDrop != nil {
 		for _, str := range opt.CapDrop {
-			cargs = append(cargs, "--cap-drop "+str)
+			cargs = append(cargs, "--cap-drop")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.CgroupParent != nil {
-		cargs = append(cargs, "--cgroup-parent "+fmt.Sprint(*opt.CgroupParent))
+		cargs = append(cargs, "--cgroup-parent="+fmt.Sprint(*opt.CgroupParent))
 	}
 	if opt.Cgroupns != nil {
-		cargs = append(cargs, "--cgroupns "+fmt.Sprint(*opt.Cgroupns))
+		cargs = append(cargs, "--cgroupns="+fmt.Sprint(*opt.Cgroupns))
 	}
 	if opt.Cidfile != nil {
-		cargs = append(cargs, "--cidfile "+fmt.Sprint(*opt.Cidfile))
+		cargs = append(cargs, "--cidfile="+fmt.Sprint(*opt.Cidfile))
 	}
 	if opt.CpuCount != nil {
-		cargs = append(cargs, "--cpu-count "+fmt.Sprint(*opt.CpuCount))
+		cargs = append(cargs, "--cpu-count="+fmt.Sprint(*opt.CpuCount))
 	}
 	if opt.CpuPercent != nil {
-		cargs = append(cargs, "--cpu-percent "+fmt.Sprint(*opt.CpuPercent))
+		cargs = append(cargs, "--cpu-percent="+fmt.Sprint(*opt.CpuPercent))
 	}
 	if opt.CpuPeriod != nil {
-		cargs = append(cargs, "--cpu-period "+fmt.Sprint(*opt.CpuPeriod))
+		cargs = append(cargs, "--cpu-period="+fmt.Sprint(*opt.CpuPeriod))
 	}
 	if opt.CpuQuota != nil {
-		cargs = append(cargs, "--cpu-quota "+fmt.Sprint(*opt.CpuQuota))
+		cargs = append(cargs, "--cpu-quota="+fmt.Sprint(*opt.CpuQuota))
 	}
 	if opt.CpuRtPeriod != nil {
-		cargs = append(cargs, "--cpu-rt-period "+fmt.Sprint(*opt.CpuRtPeriod))
+		cargs = append(cargs, "--cpu-rt-period="+fmt.Sprint(*opt.CpuRtPeriod))
 	}
 	if opt.CpuRtRuntime != nil {
-		cargs = append(cargs, "--cpu-rt-runtime "+fmt.Sprint(*opt.CpuRtRuntime))
+		cargs = append(cargs, "--cpu-rt-runtime="+fmt.Sprint(*opt.CpuRtRuntime))
 	}
 	if opt.CpuShares != nil {
-		cargs = append(cargs, "--cpu-shares "+fmt.Sprint(*opt.CpuShares))
+		cargs = append(cargs, "--cpu-shares="+fmt.Sprint(*opt.CpuShares))
 	}
 	if opt.Cpus != nil {
-		cargs = append(cargs, "--cpus "+fmt.Sprint(*opt.Cpus))
+		cargs = append(cargs, "--cpus="+fmt.Sprint(*opt.Cpus))
 	}
 	if opt.CpusetCpus != nil {
-		cargs = append(cargs, "--cpuset-cpus "+fmt.Sprint(*opt.CpusetCpus))
+		cargs = append(cargs, "--cpuset-cpus="+fmt.Sprint(*opt.CpusetCpus))
 	}
 	if opt.CpusetMems != nil {
-		cargs = append(cargs, "--cpuset-mems "+fmt.Sprint(*opt.CpusetMems))
+		cargs = append(cargs, "--cpuset-mems="+fmt.Sprint(*opt.CpusetMems))
 	}
 	if opt.Device != nil {
 		for _, str := range opt.Device {
-			cargs = append(cargs, "--device "+str)
+			cargs = append(cargs, "--device")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DeviceCgroupRule != nil {
 		for _, str := range opt.DeviceCgroupRule {
-			cargs = append(cargs, "--device-cgroup-rule "+str)
+			cargs = append(cargs, "--device-cgroup-rule")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DeviceReadBps != nil {
 		for _, str := range opt.DeviceReadBps {
-			cargs = append(cargs, "--device-read-bps "+str)
+			cargs = append(cargs, "--device-read-bps")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DeviceReadIops != nil {
 		for _, str := range opt.DeviceReadIops {
-			cargs = append(cargs, "--device-read-iops "+str)
+			cargs = append(cargs, "--device-read-iops")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DeviceWriteBps != nil {
 		for _, str := range opt.DeviceWriteBps {
-			cargs = append(cargs, "--device-write-bps "+str)
+			cargs = append(cargs, "--device-write-bps")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DeviceWriteIops != nil {
 		for _, str := range opt.DeviceWriteIops {
-			cargs = append(cargs, "--device-write-iops "+str)
+			cargs = append(cargs, "--device-write-iops")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DisableContentTrust != nil {
-		cargs = append(cargs, "--disable-content-trust "+fmt.Sprint(*opt.DisableContentTrust))
+		cargs = append(cargs, "--disable-content-trust="+fmt.Sprint(*opt.DisableContentTrust))
 	}
 	if opt.Dns != nil {
 		for _, str := range opt.Dns {
-			cargs = append(cargs, "--dns "+str)
+			cargs = append(cargs, "--dns")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DnsOpt != nil {
 		for _, str := range opt.DnsOpt {
-			cargs = append(cargs, "--dns-opt "+str)
+			cargs = append(cargs, "--dns-opt")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DnsOption != nil {
 		for _, str := range opt.DnsOption {
-			cargs = append(cargs, "--dns-option "+str)
+			cargs = append(cargs, "--dns-option")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DnsSearch != nil {
 		for _, str := range opt.DnsSearch {
-			cargs = append(cargs, "--dns-search "+str)
+			cargs = append(cargs, "--dns-search")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Domainname != nil {
-		cargs = append(cargs, "--domainname "+fmt.Sprint(*opt.Domainname))
+		cargs = append(cargs, "--domainname="+fmt.Sprint(*opt.Domainname))
 	}
 	if opt.Entrypoint != nil {
-		cargs = append(cargs, "--entrypoint "+fmt.Sprint(*opt.Entrypoint))
+		cargs = append(cargs, "--entrypoint="+fmt.Sprint(*opt.Entrypoint))
 	}
 	if opt.Env != nil {
 		for _, str := range opt.Env {
-			cargs = append(cargs, "--env "+str)
+			cargs = append(cargs, "--env")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.EnvFile != nil {
 		for _, str := range opt.EnvFile {
-			cargs = append(cargs, "--env-file "+str)
+			cargs = append(cargs, "--env-file")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Expose != nil {
 		for _, str := range opt.Expose {
-			cargs = append(cargs, "--expose "+str)
+			cargs = append(cargs, "--expose")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Gpus != nil {
-		cargs = append(cargs, "--gpus "+fmt.Sprint(*opt.Gpus))
+		cargs = append(cargs, "--gpus="+fmt.Sprint(*opt.Gpus))
 	}
 	if opt.GroupAdd != nil {
 		for _, str := range opt.GroupAdd {
-			cargs = append(cargs, "--group-add "+str)
+			cargs = append(cargs, "--group-add")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.HealthCmd != nil {
-		cargs = append(cargs, "--health-cmd "+fmt.Sprint(*opt.HealthCmd))
+		cargs = append(cargs, "--health-cmd="+fmt.Sprint(*opt.HealthCmd))
 	}
 	if opt.HealthInterval != nil {
-		cargs = append(cargs, "--health-interval "+fmt.Sprint(*opt.HealthInterval))
+		cargs = append(cargs, "--health-interval="+fmt.Sprint(*opt.HealthInterval))
 	}
 	if opt.HealthRetries != nil {
-		cargs = append(cargs, "--health-retries "+fmt.Sprint(*opt.HealthRetries))
+		cargs = append(cargs, "--health-retries="+fmt.Sprint(*opt.HealthRetries))
 	}
 	if opt.HealthStartPeriod != nil {
-		cargs = append(cargs, "--health-start-period "+fmt.Sprint(*opt.HealthStartPeriod))
+		cargs = append(cargs, "--health-start-period="+fmt.Sprint(*opt.HealthStartPeriod))
 	}
 	if opt.HealthTimeout != nil {
-		cargs = append(cargs, "--health-timeout "+fmt.Sprint(*opt.HealthTimeout))
+		cargs = append(cargs, "--health-timeout="+fmt.Sprint(*opt.HealthTimeout))
 	}
 	if opt.Help != nil {
-		cargs = append(cargs, "--help "+fmt.Sprint(*opt.Help))
+		cargs = append(cargs, "--help="+fmt.Sprint(*opt.Help))
 	}
 	if opt.Hostname != nil {
-		cargs = append(cargs, "--hostname "+fmt.Sprint(*opt.Hostname))
+		cargs = append(cargs, "--hostname="+fmt.Sprint(*opt.Hostname))
 	}
 	if opt.Init != nil {
-		cargs = append(cargs, "--init "+fmt.Sprint(*opt.Init))
+		cargs = append(cargs, "--init="+fmt.Sprint(*opt.Init))
 	}
 	if opt.Interactive != nil {
-		cargs = append(cargs, "--interactive "+fmt.Sprint(*opt.Interactive))
+		cargs = append(cargs, "--interactive="+fmt.Sprint(*opt.Interactive))
 	}
 	if opt.IoMaxbandwidth != nil {
-		cargs = append(cargs, "--io-maxbandwidth "+fmt.Sprint(*opt.IoMaxbandwidth))
+		cargs = append(cargs, "--io-maxbandwidth="+fmt.Sprint(*opt.IoMaxbandwidth))
 	}
 	if opt.IoMaxiops != nil {
-		cargs = append(cargs, "--io-maxiops "+fmt.Sprint(*opt.IoMaxiops))
+		cargs = append(cargs, "--io-maxiops="+fmt.Sprint(*opt.IoMaxiops))
 	}
 	if opt.Ip != nil {
-		cargs = append(cargs, "--ip "+fmt.Sprint(*opt.Ip))
+		cargs = append(cargs, "--ip="+fmt.Sprint(*opt.Ip))
 	}
 	if opt.Ip6 != nil {
-		cargs = append(cargs, "--ip6 "+fmt.Sprint(*opt.Ip6))
+		cargs = append(cargs, "--ip6="+fmt.Sprint(*opt.Ip6))
 	}
 	if opt.Ipc != nil {
-		cargs = append(cargs, "--ipc "+fmt.Sprint(*opt.Ipc))
+		cargs = append(cargs, "--ipc="+fmt.Sprint(*opt.Ipc))
 	}
 	if opt.Isolation != nil {
-		cargs = append(cargs, "--isolation "+fmt.Sprint(*opt.Isolation))
+		cargs = append(cargs, "--isolation="+fmt.Sprint(*opt.Isolation))
 	}
 	if opt.KernelMemory != nil {
-		cargs = append(cargs, "--kernel-memory "+fmt.Sprint(*opt.KernelMemory))
+		cargs = append(cargs, "--kernel-memory="+fmt.Sprint(*opt.KernelMemory))
 	}
 	if opt.Label != nil {
 		for _, str := range opt.Label {
-			cargs = append(cargs, "--label "+str)
+			cargs = append(cargs, "--label")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.LabelFile != nil {
 		for _, str := range opt.LabelFile {
-			cargs = append(cargs, "--label-file "+str)
+			cargs = append(cargs, "--label-file")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Link != nil {
 		for _, str := range opt.Link {
-			cargs = append(cargs, "--link "+str)
+			cargs = append(cargs, "--link")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.LinkLocalIp != nil {
 		for _, str := range opt.LinkLocalIp {
-			cargs = append(cargs, "--link-local-ip "+str)
+			cargs = append(cargs, "--link-local-ip")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.LogDriver != nil {
-		cargs = append(cargs, "--log-driver "+fmt.Sprint(*opt.LogDriver))
+		cargs = append(cargs, "--log-driver="+fmt.Sprint(*opt.LogDriver))
 	}
 	if opt.LogOpt != nil {
 		for _, str := range opt.LogOpt {
-			cargs = append(cargs, "--log-opt "+str)
+			cargs = append(cargs, "--log-opt")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.MacAddress != nil {
-		cargs = append(cargs, "--mac-address "+fmt.Sprint(*opt.MacAddress))
+		cargs = append(cargs, "--mac-address="+fmt.Sprint(*opt.MacAddress))
 	}
 	if opt.Memory != nil {
-		cargs = append(cargs, "--memory "+fmt.Sprint(*opt.Memory))
+		cargs = append(cargs, "--memory="+fmt.Sprint(*opt.Memory))
 	}
 	if opt.MemoryReservation != nil {
-		cargs = append(cargs, "--memory-reservation "+fmt.Sprint(*opt.MemoryReservation))
+		cargs = append(cargs, "--memory-reservation="+fmt.Sprint(*opt.MemoryReservation))
 	}
 	if opt.MemorySwap != nil {
-		cargs = append(cargs, "--memory-swap "+fmt.Sprint(*opt.MemorySwap))
+		cargs = append(cargs, "--memory-swap="+fmt.Sprint(*opt.MemorySwap))
 	}
 	if opt.MemorySwappiness != nil {
-		cargs = append(cargs, "--memory-swappiness "+fmt.Sprint(*opt.MemorySwappiness))
+		cargs = append(cargs, "--memory-swappiness="+fmt.Sprint(*opt.MemorySwappiness))
 	}
 	if opt.Mount != nil {
-		cargs = append(cargs, "--mount "+fmt.Sprint(*opt.Mount))
+		cargs = append(cargs, "--mount="+fmt.Sprint(*opt.Mount))
 	}
 	if opt.Name != nil {
-		cargs = append(cargs, "--name "+fmt.Sprint(*opt.Name))
+		cargs = append(cargs, "--name="+fmt.Sprint(*opt.Name))
 	}
 	if opt.Net != nil {
-		cargs = append(cargs, "--net "+fmt.Sprint(*opt.Net))
+		cargs = append(cargs, "--net="+fmt.Sprint(*opt.Net))
 	}
 	if opt.NetAlias != nil {
 		for _, str := range opt.NetAlias {
-			cargs = append(cargs, "--net-alias "+str)
+			cargs = append(cargs, "--net-alias")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Network != nil {
-		cargs = append(cargs, "--network "+fmt.Sprint(*opt.Network))
+		cargs = append(cargs, "--network="+fmt.Sprint(*opt.Network))
 	}
 	if opt.NetworkAlias != nil {
 		for _, str := range opt.NetworkAlias {
-			cargs = append(cargs, "--network-alias "+str)
+			cargs = append(cargs, "--network-alias")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.NoHealthcheck != nil {
-		cargs = append(cargs, "--no-healthcheck "+fmt.Sprint(*opt.NoHealthcheck))
+		cargs = append(cargs, "--no-healthcheck="+fmt.Sprint(*opt.NoHealthcheck))
 	}
 	if opt.OomKillDisable != nil {
-		cargs = append(cargs, "--oom-kill-disable "+fmt.Sprint(*opt.OomKillDisable))
+		cargs = append(cargs, "--oom-kill-disable="+fmt.Sprint(*opt.OomKillDisable))
 	}
 	if opt.OomScoreAdj != nil {
-		cargs = append(cargs, "--oom-score-adj "+fmt.Sprint(*opt.OomScoreAdj))
+		cargs = append(cargs, "--oom-score-adj="+fmt.Sprint(*opt.OomScoreAdj))
 	}
 	if opt.Pid != nil {
-		cargs = append(cargs, "--pid "+fmt.Sprint(*opt.Pid))
+		cargs = append(cargs, "--pid="+fmt.Sprint(*opt.Pid))
 	}
 	if opt.PidsLimit != nil {
-		cargs = append(cargs, "--pids-limit "+fmt.Sprint(*opt.PidsLimit))
+		cargs = append(cargs, "--pids-limit="+fmt.Sprint(*opt.PidsLimit))
 	}
 	if opt.Platform != nil {
-		cargs = append(cargs, "--platform "+fmt.Sprint(*opt.Platform))
+		cargs = append(cargs, "--platform="+fmt.Sprint(*opt.Platform))
 	}
 	if opt.Privileged != nil {
-		cargs = append(cargs, "--privileged "+fmt.Sprint(*opt.Privileged))
+		cargs = append(cargs, "--privileged="+fmt.Sprint(*opt.Privileged))
 	}
 	if opt.Publish != nil {
 		for _, str := range opt.Publish {
-			cargs = append(cargs, "--publish "+str)
+			cargs = append(cargs, "--publish")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.PublishAll != nil {
-		cargs = append(cargs, "--publish-all "+fmt.Sprint(*opt.PublishAll))
+		cargs = append(cargs, "--publish-all="+fmt.Sprint(*opt.PublishAll))
 	}
 	if opt.Pull != nil {
-		cargs = append(cargs, "--pull "+fmt.Sprint(*opt.Pull))
+		cargs = append(cargs, "--pull="+fmt.Sprint(*opt.Pull))
 	}
 	if opt.ReadOnly != nil {
-		cargs = append(cargs, "--read-only "+fmt.Sprint(*opt.ReadOnly))
+		cargs = append(cargs, "--read-only="+fmt.Sprint(*opt.ReadOnly))
 	}
 	if opt.Restart != nil {
-		cargs = append(cargs, "--restart "+fmt.Sprint(*opt.Restart))
+		cargs = append(cargs, "--restart="+fmt.Sprint(*opt.Restart))
 	}
 	if opt.Rm != nil {
-		cargs = append(cargs, "--rm "+fmt.Sprint(*opt.Rm))
+		cargs = append(cargs, "--rm="+fmt.Sprint(*opt.Rm))
 	}
 	if opt.Runtime != nil {
-		cargs = append(cargs, "--runtime "+fmt.Sprint(*opt.Runtime))
+		cargs = append(cargs, "--runtime="+fmt.Sprint(*opt.Runtime))
 	}
 	if opt.SecurityOpt != nil {
 		for _, str := range opt.SecurityOpt {
-			cargs = append(cargs, "--security-opt "+str)
+			cargs = append(cargs, "--security-opt")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.ShmSize != nil {
-		cargs = append(cargs, "--shm-size "+fmt.Sprint(*opt.ShmSize))
+		cargs = append(cargs, "--shm-size="+fmt.Sprint(*opt.ShmSize))
 	}
 	if opt.StopSignal != nil {
-		cargs = append(cargs, "--stop-signal "+fmt.Sprint(*opt.StopSignal))
+		cargs = append(cargs, "--stop-signal="+fmt.Sprint(*opt.StopSignal))
 	}
 	if opt.StopTimeout != nil {
-		cargs = append(cargs, "--stop-timeout "+fmt.Sprint(*opt.StopTimeout))
+		cargs = append(cargs, "--stop-timeout="+fmt.Sprint(*opt.StopTimeout))
 	}
 	if opt.StorageOpt != nil {
 		for _, str := range opt.StorageOpt {
-			cargs = append(cargs, "--storage-opt "+str)
+			cargs = append(cargs, "--storage-opt")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Sysctl != nil {
 		for key, val := range opt.Sysctl {
-			cargs = append(cargs, "--sysctl "+key+"="+val)
+			cargs = append(cargs, "--sysctl")
+			cargs = append(cargs, key+"="+val)
 		}
 	}
 	if opt.Tmpfs != nil {
 		for _, str := range opt.Tmpfs {
-			cargs = append(cargs, "--tmpfs "+str)
+			cargs = append(cargs, "--tmpfs")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Tty != nil {
-		cargs = append(cargs, "--tty "+fmt.Sprint(*opt.Tty))
+		cargs = append(cargs, "--tty="+fmt.Sprint(*opt.Tty))
 	}
 	if opt.Ulimit != nil {
-		cargs = append(cargs, "--ulimit "+fmt.Sprint(*opt.Ulimit))
+		cargs = append(cargs, "--ulimit="+fmt.Sprint(*opt.Ulimit))
 	}
 	if opt.User != nil {
-		cargs = append(cargs, "--user "+fmt.Sprint(*opt.User))
+		cargs = append(cargs, "--user="+fmt.Sprint(*opt.User))
 	}
 	if opt.Userns != nil {
-		cargs = append(cargs, "--userns "+fmt.Sprint(*opt.Userns))
+		cargs = append(cargs, "--userns="+fmt.Sprint(*opt.Userns))
 	}
 	if opt.Uts != nil {
-		cargs = append(cargs, "--uts "+fmt.Sprint(*opt.Uts))
+		cargs = append(cargs, "--uts="+fmt.Sprint(*opt.Uts))
 	}
 	if opt.Volume != nil {
 		for _, str := range opt.Volume {
-			cargs = append(cargs, "--volume "+str)
+			cargs = append(cargs, "--volume")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.VolumeDriver != nil {
-		cargs = append(cargs, "--volume-driver "+fmt.Sprint(*opt.VolumeDriver))
+		cargs = append(cargs, "--volume-driver="+fmt.Sprint(*opt.VolumeDriver))
 	}
 	if opt.VolumesFrom != nil {
 		for _, str := range opt.VolumesFrom {
-			cargs = append(cargs, "--volumes-from "+str)
+			cargs = append(cargs, "--volumes-from")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Workdir != nil {
-		cargs = append(cargs, "--workdir "+fmt.Sprint(*opt.Workdir))
+		cargs = append(cargs, "--workdir="+fmt.Sprint(*opt.Workdir))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -4987,10 +5047,9 @@ Inspect changes to files or directories on a container's filesystem
 ------------------------------
 */
 func DockerDiffCmd(args []string) *exec.Cmd {
-	name := "docker diff"
-	cargs := []string{}
+	cargs := []string{"diff"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerEventsOption struct {
@@ -5023,22 +5082,21 @@ Get real time events from the server
 ------------------------------
 */
 func DockerEventsCmd(opt DockerEventsOption, args []string) *exec.Cmd {
-	name := "docker events"
-	cargs := []string{}
+	cargs := []string{"events"}
 	if opt.Filter != nil {
-		cargs = append(cargs, "--filter "+fmt.Sprint(*opt.Filter))
+		cargs = append(cargs, "--filter="+fmt.Sprint(*opt.Filter))
 	}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	if opt.Since != nil {
-		cargs = append(cargs, "--since "+fmt.Sprint(*opt.Since))
+		cargs = append(cargs, "--since="+fmt.Sprint(*opt.Since))
 	}
 	if opt.Until != nil {
-		cargs = append(cargs, "--until "+fmt.Sprint(*opt.Until))
+		cargs = append(cargs, "--until="+fmt.Sprint(*opt.Until))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerExecOption struct {
@@ -5096,41 +5154,42 @@ Run a command in a running container
 ------------------------------
 */
 func DockerExecCmd(opt DockerExecOption, args []string) *exec.Cmd {
-	name := "docker exec"
-	cargs := []string{}
+	cargs := []string{"exec"}
 	if opt.Detach != nil {
-		cargs = append(cargs, "--detach "+fmt.Sprint(*opt.Detach))
+		cargs = append(cargs, "--detach="+fmt.Sprint(*opt.Detach))
 	}
 	if opt.DetachKeys != nil {
-		cargs = append(cargs, "--detach-keys "+fmt.Sprint(*opt.DetachKeys))
+		cargs = append(cargs, "--detach-keys="+fmt.Sprint(*opt.DetachKeys))
 	}
 	if opt.Env != nil {
 		for _, str := range opt.Env {
-			cargs = append(cargs, "--env "+str)
+			cargs = append(cargs, "--env")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.EnvFile != nil {
 		for _, str := range opt.EnvFile {
-			cargs = append(cargs, "--env-file "+str)
+			cargs = append(cargs, "--env-file")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Interactive != nil {
-		cargs = append(cargs, "--interactive "+fmt.Sprint(*opt.Interactive))
+		cargs = append(cargs, "--interactive="+fmt.Sprint(*opt.Interactive))
 	}
 	if opt.Privileged != nil {
-		cargs = append(cargs, "--privileged "+fmt.Sprint(*opt.Privileged))
+		cargs = append(cargs, "--privileged="+fmt.Sprint(*opt.Privileged))
 	}
 	if opt.Tty != nil {
-		cargs = append(cargs, "--tty "+fmt.Sprint(*opt.Tty))
+		cargs = append(cargs, "--tty="+fmt.Sprint(*opt.Tty))
 	}
 	if opt.User != nil {
-		cargs = append(cargs, "--user "+fmt.Sprint(*opt.User))
+		cargs = append(cargs, "--user="+fmt.Sprint(*opt.User))
 	}
 	if opt.Workdir != nil {
-		cargs = append(cargs, "--workdir "+fmt.Sprint(*opt.Workdir))
+		cargs = append(cargs, "--workdir="+fmt.Sprint(*opt.Workdir))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerExportOption struct {
@@ -5148,13 +5207,12 @@ Export a container's filesystem as a tar archive
 ------------------------------
 */
 func DockerExportCmd(opt DockerExportOption, args []string) *exec.Cmd {
-	name := "docker export"
-	cargs := []string{}
+	cargs := []string{"export"}
 	if opt.Output != nil {
-		cargs = append(cargs, "--output "+fmt.Sprint(*opt.Output))
+		cargs = append(cargs, "--output="+fmt.Sprint(*opt.Output))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerHistoryOption struct {
@@ -5187,22 +5245,21 @@ Show the history of an image
 ------------------------------
 */
 func DockerHistoryCmd(opt DockerHistoryOption, args []string) *exec.Cmd {
-	name := "docker history"
-	cargs := []string{}
+	cargs := []string{"history"}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	if opt.Human != nil {
-		cargs = append(cargs, "--human "+fmt.Sprint(*opt.Human))
+		cargs = append(cargs, "--human="+fmt.Sprint(*opt.Human))
 	}
 	if opt.NoTrunc != nil {
-		cargs = append(cargs, "--no-trunc "+fmt.Sprint(*opt.NoTrunc))
+		cargs = append(cargs, "--no-trunc="+fmt.Sprint(*opt.NoTrunc))
 	}
 	if opt.Quiet != nil {
-		cargs = append(cargs, "--quiet "+fmt.Sprint(*opt.Quiet))
+		cargs = append(cargs, "--quiet="+fmt.Sprint(*opt.Quiet))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -5213,10 +5270,9 @@ Manage images
 ------------------------------
 */
 func DockerImageCmd(args []string) *exec.Cmd {
-	name := "docker image"
-	cargs := []string{}
+	cargs := []string{"image"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerImageBuildOption struct {
@@ -5404,123 +5460,126 @@ Build an image from a Dockerfile
 ------------------------------
 */
 func DockerImageBuildCmd(opt DockerImageBuildOption, args []string) *exec.Cmd {
-	name := "docker image build"
-	cargs := []string{}
+	cargs := []string{"image", "build"}
 	if opt.AddHost != nil {
 		for _, str := range opt.AddHost {
-			cargs = append(cargs, "--add-host "+str)
+			cargs = append(cargs, "--add-host")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.BuildArg != nil {
 		for _, str := range opt.BuildArg {
-			cargs = append(cargs, "--build-arg "+str)
+			cargs = append(cargs, "--build-arg")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.CacheFrom != nil {
-		cargs = append(cargs, "--cache-from "+fmt.Sprint(*opt.CacheFrom))
+		cargs = append(cargs, "--cache-from="+fmt.Sprint(*opt.CacheFrom))
 	}
 	if opt.CgroupParent != nil {
-		cargs = append(cargs, "--cgroup-parent "+fmt.Sprint(*opt.CgroupParent))
+		cargs = append(cargs, "--cgroup-parent="+fmt.Sprint(*opt.CgroupParent))
 	}
 	if opt.Compress != nil {
-		cargs = append(cargs, "--compress "+fmt.Sprint(*opt.Compress))
+		cargs = append(cargs, "--compress="+fmt.Sprint(*opt.Compress))
 	}
 	if opt.CpuPeriod != nil {
-		cargs = append(cargs, "--cpu-period "+fmt.Sprint(*opt.CpuPeriod))
+		cargs = append(cargs, "--cpu-period="+fmt.Sprint(*opt.CpuPeriod))
 	}
 	if opt.CpuQuota != nil {
-		cargs = append(cargs, "--cpu-quota "+fmt.Sprint(*opt.CpuQuota))
+		cargs = append(cargs, "--cpu-quota="+fmt.Sprint(*opt.CpuQuota))
 	}
 	if opt.CpuShares != nil {
-		cargs = append(cargs, "--cpu-shares "+fmt.Sprint(*opt.CpuShares))
+		cargs = append(cargs, "--cpu-shares="+fmt.Sprint(*opt.CpuShares))
 	}
 	if opt.CpusetCpus != nil {
-		cargs = append(cargs, "--cpuset-cpus "+fmt.Sprint(*opt.CpusetCpus))
+		cargs = append(cargs, "--cpuset-cpus="+fmt.Sprint(*opt.CpusetCpus))
 	}
 	if opt.CpusetMems != nil {
-		cargs = append(cargs, "--cpuset-mems "+fmt.Sprint(*opt.CpusetMems))
+		cargs = append(cargs, "--cpuset-mems="+fmt.Sprint(*opt.CpusetMems))
 	}
 	if opt.DisableContentTrust != nil {
-		cargs = append(cargs, "--disable-content-trust "+fmt.Sprint(*opt.DisableContentTrust))
+		cargs = append(cargs, "--disable-content-trust="+fmt.Sprint(*opt.DisableContentTrust))
 	}
 	if opt.File != nil {
-		cargs = append(cargs, "--file "+fmt.Sprint(*opt.File))
+		cargs = append(cargs, "--file="+fmt.Sprint(*opt.File))
 	}
 	if opt.ForceRm != nil {
-		cargs = append(cargs, "--force-rm "+fmt.Sprint(*opt.ForceRm))
+		cargs = append(cargs, "--force-rm="+fmt.Sprint(*opt.ForceRm))
 	}
 	if opt.Iidfile != nil {
-		cargs = append(cargs, "--iidfile "+fmt.Sprint(*opt.Iidfile))
+		cargs = append(cargs, "--iidfile="+fmt.Sprint(*opt.Iidfile))
 	}
 	if opt.Isolation != nil {
-		cargs = append(cargs, "--isolation "+fmt.Sprint(*opt.Isolation))
+		cargs = append(cargs, "--isolation="+fmt.Sprint(*opt.Isolation))
 	}
 	if opt.Label != nil {
 		for _, str := range opt.Label {
-			cargs = append(cargs, "--label "+str)
+			cargs = append(cargs, "--label")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Memory != nil {
-		cargs = append(cargs, "--memory "+fmt.Sprint(*opt.Memory))
+		cargs = append(cargs, "--memory="+fmt.Sprint(*opt.Memory))
 	}
 	if opt.MemorySwap != nil {
-		cargs = append(cargs, "--memory-swap "+fmt.Sprint(*opt.MemorySwap))
+		cargs = append(cargs, "--memory-swap="+fmt.Sprint(*opt.MemorySwap))
 	}
 	if opt.Network != nil {
-		cargs = append(cargs, "--network "+fmt.Sprint(*opt.Network))
+		cargs = append(cargs, "--network="+fmt.Sprint(*opt.Network))
 	}
 	if opt.NoCache != nil {
-		cargs = append(cargs, "--no-cache "+fmt.Sprint(*opt.NoCache))
+		cargs = append(cargs, "--no-cache="+fmt.Sprint(*opt.NoCache))
 	}
 	if opt.Output != nil {
-		cargs = append(cargs, "--output "+fmt.Sprint(*opt.Output))
+		cargs = append(cargs, "--output="+fmt.Sprint(*opt.Output))
 	}
 	if opt.Platform != nil {
-		cargs = append(cargs, "--platform "+fmt.Sprint(*opt.Platform))
+		cargs = append(cargs, "--platform="+fmt.Sprint(*opt.Platform))
 	}
 	if opt.Progress != nil {
-		cargs = append(cargs, "--progress "+fmt.Sprint(*opt.Progress))
+		cargs = append(cargs, "--progress="+fmt.Sprint(*opt.Progress))
 	}
 	if opt.Pull != nil {
-		cargs = append(cargs, "--pull "+fmt.Sprint(*opt.Pull))
+		cargs = append(cargs, "--pull="+fmt.Sprint(*opt.Pull))
 	}
 	if opt.Quiet != nil {
-		cargs = append(cargs, "--quiet "+fmt.Sprint(*opt.Quiet))
+		cargs = append(cargs, "--quiet="+fmt.Sprint(*opt.Quiet))
 	}
 	if opt.Rm != nil {
-		cargs = append(cargs, "--rm "+fmt.Sprint(*opt.Rm))
+		cargs = append(cargs, "--rm="+fmt.Sprint(*opt.Rm))
 	}
 	if opt.Secret != nil {
-		cargs = append(cargs, "--secret "+fmt.Sprint(*opt.Secret))
+		cargs = append(cargs, "--secret="+fmt.Sprint(*opt.Secret))
 	}
 	if opt.SecurityOpt != nil {
-		cargs = append(cargs, "--security-opt "+fmt.Sprint(*opt.SecurityOpt))
+		cargs = append(cargs, "--security-opt="+fmt.Sprint(*opt.SecurityOpt))
 	}
 	if opt.ShmSize != nil {
-		cargs = append(cargs, "--shm-size "+fmt.Sprint(*opt.ShmSize))
+		cargs = append(cargs, "--shm-size="+fmt.Sprint(*opt.ShmSize))
 	}
 	if opt.Squash != nil {
-		cargs = append(cargs, "--squash "+fmt.Sprint(*opt.Squash))
+		cargs = append(cargs, "--squash="+fmt.Sprint(*opt.Squash))
 	}
 	if opt.Ssh != nil {
-		cargs = append(cargs, "--ssh "+fmt.Sprint(*opt.Ssh))
+		cargs = append(cargs, "--ssh="+fmt.Sprint(*opt.Ssh))
 	}
 	if opt.Stream != nil {
-		cargs = append(cargs, "--stream "+fmt.Sprint(*opt.Stream))
+		cargs = append(cargs, "--stream="+fmt.Sprint(*opt.Stream))
 	}
 	if opt.Tag != nil {
 		for _, str := range opt.Tag {
-			cargs = append(cargs, "--tag "+str)
+			cargs = append(cargs, "--tag")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Target != nil {
-		cargs = append(cargs, "--target "+fmt.Sprint(*opt.Target))
+		cargs = append(cargs, "--target="+fmt.Sprint(*opt.Target))
 	}
 	if opt.Ulimit != nil {
-		cargs = append(cargs, "--ulimit "+fmt.Sprint(*opt.Ulimit))
+		cargs = append(cargs, "--ulimit="+fmt.Sprint(*opt.Ulimit))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerImageHistoryOption struct {
@@ -5553,22 +5612,21 @@ Show the history of an image
 ------------------------------
 */
 func DockerImageHistoryCmd(opt DockerImageHistoryOption, args []string) *exec.Cmd {
-	name := "docker image history"
-	cargs := []string{}
+	cargs := []string{"image", "history"}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	if opt.Human != nil {
-		cargs = append(cargs, "--human "+fmt.Sprint(*opt.Human))
+		cargs = append(cargs, "--human="+fmt.Sprint(*opt.Human))
 	}
 	if opt.NoTrunc != nil {
-		cargs = append(cargs, "--no-trunc "+fmt.Sprint(*opt.NoTrunc))
+		cargs = append(cargs, "--no-trunc="+fmt.Sprint(*opt.NoTrunc))
 	}
 	if opt.Quiet != nil {
-		cargs = append(cargs, "--quiet "+fmt.Sprint(*opt.Quiet))
+		cargs = append(cargs, "--quiet="+fmt.Sprint(*opt.Quiet))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerImageImportOption struct {
@@ -5596,21 +5654,21 @@ Import the contents from a tarball to create a filesystem image
 ------------------------------
 */
 func DockerImageImportCmd(opt DockerImageImportOption, args []string) *exec.Cmd {
-	name := "docker image import"
-	cargs := []string{}
+	cargs := []string{"image", "import"}
 	if opt.Change != nil {
 		for _, str := range opt.Change {
-			cargs = append(cargs, "--change "+str)
+			cargs = append(cargs, "--change")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Message != nil {
-		cargs = append(cargs, "--message "+fmt.Sprint(*opt.Message))
+		cargs = append(cargs, "--message="+fmt.Sprint(*opt.Message))
 	}
 	if opt.Platform != nil {
-		cargs = append(cargs, "--platform "+fmt.Sprint(*opt.Platform))
+		cargs = append(cargs, "--platform="+fmt.Sprint(*opt.Platform))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerImageInspectOption struct {
@@ -5628,13 +5686,12 @@ Display detailed information on one or more images
 ------------------------------
 */
 func DockerImageInspectCmd(opt DockerImageInspectOption, args []string) *exec.Cmd {
-	name := "docker image inspect"
-	cargs := []string{}
+	cargs := []string{"image", "inspect"}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerImageLoadOption struct {
@@ -5657,16 +5714,15 @@ Load an image from a tar archive or STDIN
 ------------------------------
 */
 func DockerImageLoadCmd(opt DockerImageLoadOption, args []string) *exec.Cmd {
-	name := "docker image load"
-	cargs := []string{}
+	cargs := []string{"image", "load"}
 	if opt.Input != nil {
-		cargs = append(cargs, "--input "+fmt.Sprint(*opt.Input))
+		cargs = append(cargs, "--input="+fmt.Sprint(*opt.Input))
 	}
 	if opt.Quiet != nil {
-		cargs = append(cargs, "--quiet "+fmt.Sprint(*opt.Quiet))
+		cargs = append(cargs, "--quiet="+fmt.Sprint(*opt.Quiet))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerImageLsOption struct {
@@ -5709,28 +5765,27 @@ List images
 ------------------------------
 */
 func DockerImageLsCmd(opt DockerImageLsOption, args []string) *exec.Cmd {
-	name := "docker image ls"
-	cargs := []string{}
+	cargs := []string{"image", "ls"}
 	if opt.All != nil {
-		cargs = append(cargs, "--all "+fmt.Sprint(*opt.All))
+		cargs = append(cargs, "--all="+fmt.Sprint(*opt.All))
 	}
 	if opt.Digests != nil {
-		cargs = append(cargs, "--digests "+fmt.Sprint(*opt.Digests))
+		cargs = append(cargs, "--digests="+fmt.Sprint(*opt.Digests))
 	}
 	if opt.Filter != nil {
-		cargs = append(cargs, "--filter "+fmt.Sprint(*opt.Filter))
+		cargs = append(cargs, "--filter="+fmt.Sprint(*opt.Filter))
 	}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	if opt.NoTrunc != nil {
-		cargs = append(cargs, "--no-trunc "+fmt.Sprint(*opt.NoTrunc))
+		cargs = append(cargs, "--no-trunc="+fmt.Sprint(*opt.NoTrunc))
 	}
 	if opt.Quiet != nil {
-		cargs = append(cargs, "--quiet "+fmt.Sprint(*opt.Quiet))
+		cargs = append(cargs, "--quiet="+fmt.Sprint(*opt.Quiet))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerImagePruneOption struct {
@@ -5758,19 +5813,18 @@ Remove unused images
 ------------------------------
 */
 func DockerImagePruneCmd(opt DockerImagePruneOption, args []string) *exec.Cmd {
-	name := "docker image prune"
-	cargs := []string{}
+	cargs := []string{"image", "prune"}
 	if opt.All != nil {
-		cargs = append(cargs, "--all "+fmt.Sprint(*opt.All))
+		cargs = append(cargs, "--all="+fmt.Sprint(*opt.All))
 	}
 	if opt.Filter != nil {
-		cargs = append(cargs, "--filter "+fmt.Sprint(*opt.Filter))
+		cargs = append(cargs, "--filter="+fmt.Sprint(*opt.Filter))
 	}
 	if opt.Force != nil {
-		cargs = append(cargs, "--force "+fmt.Sprint(*opt.Force))
+		cargs = append(cargs, "--force="+fmt.Sprint(*opt.Force))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerImagePullOption struct {
@@ -5803,22 +5857,21 @@ Pull an image or a repository from a registry
 ------------------------------
 */
 func DockerImagePullCmd(opt DockerImagePullOption, args []string) *exec.Cmd {
-	name := "docker image pull"
-	cargs := []string{}
+	cargs := []string{"image", "pull"}
 	if opt.AllTags != nil {
-		cargs = append(cargs, "--all-tags "+fmt.Sprint(*opt.AllTags))
+		cargs = append(cargs, "--all-tags="+fmt.Sprint(*opt.AllTags))
 	}
 	if opt.DisableContentTrust != nil {
-		cargs = append(cargs, "--disable-content-trust "+fmt.Sprint(*opt.DisableContentTrust))
+		cargs = append(cargs, "--disable-content-trust="+fmt.Sprint(*opt.DisableContentTrust))
 	}
 	if opt.Platform != nil {
-		cargs = append(cargs, "--platform "+fmt.Sprint(*opt.Platform))
+		cargs = append(cargs, "--platform="+fmt.Sprint(*opt.Platform))
 	}
 	if opt.Quiet != nil {
-		cargs = append(cargs, "--quiet "+fmt.Sprint(*opt.Quiet))
+		cargs = append(cargs, "--quiet="+fmt.Sprint(*opt.Quiet))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerImagePushOption struct {
@@ -5846,19 +5899,18 @@ Push an image or a repository to a registry
 ------------------------------
 */
 func DockerImagePushCmd(opt DockerImagePushOption, args []string) *exec.Cmd {
-	name := "docker image push"
-	cargs := []string{}
+	cargs := []string{"image", "push"}
 	if opt.AllTags != nil {
-		cargs = append(cargs, "--all-tags "+fmt.Sprint(*opt.AllTags))
+		cargs = append(cargs, "--all-tags="+fmt.Sprint(*opt.AllTags))
 	}
 	if opt.DisableContentTrust != nil {
-		cargs = append(cargs, "--disable-content-trust "+fmt.Sprint(*opt.DisableContentTrust))
+		cargs = append(cargs, "--disable-content-trust="+fmt.Sprint(*opt.DisableContentTrust))
 	}
 	if opt.Quiet != nil {
-		cargs = append(cargs, "--quiet "+fmt.Sprint(*opt.Quiet))
+		cargs = append(cargs, "--quiet="+fmt.Sprint(*opt.Quiet))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerImageRmOption struct {
@@ -5881,16 +5933,15 @@ Remove one or more images
 ------------------------------
 */
 func DockerImageRmCmd(opt DockerImageRmOption, args []string) *exec.Cmd {
-	name := "docker image rm"
-	cargs := []string{}
+	cargs := []string{"image", "rm"}
 	if opt.Force != nil {
-		cargs = append(cargs, "--force "+fmt.Sprint(*opt.Force))
+		cargs = append(cargs, "--force="+fmt.Sprint(*opt.Force))
 	}
 	if opt.NoPrune != nil {
-		cargs = append(cargs, "--no-prune "+fmt.Sprint(*opt.NoPrune))
+		cargs = append(cargs, "--no-prune="+fmt.Sprint(*opt.NoPrune))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerImageSaveOption struct {
@@ -5908,13 +5959,12 @@ Save one or more images to a tar archive (streamed to STDOUT by default)
 ------------------------------
 */
 func DockerImageSaveCmd(opt DockerImageSaveOption, args []string) *exec.Cmd {
-	name := "docker image save"
-	cargs := []string{}
+	cargs := []string{"image", "save"}
 	if opt.Output != nil {
-		cargs = append(cargs, "--output "+fmt.Sprint(*opt.Output))
+		cargs = append(cargs, "--output="+fmt.Sprint(*opt.Output))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -5925,10 +5975,9 @@ Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
 ------------------------------
 */
 func DockerImageTagCmd(args []string) *exec.Cmd {
-	name := "docker image tag"
-	cargs := []string{}
+	cargs := []string{"image", "tag"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerImagesOption struct {
@@ -5971,28 +6020,27 @@ List images
 ------------------------------
 */
 func DockerImagesCmd(opt DockerImagesOption, args []string) *exec.Cmd {
-	name := "docker images"
-	cargs := []string{}
+	cargs := []string{"images"}
 	if opt.All != nil {
-		cargs = append(cargs, "--all "+fmt.Sprint(*opt.All))
+		cargs = append(cargs, "--all="+fmt.Sprint(*opt.All))
 	}
 	if opt.Digests != nil {
-		cargs = append(cargs, "--digests "+fmt.Sprint(*opt.Digests))
+		cargs = append(cargs, "--digests="+fmt.Sprint(*opt.Digests))
 	}
 	if opt.Filter != nil {
-		cargs = append(cargs, "--filter "+fmt.Sprint(*opt.Filter))
+		cargs = append(cargs, "--filter="+fmt.Sprint(*opt.Filter))
 	}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	if opt.NoTrunc != nil {
-		cargs = append(cargs, "--no-trunc "+fmt.Sprint(*opt.NoTrunc))
+		cargs = append(cargs, "--no-trunc="+fmt.Sprint(*opt.NoTrunc))
 	}
 	if opt.Quiet != nil {
-		cargs = append(cargs, "--quiet "+fmt.Sprint(*opt.Quiet))
+		cargs = append(cargs, "--quiet="+fmt.Sprint(*opt.Quiet))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerImportOption struct {
@@ -6020,21 +6068,21 @@ Import the contents from a tarball to create a filesystem image
 ------------------------------
 */
 func DockerImportCmd(opt DockerImportOption, args []string) *exec.Cmd {
-	name := "docker import"
-	cargs := []string{}
+	cargs := []string{"import"}
 	if opt.Change != nil {
 		for _, str := range opt.Change {
-			cargs = append(cargs, "--change "+str)
+			cargs = append(cargs, "--change")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Message != nil {
-		cargs = append(cargs, "--message "+fmt.Sprint(*opt.Message))
+		cargs = append(cargs, "--message="+fmt.Sprint(*opt.Message))
 	}
 	if opt.Platform != nil {
-		cargs = append(cargs, "--platform "+fmt.Sprint(*opt.Platform))
+		cargs = append(cargs, "--platform="+fmt.Sprint(*opt.Platform))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerInfoOption struct {
@@ -6052,13 +6100,12 @@ Display system-wide information
 ------------------------------
 */
 func DockerInfoCmd(opt DockerInfoOption, args []string) *exec.Cmd {
-	name := "docker info"
-	cargs := []string{}
+	cargs := []string{"info"}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerInspectOption struct {
@@ -6086,19 +6133,18 @@ Return low-level information on Docker objects
 ------------------------------
 */
 func DockerInspectCmd(opt DockerInspectOption, args []string) *exec.Cmd {
-	name := "docker inspect"
-	cargs := []string{}
+	cargs := []string{"inspect"}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	if opt.Size != nil {
-		cargs = append(cargs, "--size "+fmt.Sprint(*opt.Size))
+		cargs = append(cargs, "--size="+fmt.Sprint(*opt.Size))
 	}
 	if opt.Type != nil {
-		cargs = append(cargs, "--type "+fmt.Sprint(*opt.Type))
+		cargs = append(cargs, "--type="+fmt.Sprint(*opt.Type))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerKillOption struct {
@@ -6116,13 +6162,12 @@ Kill one or more running containers
 ------------------------------
 */
 func DockerKillCmd(opt DockerKillOption, args []string) *exec.Cmd {
-	name := "docker kill"
-	cargs := []string{}
+	cargs := []string{"kill"}
 	if opt.Signal != nil {
-		cargs = append(cargs, "--signal "+fmt.Sprint(*opt.Signal))
+		cargs = append(cargs, "--signal="+fmt.Sprint(*opt.Signal))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerLoadOption struct {
@@ -6145,16 +6190,15 @@ Load an image from a tar archive or STDIN
 ------------------------------
 */
 func DockerLoadCmd(opt DockerLoadOption, args []string) *exec.Cmd {
-	name := "docker load"
-	cargs := []string{}
+	cargs := []string{"load"}
 	if opt.Input != nil {
-		cargs = append(cargs, "--input "+fmt.Sprint(*opt.Input))
+		cargs = append(cargs, "--input="+fmt.Sprint(*opt.Input))
 	}
 	if opt.Quiet != nil {
-		cargs = append(cargs, "--quiet "+fmt.Sprint(*opt.Quiet))
+		cargs = append(cargs, "--quiet="+fmt.Sprint(*opt.Quiet))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerLoginOption struct {
@@ -6182,19 +6226,18 @@ Log in to a Docker registry
 ------------------------------
 */
 func DockerLoginCmd(opt DockerLoginOption, args []string) *exec.Cmd {
-	name := "docker login"
-	cargs := []string{}
+	cargs := []string{"login"}
 	if opt.Password != nil {
-		cargs = append(cargs, "--password "+fmt.Sprint(*opt.Password))
+		cargs = append(cargs, "--password="+fmt.Sprint(*opt.Password))
 	}
 	if opt.PasswordStdin != nil {
-		cargs = append(cargs, "--password-stdin "+fmt.Sprint(*opt.PasswordStdin))
+		cargs = append(cargs, "--password-stdin="+fmt.Sprint(*opt.PasswordStdin))
 	}
 	if opt.Username != nil {
-		cargs = append(cargs, "--username "+fmt.Sprint(*opt.Username))
+		cargs = append(cargs, "--username="+fmt.Sprint(*opt.Username))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -6205,10 +6248,9 @@ Log out from a Docker registry
 ------------------------------
 */
 func DockerLogoutCmd(args []string) *exec.Cmd {
-	name := "docker logout"
-	cargs := []string{}
+	cargs := []string{"logout"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerLogsOption struct {
@@ -6251,28 +6293,27 @@ Fetch the logs of a container
 ------------------------------
 */
 func DockerLogsCmd(opt DockerLogsOption, args []string) *exec.Cmd {
-	name := "docker logs"
-	cargs := []string{}
+	cargs := []string{"logs"}
 	if opt.Details != nil {
-		cargs = append(cargs, "--details "+fmt.Sprint(*opt.Details))
+		cargs = append(cargs, "--details="+fmt.Sprint(*opt.Details))
 	}
 	if opt.Follow != nil {
-		cargs = append(cargs, "--follow "+fmt.Sprint(*opt.Follow))
+		cargs = append(cargs, "--follow="+fmt.Sprint(*opt.Follow))
 	}
 	if opt.Since != nil {
-		cargs = append(cargs, "--since "+fmt.Sprint(*opt.Since))
+		cargs = append(cargs, "--since="+fmt.Sprint(*opt.Since))
 	}
 	if opt.Tail != nil {
-		cargs = append(cargs, "--tail "+fmt.Sprint(*opt.Tail))
+		cargs = append(cargs, "--tail="+fmt.Sprint(*opt.Tail))
 	}
 	if opt.Timestamps != nil {
-		cargs = append(cargs, "--timestamps "+fmt.Sprint(*opt.Timestamps))
+		cargs = append(cargs, "--timestamps="+fmt.Sprint(*opt.Timestamps))
 	}
 	if opt.Until != nil {
-		cargs = append(cargs, "--until "+fmt.Sprint(*opt.Until))
+		cargs = append(cargs, "--until="+fmt.Sprint(*opt.Until))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -6283,10 +6324,9 @@ Manage Docker image manifests and manifest lists
 ------------------------------
 */
 func DockerManifestCmd(args []string) *exec.Cmd {
-	name := "docker manifest"
-	cargs := []string{}
+	cargs := []string{"manifest"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerManifestAnnotateOption struct {
@@ -6324,25 +6364,24 @@ Add additional information to a local image manifest
 ------------------------------
 */
 func DockerManifestAnnotateCmd(opt DockerManifestAnnotateOption, args []string) *exec.Cmd {
-	name := "docker manifest annotate"
-	cargs := []string{}
+	cargs := []string{"manifest", "annotate"}
 	if opt.Arch != nil {
-		cargs = append(cargs, "--arch "+fmt.Sprint(*opt.Arch))
+		cargs = append(cargs, "--arch="+fmt.Sprint(*opt.Arch))
 	}
 	if opt.Os != nil {
-		cargs = append(cargs, "--os "+fmt.Sprint(*opt.Os))
+		cargs = append(cargs, "--os="+fmt.Sprint(*opt.Os))
 	}
 	if opt.OsFeatures != nil {
-		cargs = append(cargs, "--os-features "+fmt.Sprint(*opt.OsFeatures))
+		cargs = append(cargs, "--os-features="+fmt.Sprint(*opt.OsFeatures))
 	}
 	if opt.OsVersion != nil {
-		cargs = append(cargs, "--os-version "+fmt.Sprint(*opt.OsVersion))
+		cargs = append(cargs, "--os-version="+fmt.Sprint(*opt.OsVersion))
 	}
 	if opt.Variant != nil {
-		cargs = append(cargs, "--variant "+fmt.Sprint(*opt.Variant))
+		cargs = append(cargs, "--variant="+fmt.Sprint(*opt.Variant))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerManifestCreateOption struct {
@@ -6365,16 +6404,15 @@ Create a local manifest list for annotating and pushing to a registry
 ------------------------------
 */
 func DockerManifestCreateCmd(opt DockerManifestCreateOption, args []string) *exec.Cmd {
-	name := "docker manifest create"
-	cargs := []string{}
+	cargs := []string{"manifest", "create"}
 	if opt.Amend != nil {
-		cargs = append(cargs, "--amend "+fmt.Sprint(*opt.Amend))
+		cargs = append(cargs, "--amend="+fmt.Sprint(*opt.Amend))
 	}
 	if opt.Insecure != nil {
-		cargs = append(cargs, "--insecure "+fmt.Sprint(*opt.Insecure))
+		cargs = append(cargs, "--insecure="+fmt.Sprint(*opt.Insecure))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerManifestInspectOption struct {
@@ -6397,16 +6435,15 @@ Display an image manifest, or manifest list
 ------------------------------
 */
 func DockerManifestInspectCmd(opt DockerManifestInspectOption, args []string) *exec.Cmd {
-	name := "docker manifest inspect"
-	cargs := []string{}
+	cargs := []string{"manifest", "inspect"}
 	if opt.Insecure != nil {
-		cargs = append(cargs, "--insecure "+fmt.Sprint(*opt.Insecure))
+		cargs = append(cargs, "--insecure="+fmt.Sprint(*opt.Insecure))
 	}
 	if opt.Verbose != nil {
-		cargs = append(cargs, "--verbose "+fmt.Sprint(*opt.Verbose))
+		cargs = append(cargs, "--verbose="+fmt.Sprint(*opt.Verbose))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerManifestPushOption struct {
@@ -6429,16 +6466,15 @@ Push a manifest list to a repository
 ------------------------------
 */
 func DockerManifestPushCmd(opt DockerManifestPushOption, args []string) *exec.Cmd {
-	name := "docker manifest push"
-	cargs := []string{}
+	cargs := []string{"manifest", "push"}
 	if opt.Insecure != nil {
-		cargs = append(cargs, "--insecure "+fmt.Sprint(*opt.Insecure))
+		cargs = append(cargs, "--insecure="+fmt.Sprint(*opt.Insecure))
 	}
 	if opt.Purge != nil {
-		cargs = append(cargs, "--purge "+fmt.Sprint(*opt.Purge))
+		cargs = append(cargs, "--purge="+fmt.Sprint(*opt.Purge))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -6449,10 +6485,9 @@ Delete one or more manifest lists from local storage
 ------------------------------
 */
 func DockerManifestRmCmd(args []string) *exec.Cmd {
-	name := "docker manifest rm"
-	cargs := []string{}
+	cargs := []string{"manifest", "rm"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -6463,10 +6498,9 @@ Manage networks
 ------------------------------
 */
 func DockerNetworkCmd(args []string) *exec.Cmd {
-	name := "docker network"
-	cargs := []string{}
+	cargs := []string{"network"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerNetworkConnectOption struct {
@@ -6509,30 +6543,30 @@ Connect a container to a network
 ------------------------------
 */
 func DockerNetworkConnectCmd(opt DockerNetworkConnectOption, args []string) *exec.Cmd {
-	name := "docker network connect"
-	cargs := []string{}
+	cargs := []string{"network", "connect"}
 	if opt.Alias != nil {
-		cargs = append(cargs, "--alias "+fmt.Sprint(*opt.Alias))
+		cargs = append(cargs, "--alias="+fmt.Sprint(*opt.Alias))
 	}
 	if opt.DriverOpt != nil {
-		cargs = append(cargs, "--driver-opt "+fmt.Sprint(*opt.DriverOpt))
+		cargs = append(cargs, "--driver-opt="+fmt.Sprint(*opt.DriverOpt))
 	}
 	if opt.Ip != nil {
-		cargs = append(cargs, "--ip "+fmt.Sprint(*opt.Ip))
+		cargs = append(cargs, "--ip="+fmt.Sprint(*opt.Ip))
 	}
 	if opt.Ip6 != nil {
-		cargs = append(cargs, "--ip6 "+fmt.Sprint(*opt.Ip6))
+		cargs = append(cargs, "--ip6="+fmt.Sprint(*opt.Ip6))
 	}
 	if opt.Link != nil {
 		for _, str := range opt.Link {
-			cargs = append(cargs, "--link "+str)
+			cargs = append(cargs, "--link")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.LinkLocalIp != nil {
-		cargs = append(cargs, "--link-local-ip "+fmt.Sprint(*opt.LinkLocalIp))
+		cargs = append(cargs, "--link-local-ip="+fmt.Sprint(*opt.LinkLocalIp))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerNetworkCreateOption struct {
@@ -6625,66 +6659,69 @@ Create a network
 ------------------------------
 */
 func DockerNetworkCreateCmd(opt DockerNetworkCreateOption, args []string) *exec.Cmd {
-	name := "docker network create"
-	cargs := []string{}
+	cargs := []string{"network", "create"}
 	if opt.Attachable != nil {
-		cargs = append(cargs, "--attachable "+fmt.Sprint(*opt.Attachable))
+		cargs = append(cargs, "--attachable="+fmt.Sprint(*opt.Attachable))
 	}
 	if opt.AuxAddress != nil {
 		for key, val := range opt.AuxAddress {
-			cargs = append(cargs, "--aux-address "+key+"="+val)
+			cargs = append(cargs, "--aux-address")
+			cargs = append(cargs, key+"="+val)
 		}
 	}
 	if opt.ConfigFrom != nil {
-		cargs = append(cargs, "--config-from "+fmt.Sprint(*opt.ConfigFrom))
+		cargs = append(cargs, "--config-from="+fmt.Sprint(*opt.ConfigFrom))
 	}
 	if opt.ConfigOnly != nil {
-		cargs = append(cargs, "--config-only "+fmt.Sprint(*opt.ConfigOnly))
+		cargs = append(cargs, "--config-only="+fmt.Sprint(*opt.ConfigOnly))
 	}
 	if opt.Driver != nil {
-		cargs = append(cargs, "--driver "+fmt.Sprint(*opt.Driver))
+		cargs = append(cargs, "--driver="+fmt.Sprint(*opt.Driver))
 	}
 	if opt.Gateway != nil {
-		cargs = append(cargs, "--gateway "+fmt.Sprint(*opt.Gateway))
+		cargs = append(cargs, "--gateway="+fmt.Sprint(*opt.Gateway))
 	}
 	if opt.Ingress != nil {
-		cargs = append(cargs, "--ingress "+fmt.Sprint(*opt.Ingress))
+		cargs = append(cargs, "--ingress="+fmt.Sprint(*opt.Ingress))
 	}
 	if opt.Internal != nil {
-		cargs = append(cargs, "--internal "+fmt.Sprint(*opt.Internal))
+		cargs = append(cargs, "--internal="+fmt.Sprint(*opt.Internal))
 	}
 	if opt.IpRange != nil {
-		cargs = append(cargs, "--ip-range "+fmt.Sprint(*opt.IpRange))
+		cargs = append(cargs, "--ip-range="+fmt.Sprint(*opt.IpRange))
 	}
 	if opt.IpamDriver != nil {
-		cargs = append(cargs, "--ipam-driver "+fmt.Sprint(*opt.IpamDriver))
+		cargs = append(cargs, "--ipam-driver="+fmt.Sprint(*opt.IpamDriver))
 	}
 	if opt.IpamOpt != nil {
 		for key, val := range opt.IpamOpt {
-			cargs = append(cargs, "--ipam-opt "+key+"="+val)
+			cargs = append(cargs, "--ipam-opt")
+			cargs = append(cargs, key+"="+val)
 		}
 	}
 	if opt.Ipv6 != nil {
-		cargs = append(cargs, "--ipv6 "+fmt.Sprint(*opt.Ipv6))
+		cargs = append(cargs, "--ipv6="+fmt.Sprint(*opt.Ipv6))
 	}
 	if opt.Label != nil {
 		for _, str := range opt.Label {
-			cargs = append(cargs, "--label "+str)
+			cargs = append(cargs, "--label")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Opt != nil {
 		for key, val := range opt.Opt {
-			cargs = append(cargs, "--opt "+key+"="+val)
+			cargs = append(cargs, "--opt")
+			cargs = append(cargs, key+"="+val)
 		}
 	}
 	if opt.Scope != nil {
-		cargs = append(cargs, "--scope "+fmt.Sprint(*opt.Scope))
+		cargs = append(cargs, "--scope="+fmt.Sprint(*opt.Scope))
 	}
 	if opt.Subnet != nil {
-		cargs = append(cargs, "--subnet "+fmt.Sprint(*opt.Subnet))
+		cargs = append(cargs, "--subnet="+fmt.Sprint(*opt.Subnet))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerNetworkDisconnectOption struct {
@@ -6702,13 +6739,12 @@ Disconnect a container from a network
 ------------------------------
 */
 func DockerNetworkDisconnectCmd(opt DockerNetworkDisconnectOption, args []string) *exec.Cmd {
-	name := "docker network disconnect"
-	cargs := []string{}
+	cargs := []string{"network", "disconnect"}
 	if opt.Force != nil {
-		cargs = append(cargs, "--force "+fmt.Sprint(*opt.Force))
+		cargs = append(cargs, "--force="+fmt.Sprint(*opt.Force))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerNetworkInspectOption struct {
@@ -6731,16 +6767,15 @@ Display detailed information on one or more networks
 ------------------------------
 */
 func DockerNetworkInspectCmd(opt DockerNetworkInspectOption, args []string) *exec.Cmd {
-	name := "docker network inspect"
-	cargs := []string{}
+	cargs := []string{"network", "inspect"}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	if opt.Verbose != nil {
-		cargs = append(cargs, "--verbose "+fmt.Sprint(*opt.Verbose))
+		cargs = append(cargs, "--verbose="+fmt.Sprint(*opt.Verbose))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerNetworkLsOption struct {
@@ -6773,22 +6808,21 @@ List networks
 ------------------------------
 */
 func DockerNetworkLsCmd(opt DockerNetworkLsOption, args []string) *exec.Cmd {
-	name := "docker network ls"
-	cargs := []string{}
+	cargs := []string{"network", "ls"}
 	if opt.Filter != nil {
-		cargs = append(cargs, "--filter "+fmt.Sprint(*opt.Filter))
+		cargs = append(cargs, "--filter="+fmt.Sprint(*opt.Filter))
 	}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	if opt.NoTrunc != nil {
-		cargs = append(cargs, "--no-trunc "+fmt.Sprint(*opt.NoTrunc))
+		cargs = append(cargs, "--no-trunc="+fmt.Sprint(*opt.NoTrunc))
 	}
 	if opt.Quiet != nil {
-		cargs = append(cargs, "--quiet "+fmt.Sprint(*opt.Quiet))
+		cargs = append(cargs, "--quiet="+fmt.Sprint(*opt.Quiet))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerNetworkPruneOption struct {
@@ -6811,16 +6845,15 @@ Remove all unused networks
 ------------------------------
 */
 func DockerNetworkPruneCmd(opt DockerNetworkPruneOption, args []string) *exec.Cmd {
-	name := "docker network prune"
-	cargs := []string{}
+	cargs := []string{"network", "prune"}
 	if opt.Filter != nil {
-		cargs = append(cargs, "--filter "+fmt.Sprint(*opt.Filter))
+		cargs = append(cargs, "--filter="+fmt.Sprint(*opt.Filter))
 	}
 	if opt.Force != nil {
-		cargs = append(cargs, "--force "+fmt.Sprint(*opt.Force))
+		cargs = append(cargs, "--force="+fmt.Sprint(*opt.Force))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -6831,10 +6864,9 @@ Remove one or more networks
 ------------------------------
 */
 func DockerNetworkRmCmd(args []string) *exec.Cmd {
-	name := "docker network rm"
-	cargs := []string{}
+	cargs := []string{"network", "rm"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -6845,10 +6877,9 @@ Manage Swarm nodes
 ------------------------------
 */
 func DockerNodeCmd(args []string) *exec.Cmd {
-	name := "docker node"
-	cargs := []string{}
+	cargs := []string{"node"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -6859,10 +6890,9 @@ Demote one or more nodes from manager in the swarm
 ------------------------------
 */
 func DockerNodeDemoteCmd(args []string) *exec.Cmd {
-	name := "docker node demote"
-	cargs := []string{}
+	cargs := []string{"node", "demote"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerNodeInspectOption struct {
@@ -6885,16 +6915,15 @@ Display detailed information on one or more nodes
 ------------------------------
 */
 func DockerNodeInspectCmd(opt DockerNodeInspectOption, args []string) *exec.Cmd {
-	name := "docker node inspect"
-	cargs := []string{}
+	cargs := []string{"node", "inspect"}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	if opt.Pretty != nil {
-		cargs = append(cargs, "--pretty "+fmt.Sprint(*opt.Pretty))
+		cargs = append(cargs, "--pretty="+fmt.Sprint(*opt.Pretty))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerNodeLsOption struct {
@@ -6922,19 +6951,18 @@ List nodes in the swarm
 ------------------------------
 */
 func DockerNodeLsCmd(opt DockerNodeLsOption, args []string) *exec.Cmd {
-	name := "docker node ls"
-	cargs := []string{}
+	cargs := []string{"node", "ls"}
 	if opt.Filter != nil {
-		cargs = append(cargs, "--filter "+fmt.Sprint(*opt.Filter))
+		cargs = append(cargs, "--filter="+fmt.Sprint(*opt.Filter))
 	}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	if opt.Quiet != nil {
-		cargs = append(cargs, "--quiet "+fmt.Sprint(*opt.Quiet))
+		cargs = append(cargs, "--quiet="+fmt.Sprint(*opt.Quiet))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -6945,10 +6973,9 @@ Promote one or more nodes to manager in the swarm
 ------------------------------
 */
 func DockerNodePromoteCmd(args []string) *exec.Cmd {
-	name := "docker node promote"
-	cargs := []string{}
+	cargs := []string{"node", "promote"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerNodePsOption struct {
@@ -6986,25 +7013,24 @@ List tasks running on one or more nodes, defaults to current node
 ------------------------------
 */
 func DockerNodePsCmd(opt DockerNodePsOption, args []string) *exec.Cmd {
-	name := "docker node ps"
-	cargs := []string{}
+	cargs := []string{"node", "ps"}
 	if opt.Filter != nil {
-		cargs = append(cargs, "--filter "+fmt.Sprint(*opt.Filter))
+		cargs = append(cargs, "--filter="+fmt.Sprint(*opt.Filter))
 	}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	if opt.NoResolve != nil {
-		cargs = append(cargs, "--no-resolve "+fmt.Sprint(*opt.NoResolve))
+		cargs = append(cargs, "--no-resolve="+fmt.Sprint(*opt.NoResolve))
 	}
 	if opt.NoTrunc != nil {
-		cargs = append(cargs, "--no-trunc "+fmt.Sprint(*opt.NoTrunc))
+		cargs = append(cargs, "--no-trunc="+fmt.Sprint(*opt.NoTrunc))
 	}
 	if opt.Quiet != nil {
-		cargs = append(cargs, "--quiet "+fmt.Sprint(*opt.Quiet))
+		cargs = append(cargs, "--quiet="+fmt.Sprint(*opt.Quiet))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerNodeRmOption struct {
@@ -7022,13 +7048,12 @@ Remove one or more nodes from the swarm
 ------------------------------
 */
 func DockerNodeRmCmd(opt DockerNodeRmOption, args []string) *exec.Cmd {
-	name := "docker node rm"
-	cargs := []string{}
+	cargs := []string{"node", "rm"}
 	if opt.Force != nil {
-		cargs = append(cargs, "--force "+fmt.Sprint(*opt.Force))
+		cargs = append(cargs, "--force="+fmt.Sprint(*opt.Force))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerNodeUpdateOption struct {
@@ -7061,26 +7086,27 @@ Update a node
 ------------------------------
 */
 func DockerNodeUpdateCmd(opt DockerNodeUpdateOption, args []string) *exec.Cmd {
-	name := "docker node update"
-	cargs := []string{}
+	cargs := []string{"node", "update"}
 	if opt.Availability != nil {
-		cargs = append(cargs, "--availability "+fmt.Sprint(*opt.Availability))
+		cargs = append(cargs, "--availability="+fmt.Sprint(*opt.Availability))
 	}
 	if opt.LabelAdd != nil {
 		for _, str := range opt.LabelAdd {
-			cargs = append(cargs, "--label-add "+str)
+			cargs = append(cargs, "--label-add")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.LabelRm != nil {
 		for _, str := range opt.LabelRm {
-			cargs = append(cargs, "--label-rm "+str)
+			cargs = append(cargs, "--label-rm")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Role != nil {
-		cargs = append(cargs, "--role "+fmt.Sprint(*opt.Role))
+		cargs = append(cargs, "--role="+fmt.Sprint(*opt.Role))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -7091,10 +7117,9 @@ Pause all processes within one or more containers
 ------------------------------
 */
 func DockerPauseCmd(args []string) *exec.Cmd {
-	name := "docker pause"
-	cargs := []string{}
+	cargs := []string{"pause"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -7105,10 +7130,9 @@ Manage plugins
 ------------------------------
 */
 func DockerPluginCmd(args []string) *exec.Cmd {
-	name := "docker plugin"
-	cargs := []string{}
+	cargs := []string{"plugin"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerPluginCreateOption struct {
@@ -7126,13 +7150,12 @@ Create a plugin from a rootfs and configuration. Plugin data directory must cont
 ------------------------------
 */
 func DockerPluginCreateCmd(opt DockerPluginCreateOption, args []string) *exec.Cmd {
-	name := "docker plugin create"
-	cargs := []string{}
+	cargs := []string{"plugin", "create"}
 	if opt.Compress != nil {
-		cargs = append(cargs, "--compress "+fmt.Sprint(*opt.Compress))
+		cargs = append(cargs, "--compress="+fmt.Sprint(*opt.Compress))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerPluginDisableOption struct {
@@ -7150,13 +7173,12 @@ Disable a plugin
 ------------------------------
 */
 func DockerPluginDisableCmd(opt DockerPluginDisableOption, args []string) *exec.Cmd {
-	name := "docker plugin disable"
-	cargs := []string{}
+	cargs := []string{"plugin", "disable"}
 	if opt.Force != nil {
-		cargs = append(cargs, "--force "+fmt.Sprint(*opt.Force))
+		cargs = append(cargs, "--force="+fmt.Sprint(*opt.Force))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerPluginEnableOption struct {
@@ -7174,13 +7196,12 @@ Enable a plugin
 ------------------------------
 */
 func DockerPluginEnableCmd(opt DockerPluginEnableOption, args []string) *exec.Cmd {
-	name := "docker plugin enable"
-	cargs := []string{}
+	cargs := []string{"plugin", "enable"}
 	if opt.Timeout != nil {
-		cargs = append(cargs, "--timeout "+fmt.Sprint(*opt.Timeout))
+		cargs = append(cargs, "--timeout="+fmt.Sprint(*opt.Timeout))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerPluginInspectOption struct {
@@ -7198,13 +7219,12 @@ Display detailed information on one or more plugins
 ------------------------------
 */
 func DockerPluginInspectCmd(opt DockerPluginInspectOption, args []string) *exec.Cmd {
-	name := "docker plugin inspect"
-	cargs := []string{}
+	cargs := []string{"plugin", "inspect"}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerPluginInstallOption struct {
@@ -7237,22 +7257,21 @@ Install a plugin
 ------------------------------
 */
 func DockerPluginInstallCmd(opt DockerPluginInstallOption, args []string) *exec.Cmd {
-	name := "docker plugin install"
-	cargs := []string{}
+	cargs := []string{"plugin", "install"}
 	if opt.Alias != nil {
-		cargs = append(cargs, "--alias "+fmt.Sprint(*opt.Alias))
+		cargs = append(cargs, "--alias="+fmt.Sprint(*opt.Alias))
 	}
 	if opt.Disable != nil {
-		cargs = append(cargs, "--disable "+fmt.Sprint(*opt.Disable))
+		cargs = append(cargs, "--disable="+fmt.Sprint(*opt.Disable))
 	}
 	if opt.DisableContentTrust != nil {
-		cargs = append(cargs, "--disable-content-trust "+fmt.Sprint(*opt.DisableContentTrust))
+		cargs = append(cargs, "--disable-content-trust="+fmt.Sprint(*opt.DisableContentTrust))
 	}
 	if opt.GrantAllPermissions != nil {
-		cargs = append(cargs, "--grant-all-permissions "+fmt.Sprint(*opt.GrantAllPermissions))
+		cargs = append(cargs, "--grant-all-permissions="+fmt.Sprint(*opt.GrantAllPermissions))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerPluginLsOption struct {
@@ -7285,22 +7304,21 @@ List plugins
 ------------------------------
 */
 func DockerPluginLsCmd(opt DockerPluginLsOption, args []string) *exec.Cmd {
-	name := "docker plugin ls"
-	cargs := []string{}
+	cargs := []string{"plugin", "ls"}
 	if opt.Filter != nil {
-		cargs = append(cargs, "--filter "+fmt.Sprint(*opt.Filter))
+		cargs = append(cargs, "--filter="+fmt.Sprint(*opt.Filter))
 	}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	if opt.NoTrunc != nil {
-		cargs = append(cargs, "--no-trunc "+fmt.Sprint(*opt.NoTrunc))
+		cargs = append(cargs, "--no-trunc="+fmt.Sprint(*opt.NoTrunc))
 	}
 	if opt.Quiet != nil {
-		cargs = append(cargs, "--quiet "+fmt.Sprint(*opt.Quiet))
+		cargs = append(cargs, "--quiet="+fmt.Sprint(*opt.Quiet))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerPluginPushOption struct {
@@ -7318,13 +7336,12 @@ Push a plugin to a registry
 ------------------------------
 */
 func DockerPluginPushCmd(opt DockerPluginPushOption, args []string) *exec.Cmd {
-	name := "docker plugin push"
-	cargs := []string{}
+	cargs := []string{"plugin", "push"}
 	if opt.DisableContentTrust != nil {
-		cargs = append(cargs, "--disable-content-trust "+fmt.Sprint(*opt.DisableContentTrust))
+		cargs = append(cargs, "--disable-content-trust="+fmt.Sprint(*opt.DisableContentTrust))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerPluginRmOption struct {
@@ -7342,13 +7359,12 @@ Remove one or more plugins
 ------------------------------
 */
 func DockerPluginRmCmd(opt DockerPluginRmOption, args []string) *exec.Cmd {
-	name := "docker plugin rm"
-	cargs := []string{}
+	cargs := []string{"plugin", "rm"}
 	if opt.Force != nil {
-		cargs = append(cargs, "--force "+fmt.Sprint(*opt.Force))
+		cargs = append(cargs, "--force="+fmt.Sprint(*opt.Force))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -7359,10 +7375,9 @@ Change settings for a plugin
 ------------------------------
 */
 func DockerPluginSetCmd(args []string) *exec.Cmd {
-	name := "docker plugin set"
-	cargs := []string{}
+	cargs := []string{"plugin", "set"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerPluginUpgradeOption struct {
@@ -7390,19 +7405,18 @@ Upgrade an existing plugin
 ------------------------------
 */
 func DockerPluginUpgradeCmd(opt DockerPluginUpgradeOption, args []string) *exec.Cmd {
-	name := "docker plugin upgrade"
-	cargs := []string{}
+	cargs := []string{"plugin", "upgrade"}
 	if opt.DisableContentTrust != nil {
-		cargs = append(cargs, "--disable-content-trust "+fmt.Sprint(*opt.DisableContentTrust))
+		cargs = append(cargs, "--disable-content-trust="+fmt.Sprint(*opt.DisableContentTrust))
 	}
 	if opt.GrantAllPermissions != nil {
-		cargs = append(cargs, "--grant-all-permissions "+fmt.Sprint(*opt.GrantAllPermissions))
+		cargs = append(cargs, "--grant-all-permissions="+fmt.Sprint(*opt.GrantAllPermissions))
 	}
 	if opt.SkipRemoteCheck != nil {
-		cargs = append(cargs, "--skip-remote-check "+fmt.Sprint(*opt.SkipRemoteCheck))
+		cargs = append(cargs, "--skip-remote-check="+fmt.Sprint(*opt.SkipRemoteCheck))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -7413,10 +7427,9 @@ List port mappings or a specific mapping for the container
 ------------------------------
 */
 func DockerPortCmd(args []string) *exec.Cmd {
-	name := "docker port"
-	cargs := []string{}
+	cargs := []string{"port"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerPsOption struct {
@@ -7469,34 +7482,33 @@ List containers
 ------------------------------
 */
 func DockerPsCmd(opt DockerPsOption, args []string) *exec.Cmd {
-	name := "docker ps"
-	cargs := []string{}
+	cargs := []string{"ps"}
 	if opt.All != nil {
-		cargs = append(cargs, "--all "+fmt.Sprint(*opt.All))
+		cargs = append(cargs, "--all="+fmt.Sprint(*opt.All))
 	}
 	if opt.Filter != nil {
-		cargs = append(cargs, "--filter "+fmt.Sprint(*opt.Filter))
+		cargs = append(cargs, "--filter="+fmt.Sprint(*opt.Filter))
 	}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	if opt.Last != nil {
-		cargs = append(cargs, "--last "+fmt.Sprint(*opt.Last))
+		cargs = append(cargs, "--last="+fmt.Sprint(*opt.Last))
 	}
 	if opt.Latest != nil {
-		cargs = append(cargs, "--latest "+fmt.Sprint(*opt.Latest))
+		cargs = append(cargs, "--latest="+fmt.Sprint(*opt.Latest))
 	}
 	if opt.NoTrunc != nil {
-		cargs = append(cargs, "--no-trunc "+fmt.Sprint(*opt.NoTrunc))
+		cargs = append(cargs, "--no-trunc="+fmt.Sprint(*opt.NoTrunc))
 	}
 	if opt.Quiet != nil {
-		cargs = append(cargs, "--quiet "+fmt.Sprint(*opt.Quiet))
+		cargs = append(cargs, "--quiet="+fmt.Sprint(*opt.Quiet))
 	}
 	if opt.Size != nil {
-		cargs = append(cargs, "--size "+fmt.Sprint(*opt.Size))
+		cargs = append(cargs, "--size="+fmt.Sprint(*opt.Size))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerPullOption struct {
@@ -7529,22 +7541,21 @@ Pull an image or a repository from a registry
 ------------------------------
 */
 func DockerPullCmd(opt DockerPullOption, args []string) *exec.Cmd {
-	name := "docker pull"
-	cargs := []string{}
+	cargs := []string{"pull"}
 	if opt.AllTags != nil {
-		cargs = append(cargs, "--all-tags "+fmt.Sprint(*opt.AllTags))
+		cargs = append(cargs, "--all-tags="+fmt.Sprint(*opt.AllTags))
 	}
 	if opt.DisableContentTrust != nil {
-		cargs = append(cargs, "--disable-content-trust "+fmt.Sprint(*opt.DisableContentTrust))
+		cargs = append(cargs, "--disable-content-trust="+fmt.Sprint(*opt.DisableContentTrust))
 	}
 	if opt.Platform != nil {
-		cargs = append(cargs, "--platform "+fmt.Sprint(*opt.Platform))
+		cargs = append(cargs, "--platform="+fmt.Sprint(*opt.Platform))
 	}
 	if opt.Quiet != nil {
-		cargs = append(cargs, "--quiet "+fmt.Sprint(*opt.Quiet))
+		cargs = append(cargs, "--quiet="+fmt.Sprint(*opt.Quiet))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerPushOption struct {
@@ -7572,19 +7583,18 @@ Push an image or a repository to a registry
 ------------------------------
 */
 func DockerPushCmd(opt DockerPushOption, args []string) *exec.Cmd {
-	name := "docker push"
-	cargs := []string{}
+	cargs := []string{"push"}
 	if opt.AllTags != nil {
-		cargs = append(cargs, "--all-tags "+fmt.Sprint(*opt.AllTags))
+		cargs = append(cargs, "--all-tags="+fmt.Sprint(*opt.AllTags))
 	}
 	if opt.DisableContentTrust != nil {
-		cargs = append(cargs, "--disable-content-trust "+fmt.Sprint(*opt.DisableContentTrust))
+		cargs = append(cargs, "--disable-content-trust="+fmt.Sprint(*opt.DisableContentTrust))
 	}
 	if opt.Quiet != nil {
-		cargs = append(cargs, "--quiet "+fmt.Sprint(*opt.Quiet))
+		cargs = append(cargs, "--quiet="+fmt.Sprint(*opt.Quiet))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -7595,10 +7605,9 @@ Rename a container
 ------------------------------
 */
 func DockerRenameCmd(args []string) *exec.Cmd {
-	name := "docker rename"
-	cargs := []string{}
+	cargs := []string{"rename"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerRestartOption struct {
@@ -7616,13 +7625,12 @@ Restart one or more containers
 ------------------------------
 */
 func DockerRestartCmd(opt DockerRestartOption, args []string) *exec.Cmd {
-	name := "docker restart"
-	cargs := []string{}
+	cargs := []string{"restart"}
 	if opt.Time != nil {
-		cargs = append(cargs, "--time "+fmt.Sprint(*opt.Time))
+		cargs = append(cargs, "--time="+fmt.Sprint(*opt.Time))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerRmOption struct {
@@ -7650,19 +7658,18 @@ Remove one or more containers
 ------------------------------
 */
 func DockerRmCmd(opt DockerRmOption, args []string) *exec.Cmd {
-	name := "docker rm"
-	cargs := []string{}
+	cargs := []string{"rm"}
 	if opt.Force != nil {
-		cargs = append(cargs, "--force "+fmt.Sprint(*opt.Force))
+		cargs = append(cargs, "--force="+fmt.Sprint(*opt.Force))
 	}
 	if opt.Link != nil {
-		cargs = append(cargs, "--link "+fmt.Sprint(*opt.Link))
+		cargs = append(cargs, "--link="+fmt.Sprint(*opt.Link))
 	}
 	if opt.Volumes != nil {
-		cargs = append(cargs, "--volumes "+fmt.Sprint(*opt.Volumes))
+		cargs = append(cargs, "--volumes="+fmt.Sprint(*opt.Volumes))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerRmiOption struct {
@@ -7685,16 +7692,15 @@ Remove one or more images
 ------------------------------
 */
 func DockerRmiCmd(opt DockerRmiOption, args []string) *exec.Cmd {
-	name := "docker rmi"
-	cargs := []string{}
+	cargs := []string{"rmi"}
 	if opt.Force != nil {
-		cargs = append(cargs, "--force "+fmt.Sprint(*opt.Force))
+		cargs = append(cargs, "--force="+fmt.Sprint(*opt.Force))
 	}
 	if opt.NoPrune != nil {
-		cargs = append(cargs, "--no-prune "+fmt.Sprint(*opt.NoPrune))
+		cargs = append(cargs, "--no-prune="+fmt.Sprint(*opt.NoPrune))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerRunOption struct {
@@ -8226,385 +8232,417 @@ Run a command in a new container
 ------------------------------
 */
 func DockerRunCmd(opt DockerRunOption, args []string) *exec.Cmd {
-	name := "docker run"
-	cargs := []string{}
+	cargs := []string{"run"}
 	if opt.AddHost != nil {
 		for _, str := range opt.AddHost {
-			cargs = append(cargs, "--add-host "+str)
+			cargs = append(cargs, "--add-host")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Attach != nil {
 		for _, str := range opt.Attach {
-			cargs = append(cargs, "--attach "+str)
+			cargs = append(cargs, "--attach")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.BlkioWeight != nil {
-		cargs = append(cargs, "--blkio-weight "+fmt.Sprint(*opt.BlkioWeight))
+		cargs = append(cargs, "--blkio-weight="+fmt.Sprint(*opt.BlkioWeight))
 	}
 	if opt.BlkioWeightDevice != nil {
 		for _, str := range opt.BlkioWeightDevice {
-			cargs = append(cargs, "--blkio-weight-device "+str)
+			cargs = append(cargs, "--blkio-weight-device")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.CapAdd != nil {
 		for _, str := range opt.CapAdd {
-			cargs = append(cargs, "--cap-add "+str)
+			cargs = append(cargs, "--cap-add")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.CapDrop != nil {
 		for _, str := range opt.CapDrop {
-			cargs = append(cargs, "--cap-drop "+str)
+			cargs = append(cargs, "--cap-drop")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.CgroupParent != nil {
-		cargs = append(cargs, "--cgroup-parent "+fmt.Sprint(*opt.CgroupParent))
+		cargs = append(cargs, "--cgroup-parent="+fmt.Sprint(*opt.CgroupParent))
 	}
 	if opt.Cgroupns != nil {
-		cargs = append(cargs, "--cgroupns "+fmt.Sprint(*opt.Cgroupns))
+		cargs = append(cargs, "--cgroupns="+fmt.Sprint(*opt.Cgroupns))
 	}
 	if opt.Cidfile != nil {
-		cargs = append(cargs, "--cidfile "+fmt.Sprint(*opt.Cidfile))
+		cargs = append(cargs, "--cidfile="+fmt.Sprint(*opt.Cidfile))
 	}
 	if opt.CpuCount != nil {
-		cargs = append(cargs, "--cpu-count "+fmt.Sprint(*opt.CpuCount))
+		cargs = append(cargs, "--cpu-count="+fmt.Sprint(*opt.CpuCount))
 	}
 	if opt.CpuPercent != nil {
-		cargs = append(cargs, "--cpu-percent "+fmt.Sprint(*opt.CpuPercent))
+		cargs = append(cargs, "--cpu-percent="+fmt.Sprint(*opt.CpuPercent))
 	}
 	if opt.CpuPeriod != nil {
-		cargs = append(cargs, "--cpu-period "+fmt.Sprint(*opt.CpuPeriod))
+		cargs = append(cargs, "--cpu-period="+fmt.Sprint(*opt.CpuPeriod))
 	}
 	if opt.CpuQuota != nil {
-		cargs = append(cargs, "--cpu-quota "+fmt.Sprint(*opt.CpuQuota))
+		cargs = append(cargs, "--cpu-quota="+fmt.Sprint(*opt.CpuQuota))
 	}
 	if opt.CpuRtPeriod != nil {
-		cargs = append(cargs, "--cpu-rt-period "+fmt.Sprint(*opt.CpuRtPeriod))
+		cargs = append(cargs, "--cpu-rt-period="+fmt.Sprint(*opt.CpuRtPeriod))
 	}
 	if opt.CpuRtRuntime != nil {
-		cargs = append(cargs, "--cpu-rt-runtime "+fmt.Sprint(*opt.CpuRtRuntime))
+		cargs = append(cargs, "--cpu-rt-runtime="+fmt.Sprint(*opt.CpuRtRuntime))
 	}
 	if opt.CpuShares != nil {
-		cargs = append(cargs, "--cpu-shares "+fmt.Sprint(*opt.CpuShares))
+		cargs = append(cargs, "--cpu-shares="+fmt.Sprint(*opt.CpuShares))
 	}
 	if opt.Cpus != nil {
-		cargs = append(cargs, "--cpus "+fmt.Sprint(*opt.Cpus))
+		cargs = append(cargs, "--cpus="+fmt.Sprint(*opt.Cpus))
 	}
 	if opt.CpusetCpus != nil {
-		cargs = append(cargs, "--cpuset-cpus "+fmt.Sprint(*opt.CpusetCpus))
+		cargs = append(cargs, "--cpuset-cpus="+fmt.Sprint(*opt.CpusetCpus))
 	}
 	if opt.CpusetMems != nil {
-		cargs = append(cargs, "--cpuset-mems "+fmt.Sprint(*opt.CpusetMems))
+		cargs = append(cargs, "--cpuset-mems="+fmt.Sprint(*opt.CpusetMems))
 	}
 	if opt.Detach != nil {
-		cargs = append(cargs, "--detach "+fmt.Sprint(*opt.Detach))
+		cargs = append(cargs, "--detach="+fmt.Sprint(*opt.Detach))
 	}
 	if opt.DetachKeys != nil {
-		cargs = append(cargs, "--detach-keys "+fmt.Sprint(*opt.DetachKeys))
+		cargs = append(cargs, "--detach-keys="+fmt.Sprint(*opt.DetachKeys))
 	}
 	if opt.Device != nil {
 		for _, str := range opt.Device {
-			cargs = append(cargs, "--device "+str)
+			cargs = append(cargs, "--device")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DeviceCgroupRule != nil {
 		for _, str := range opt.DeviceCgroupRule {
-			cargs = append(cargs, "--device-cgroup-rule "+str)
+			cargs = append(cargs, "--device-cgroup-rule")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DeviceReadBps != nil {
 		for _, str := range opt.DeviceReadBps {
-			cargs = append(cargs, "--device-read-bps "+str)
+			cargs = append(cargs, "--device-read-bps")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DeviceReadIops != nil {
 		for _, str := range opt.DeviceReadIops {
-			cargs = append(cargs, "--device-read-iops "+str)
+			cargs = append(cargs, "--device-read-iops")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DeviceWriteBps != nil {
 		for _, str := range opt.DeviceWriteBps {
-			cargs = append(cargs, "--device-write-bps "+str)
+			cargs = append(cargs, "--device-write-bps")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DeviceWriteIops != nil {
 		for _, str := range opt.DeviceWriteIops {
-			cargs = append(cargs, "--device-write-iops "+str)
+			cargs = append(cargs, "--device-write-iops")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DisableContentTrust != nil {
-		cargs = append(cargs, "--disable-content-trust "+fmt.Sprint(*opt.DisableContentTrust))
+		cargs = append(cargs, "--disable-content-trust="+fmt.Sprint(*opt.DisableContentTrust))
 	}
 	if opt.Dns != nil {
 		for _, str := range opt.Dns {
-			cargs = append(cargs, "--dns "+str)
+			cargs = append(cargs, "--dns")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DnsOpt != nil {
 		for _, str := range opt.DnsOpt {
-			cargs = append(cargs, "--dns-opt "+str)
+			cargs = append(cargs, "--dns-opt")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DnsOption != nil {
 		for _, str := range opt.DnsOption {
-			cargs = append(cargs, "--dns-option "+str)
+			cargs = append(cargs, "--dns-option")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DnsSearch != nil {
 		for _, str := range opt.DnsSearch {
-			cargs = append(cargs, "--dns-search "+str)
+			cargs = append(cargs, "--dns-search")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Domainname != nil {
-		cargs = append(cargs, "--domainname "+fmt.Sprint(*opt.Domainname))
+		cargs = append(cargs, "--domainname="+fmt.Sprint(*opt.Domainname))
 	}
 	if opt.Entrypoint != nil {
-		cargs = append(cargs, "--entrypoint "+fmt.Sprint(*opt.Entrypoint))
+		cargs = append(cargs, "--entrypoint="+fmt.Sprint(*opt.Entrypoint))
 	}
 	if opt.Env != nil {
 		for _, str := range opt.Env {
-			cargs = append(cargs, "--env "+str)
+			cargs = append(cargs, "--env")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.EnvFile != nil {
 		for _, str := range opt.EnvFile {
-			cargs = append(cargs, "--env-file "+str)
+			cargs = append(cargs, "--env-file")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Expose != nil {
 		for _, str := range opt.Expose {
-			cargs = append(cargs, "--expose "+str)
+			cargs = append(cargs, "--expose")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Gpus != nil {
-		cargs = append(cargs, "--gpus "+fmt.Sprint(*opt.Gpus))
+		cargs = append(cargs, "--gpus="+fmt.Sprint(*opt.Gpus))
 	}
 	if opt.GroupAdd != nil {
 		for _, str := range opt.GroupAdd {
-			cargs = append(cargs, "--group-add "+str)
+			cargs = append(cargs, "--group-add")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.HealthCmd != nil {
-		cargs = append(cargs, "--health-cmd "+fmt.Sprint(*opt.HealthCmd))
+		cargs = append(cargs, "--health-cmd="+fmt.Sprint(*opt.HealthCmd))
 	}
 	if opt.HealthInterval != nil {
-		cargs = append(cargs, "--health-interval "+fmt.Sprint(*opt.HealthInterval))
+		cargs = append(cargs, "--health-interval="+fmt.Sprint(*opt.HealthInterval))
 	}
 	if opt.HealthRetries != nil {
-		cargs = append(cargs, "--health-retries "+fmt.Sprint(*opt.HealthRetries))
+		cargs = append(cargs, "--health-retries="+fmt.Sprint(*opt.HealthRetries))
 	}
 	if opt.HealthStartPeriod != nil {
-		cargs = append(cargs, "--health-start-period "+fmt.Sprint(*opt.HealthStartPeriod))
+		cargs = append(cargs, "--health-start-period="+fmt.Sprint(*opt.HealthStartPeriod))
 	}
 	if opt.HealthTimeout != nil {
-		cargs = append(cargs, "--health-timeout "+fmt.Sprint(*opt.HealthTimeout))
+		cargs = append(cargs, "--health-timeout="+fmt.Sprint(*opt.HealthTimeout))
 	}
 	if opt.Help != nil {
-		cargs = append(cargs, "--help "+fmt.Sprint(*opt.Help))
+		cargs = append(cargs, "--help="+fmt.Sprint(*opt.Help))
 	}
 	if opt.Hostname != nil {
-		cargs = append(cargs, "--hostname "+fmt.Sprint(*opt.Hostname))
+		cargs = append(cargs, "--hostname="+fmt.Sprint(*opt.Hostname))
 	}
 	if opt.Init != nil {
-		cargs = append(cargs, "--init "+fmt.Sprint(*opt.Init))
+		cargs = append(cargs, "--init="+fmt.Sprint(*opt.Init))
 	}
 	if opt.Interactive != nil {
-		cargs = append(cargs, "--interactive "+fmt.Sprint(*opt.Interactive))
+		cargs = append(cargs, "--interactive="+fmt.Sprint(*opt.Interactive))
 	}
 	if opt.IoMaxbandwidth != nil {
-		cargs = append(cargs, "--io-maxbandwidth "+fmt.Sprint(*opt.IoMaxbandwidth))
+		cargs = append(cargs, "--io-maxbandwidth="+fmt.Sprint(*opt.IoMaxbandwidth))
 	}
 	if opt.IoMaxiops != nil {
-		cargs = append(cargs, "--io-maxiops "+fmt.Sprint(*opt.IoMaxiops))
+		cargs = append(cargs, "--io-maxiops="+fmt.Sprint(*opt.IoMaxiops))
 	}
 	if opt.Ip != nil {
-		cargs = append(cargs, "--ip "+fmt.Sprint(*opt.Ip))
+		cargs = append(cargs, "--ip="+fmt.Sprint(*opt.Ip))
 	}
 	if opt.Ip6 != nil {
-		cargs = append(cargs, "--ip6 "+fmt.Sprint(*opt.Ip6))
+		cargs = append(cargs, "--ip6="+fmt.Sprint(*opt.Ip6))
 	}
 	if opt.Ipc != nil {
-		cargs = append(cargs, "--ipc "+fmt.Sprint(*opt.Ipc))
+		cargs = append(cargs, "--ipc="+fmt.Sprint(*opt.Ipc))
 	}
 	if opt.Isolation != nil {
-		cargs = append(cargs, "--isolation "+fmt.Sprint(*opt.Isolation))
+		cargs = append(cargs, "--isolation="+fmt.Sprint(*opt.Isolation))
 	}
 	if opt.KernelMemory != nil {
-		cargs = append(cargs, "--kernel-memory "+fmt.Sprint(*opt.KernelMemory))
+		cargs = append(cargs, "--kernel-memory="+fmt.Sprint(*opt.KernelMemory))
 	}
 	if opt.Label != nil {
 		for _, str := range opt.Label {
-			cargs = append(cargs, "--label "+str)
+			cargs = append(cargs, "--label")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.LabelFile != nil {
 		for _, str := range opt.LabelFile {
-			cargs = append(cargs, "--label-file "+str)
+			cargs = append(cargs, "--label-file")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Link != nil {
 		for _, str := range opt.Link {
-			cargs = append(cargs, "--link "+str)
+			cargs = append(cargs, "--link")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.LinkLocalIp != nil {
 		for _, str := range opt.LinkLocalIp {
-			cargs = append(cargs, "--link-local-ip "+str)
+			cargs = append(cargs, "--link-local-ip")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.LogDriver != nil {
-		cargs = append(cargs, "--log-driver "+fmt.Sprint(*opt.LogDriver))
+		cargs = append(cargs, "--log-driver="+fmt.Sprint(*opt.LogDriver))
 	}
 	if opt.LogOpt != nil {
 		for _, str := range opt.LogOpt {
-			cargs = append(cargs, "--log-opt "+str)
+			cargs = append(cargs, "--log-opt")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.MacAddress != nil {
-		cargs = append(cargs, "--mac-address "+fmt.Sprint(*opt.MacAddress))
+		cargs = append(cargs, "--mac-address="+fmt.Sprint(*opt.MacAddress))
 	}
 	if opt.Memory != nil {
-		cargs = append(cargs, "--memory "+fmt.Sprint(*opt.Memory))
+		cargs = append(cargs, "--memory="+fmt.Sprint(*opt.Memory))
 	}
 	if opt.MemoryReservation != nil {
-		cargs = append(cargs, "--memory-reservation "+fmt.Sprint(*opt.MemoryReservation))
+		cargs = append(cargs, "--memory-reservation="+fmt.Sprint(*opt.MemoryReservation))
 	}
 	if opt.MemorySwap != nil {
-		cargs = append(cargs, "--memory-swap "+fmt.Sprint(*opt.MemorySwap))
+		cargs = append(cargs, "--memory-swap="+fmt.Sprint(*opt.MemorySwap))
 	}
 	if opt.MemorySwappiness != nil {
-		cargs = append(cargs, "--memory-swappiness "+fmt.Sprint(*opt.MemorySwappiness))
+		cargs = append(cargs, "--memory-swappiness="+fmt.Sprint(*opt.MemorySwappiness))
 	}
 	if opt.Mount != nil {
-		cargs = append(cargs, "--mount "+fmt.Sprint(*opt.Mount))
+		cargs = append(cargs, "--mount="+fmt.Sprint(*opt.Mount))
 	}
 	if opt.Name != nil {
-		cargs = append(cargs, "--name "+fmt.Sprint(*opt.Name))
+		cargs = append(cargs, "--name="+fmt.Sprint(*opt.Name))
 	}
 	if opt.Net != nil {
-		cargs = append(cargs, "--net "+fmt.Sprint(*opt.Net))
+		cargs = append(cargs, "--net="+fmt.Sprint(*opt.Net))
 	}
 	if opt.NetAlias != nil {
 		for _, str := range opt.NetAlias {
-			cargs = append(cargs, "--net-alias "+str)
+			cargs = append(cargs, "--net-alias")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Network != nil {
-		cargs = append(cargs, "--network "+fmt.Sprint(*opt.Network))
+		cargs = append(cargs, "--network="+fmt.Sprint(*opt.Network))
 	}
 	if opt.NetworkAlias != nil {
 		for _, str := range opt.NetworkAlias {
-			cargs = append(cargs, "--network-alias "+str)
+			cargs = append(cargs, "--network-alias")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.NoHealthcheck != nil {
-		cargs = append(cargs, "--no-healthcheck "+fmt.Sprint(*opt.NoHealthcheck))
+		cargs = append(cargs, "--no-healthcheck="+fmt.Sprint(*opt.NoHealthcheck))
 	}
 	if opt.OomKillDisable != nil {
-		cargs = append(cargs, "--oom-kill-disable "+fmt.Sprint(*opt.OomKillDisable))
+		cargs = append(cargs, "--oom-kill-disable="+fmt.Sprint(*opt.OomKillDisable))
 	}
 	if opt.OomScoreAdj != nil {
-		cargs = append(cargs, "--oom-score-adj "+fmt.Sprint(*opt.OomScoreAdj))
+		cargs = append(cargs, "--oom-score-adj="+fmt.Sprint(*opt.OomScoreAdj))
 	}
 	if opt.Pid != nil {
-		cargs = append(cargs, "--pid "+fmt.Sprint(*opt.Pid))
+		cargs = append(cargs, "--pid="+fmt.Sprint(*opt.Pid))
 	}
 	if opt.PidsLimit != nil {
-		cargs = append(cargs, "--pids-limit "+fmt.Sprint(*opt.PidsLimit))
+		cargs = append(cargs, "--pids-limit="+fmt.Sprint(*opt.PidsLimit))
 	}
 	if opt.Platform != nil {
-		cargs = append(cargs, "--platform "+fmt.Sprint(*opt.Platform))
+		cargs = append(cargs, "--platform="+fmt.Sprint(*opt.Platform))
 	}
 	if opt.Privileged != nil {
-		cargs = append(cargs, "--privileged "+fmt.Sprint(*opt.Privileged))
+		cargs = append(cargs, "--privileged="+fmt.Sprint(*opt.Privileged))
 	}
 	if opt.Publish != nil {
 		for _, str := range opt.Publish {
-			cargs = append(cargs, "--publish "+str)
+			cargs = append(cargs, "--publish")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.PublishAll != nil {
-		cargs = append(cargs, "--publish-all "+fmt.Sprint(*opt.PublishAll))
+		cargs = append(cargs, "--publish-all="+fmt.Sprint(*opt.PublishAll))
 	}
 	if opt.Pull != nil {
-		cargs = append(cargs, "--pull "+fmt.Sprint(*opt.Pull))
+		cargs = append(cargs, "--pull="+fmt.Sprint(*opt.Pull))
 	}
 	if opt.ReadOnly != nil {
-		cargs = append(cargs, "--read-only "+fmt.Sprint(*opt.ReadOnly))
+		cargs = append(cargs, "--read-only="+fmt.Sprint(*opt.ReadOnly))
 	}
 	if opt.Restart != nil {
-		cargs = append(cargs, "--restart "+fmt.Sprint(*opt.Restart))
+		cargs = append(cargs, "--restart="+fmt.Sprint(*opt.Restart))
 	}
 	if opt.Rm != nil {
-		cargs = append(cargs, "--rm "+fmt.Sprint(*opt.Rm))
+		cargs = append(cargs, "--rm="+fmt.Sprint(*opt.Rm))
 	}
 	if opt.Runtime != nil {
-		cargs = append(cargs, "--runtime "+fmt.Sprint(*opt.Runtime))
+		cargs = append(cargs, "--runtime="+fmt.Sprint(*opt.Runtime))
 	}
 	if opt.SecurityOpt != nil {
 		for _, str := range opt.SecurityOpt {
-			cargs = append(cargs, "--security-opt "+str)
+			cargs = append(cargs, "--security-opt")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.ShmSize != nil {
-		cargs = append(cargs, "--shm-size "+fmt.Sprint(*opt.ShmSize))
+		cargs = append(cargs, "--shm-size="+fmt.Sprint(*opt.ShmSize))
 	}
 	if opt.SigProxy != nil {
-		cargs = append(cargs, "--sig-proxy "+fmt.Sprint(*opt.SigProxy))
+		cargs = append(cargs, "--sig-proxy="+fmt.Sprint(*opt.SigProxy))
 	}
 	if opt.StopSignal != nil {
-		cargs = append(cargs, "--stop-signal "+fmt.Sprint(*opt.StopSignal))
+		cargs = append(cargs, "--stop-signal="+fmt.Sprint(*opt.StopSignal))
 	}
 	if opt.StopTimeout != nil {
-		cargs = append(cargs, "--stop-timeout "+fmt.Sprint(*opt.StopTimeout))
+		cargs = append(cargs, "--stop-timeout="+fmt.Sprint(*opt.StopTimeout))
 	}
 	if opt.StorageOpt != nil {
 		for _, str := range opt.StorageOpt {
-			cargs = append(cargs, "--storage-opt "+str)
+			cargs = append(cargs, "--storage-opt")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Sysctl != nil {
 		for key, val := range opt.Sysctl {
-			cargs = append(cargs, "--sysctl "+key+"="+val)
+			cargs = append(cargs, "--sysctl")
+			cargs = append(cargs, key+"="+val)
 		}
 	}
 	if opt.Tmpfs != nil {
 		for _, str := range opt.Tmpfs {
-			cargs = append(cargs, "--tmpfs "+str)
+			cargs = append(cargs, "--tmpfs")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Tty != nil {
-		cargs = append(cargs, "--tty "+fmt.Sprint(*opt.Tty))
+		cargs = append(cargs, "--tty="+fmt.Sprint(*opt.Tty))
 	}
 	if opt.Ulimit != nil {
-		cargs = append(cargs, "--ulimit "+fmt.Sprint(*opt.Ulimit))
+		cargs = append(cargs, "--ulimit="+fmt.Sprint(*opt.Ulimit))
 	}
 	if opt.User != nil {
-		cargs = append(cargs, "--user "+fmt.Sprint(*opt.User))
+		cargs = append(cargs, "--user="+fmt.Sprint(*opt.User))
 	}
 	if opt.Userns != nil {
-		cargs = append(cargs, "--userns "+fmt.Sprint(*opt.Userns))
+		cargs = append(cargs, "--userns="+fmt.Sprint(*opt.Userns))
 	}
 	if opt.Uts != nil {
-		cargs = append(cargs, "--uts "+fmt.Sprint(*opt.Uts))
+		cargs = append(cargs, "--uts="+fmt.Sprint(*opt.Uts))
 	}
 	if opt.Volume != nil {
 		for _, str := range opt.Volume {
-			cargs = append(cargs, "--volume "+str)
+			cargs = append(cargs, "--volume")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.VolumeDriver != nil {
-		cargs = append(cargs, "--volume-driver "+fmt.Sprint(*opt.VolumeDriver))
+		cargs = append(cargs, "--volume-driver="+fmt.Sprint(*opt.VolumeDriver))
 	}
 	if opt.VolumesFrom != nil {
 		for _, str := range opt.VolumesFrom {
-			cargs = append(cargs, "--volumes-from "+str)
+			cargs = append(cargs, "--volumes-from")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Workdir != nil {
-		cargs = append(cargs, "--workdir "+fmt.Sprint(*opt.Workdir))
+		cargs = append(cargs, "--workdir="+fmt.Sprint(*opt.Workdir))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerSaveOption struct {
@@ -8622,13 +8660,12 @@ Save one or more images to a tar archive (streamed to STDOUT by default)
 ------------------------------
 */
 func DockerSaveCmd(opt DockerSaveOption, args []string) *exec.Cmd {
-	name := "docker save"
-	cargs := []string{}
+	cargs := []string{"save"}
 	if opt.Output != nil {
-		cargs = append(cargs, "--output "+fmt.Sprint(*opt.Output))
+		cargs = append(cargs, "--output="+fmt.Sprint(*opt.Output))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerSearchOption struct {
@@ -8661,22 +8698,21 @@ Search the Docker Hub for images
 ------------------------------
 */
 func DockerSearchCmd(opt DockerSearchOption, args []string) *exec.Cmd {
-	name := "docker search"
-	cargs := []string{}
+	cargs := []string{"search"}
 	if opt.Filter != nil {
-		cargs = append(cargs, "--filter "+fmt.Sprint(*opt.Filter))
+		cargs = append(cargs, "--filter="+fmt.Sprint(*opt.Filter))
 	}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	if opt.Limit != nil {
-		cargs = append(cargs, "--limit "+fmt.Sprint(*opt.Limit))
+		cargs = append(cargs, "--limit="+fmt.Sprint(*opt.Limit))
 	}
 	if opt.NoTrunc != nil {
-		cargs = append(cargs, "--no-trunc "+fmt.Sprint(*opt.NoTrunc))
+		cargs = append(cargs, "--no-trunc="+fmt.Sprint(*opt.NoTrunc))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -8687,10 +8723,9 @@ Manage Docker secrets
 ------------------------------
 */
 func DockerSecretCmd(args []string) *exec.Cmd {
-	name := "docker secret"
-	cargs := []string{}
+	cargs := []string{"secret"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerSecretCreateOption struct {
@@ -8718,21 +8753,21 @@ Create a secret from a file or STDIN as content
 ------------------------------
 */
 func DockerSecretCreateCmd(opt DockerSecretCreateOption, args []string) *exec.Cmd {
-	name := "docker secret create"
-	cargs := []string{}
+	cargs := []string{"secret", "create"}
 	if opt.Driver != nil {
-		cargs = append(cargs, "--driver "+fmt.Sprint(*opt.Driver))
+		cargs = append(cargs, "--driver="+fmt.Sprint(*opt.Driver))
 	}
 	if opt.Label != nil {
 		for _, str := range opt.Label {
-			cargs = append(cargs, "--label "+str)
+			cargs = append(cargs, "--label")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.TemplateDriver != nil {
-		cargs = append(cargs, "--template-driver "+fmt.Sprint(*opt.TemplateDriver))
+		cargs = append(cargs, "--template-driver="+fmt.Sprint(*opt.TemplateDriver))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerSecretInspectOption struct {
@@ -8755,16 +8790,15 @@ Display detailed information on one or more secrets
 ------------------------------
 */
 func DockerSecretInspectCmd(opt DockerSecretInspectOption, args []string) *exec.Cmd {
-	name := "docker secret inspect"
-	cargs := []string{}
+	cargs := []string{"secret", "inspect"}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	if opt.Pretty != nil {
-		cargs = append(cargs, "--pretty "+fmt.Sprint(*opt.Pretty))
+		cargs = append(cargs, "--pretty="+fmt.Sprint(*opt.Pretty))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerSecretLsOption struct {
@@ -8792,19 +8826,18 @@ List secrets
 ------------------------------
 */
 func DockerSecretLsCmd(opt DockerSecretLsOption, args []string) *exec.Cmd {
-	name := "docker secret ls"
-	cargs := []string{}
+	cargs := []string{"secret", "ls"}
 	if opt.Filter != nil {
-		cargs = append(cargs, "--filter "+fmt.Sprint(*opt.Filter))
+		cargs = append(cargs, "--filter="+fmt.Sprint(*opt.Filter))
 	}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	if opt.Quiet != nil {
-		cargs = append(cargs, "--quiet "+fmt.Sprint(*opt.Quiet))
+		cargs = append(cargs, "--quiet="+fmt.Sprint(*opt.Quiet))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -8815,10 +8848,9 @@ Remove one or more secrets
 ------------------------------
 */
 func DockerSecretRmCmd(args []string) *exec.Cmd {
-	name := "docker secret rm"
-	cargs := []string{}
+	cargs := []string{"secret", "rm"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -8829,10 +8861,9 @@ Manage services
 ------------------------------
 */
 func DockerServiceCmd(args []string) *exec.Cmd {
-	name := "docker service"
-	cargs := []string{}
+	cargs := []string{"service"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerServiceCreateOption struct {
@@ -9200,253 +9231,267 @@ Create a new service
 ------------------------------
 */
 func DockerServiceCreateCmd(opt DockerServiceCreateOption, args []string) *exec.Cmd {
-	name := "docker service create"
-	cargs := []string{}
+	cargs := []string{"service", "create"}
 	if opt.CapAdd != nil {
 		for _, str := range opt.CapAdd {
-			cargs = append(cargs, "--cap-add "+str)
+			cargs = append(cargs, "--cap-add")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.CapDrop != nil {
 		for _, str := range opt.CapDrop {
-			cargs = append(cargs, "--cap-drop "+str)
+			cargs = append(cargs, "--cap-drop")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Config != nil {
-		cargs = append(cargs, "--config "+fmt.Sprint(*opt.Config))
+		cargs = append(cargs, "--config="+fmt.Sprint(*opt.Config))
 	}
 	if opt.Constraint != nil {
 		for _, str := range opt.Constraint {
-			cargs = append(cargs, "--constraint "+str)
+			cargs = append(cargs, "--constraint")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.ContainerLabel != nil {
 		for _, str := range opt.ContainerLabel {
-			cargs = append(cargs, "--container-label "+str)
+			cargs = append(cargs, "--container-label")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.CredentialSpec != nil {
-		cargs = append(cargs, "--credential-spec "+fmt.Sprint(*opt.CredentialSpec))
+		cargs = append(cargs, "--credential-spec="+fmt.Sprint(*opt.CredentialSpec))
 	}
 	if opt.Detach != nil {
-		cargs = append(cargs, "--detach "+fmt.Sprint(*opt.Detach))
+		cargs = append(cargs, "--detach="+fmt.Sprint(*opt.Detach))
 	}
 	if opt.Dns != nil {
 		for _, str := range opt.Dns {
-			cargs = append(cargs, "--dns "+str)
+			cargs = append(cargs, "--dns")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DnsOption != nil {
 		for _, str := range opt.DnsOption {
-			cargs = append(cargs, "--dns-option "+str)
+			cargs = append(cargs, "--dns-option")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DnsSearch != nil {
 		for _, str := range opt.DnsSearch {
-			cargs = append(cargs, "--dns-search "+str)
+			cargs = append(cargs, "--dns-search")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.EndpointMode != nil {
-		cargs = append(cargs, "--endpoint-mode "+fmt.Sprint(*opt.EndpointMode))
+		cargs = append(cargs, "--endpoint-mode="+fmt.Sprint(*opt.EndpointMode))
 	}
 	if opt.Entrypoint != nil {
-		cargs = append(cargs, "--entrypoint "+fmt.Sprint(*opt.Entrypoint))
+		cargs = append(cargs, "--entrypoint="+fmt.Sprint(*opt.Entrypoint))
 	}
 	if opt.Env != nil {
 		for _, str := range opt.Env {
-			cargs = append(cargs, "--env "+str)
+			cargs = append(cargs, "--env")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.EnvFile != nil {
 		for _, str := range opt.EnvFile {
-			cargs = append(cargs, "--env-file "+str)
+			cargs = append(cargs, "--env-file")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.GenericResource != nil {
 		for _, str := range opt.GenericResource {
-			cargs = append(cargs, "--generic-resource "+str)
+			cargs = append(cargs, "--generic-resource")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Group != nil {
 		for _, str := range opt.Group {
-			cargs = append(cargs, "--group "+str)
+			cargs = append(cargs, "--group")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.HealthCmd != nil {
-		cargs = append(cargs, "--health-cmd "+fmt.Sprint(*opt.HealthCmd))
+		cargs = append(cargs, "--health-cmd="+fmt.Sprint(*opt.HealthCmd))
 	}
 	if opt.HealthInterval != nil {
-		cargs = append(cargs, "--health-interval "+fmt.Sprint(*opt.HealthInterval))
+		cargs = append(cargs, "--health-interval="+fmt.Sprint(*opt.HealthInterval))
 	}
 	if opt.HealthRetries != nil {
-		cargs = append(cargs, "--health-retries "+fmt.Sprint(*opt.HealthRetries))
+		cargs = append(cargs, "--health-retries="+fmt.Sprint(*opt.HealthRetries))
 	}
 	if opt.HealthStartPeriod != nil {
-		cargs = append(cargs, "--health-start-period "+fmt.Sprint(*opt.HealthStartPeriod))
+		cargs = append(cargs, "--health-start-period="+fmt.Sprint(*opt.HealthStartPeriod))
 	}
 	if opt.HealthTimeout != nil {
-		cargs = append(cargs, "--health-timeout "+fmt.Sprint(*opt.HealthTimeout))
+		cargs = append(cargs, "--health-timeout="+fmt.Sprint(*opt.HealthTimeout))
 	}
 	if opt.Host != nil {
 		for _, str := range opt.Host {
-			cargs = append(cargs, "--host "+str)
+			cargs = append(cargs, "--host")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Hostname != nil {
-		cargs = append(cargs, "--hostname "+fmt.Sprint(*opt.Hostname))
+		cargs = append(cargs, "--hostname="+fmt.Sprint(*opt.Hostname))
 	}
 	if opt.Init != nil {
-		cargs = append(cargs, "--init "+fmt.Sprint(*opt.Init))
+		cargs = append(cargs, "--init="+fmt.Sprint(*opt.Init))
 	}
 	if opt.Isolation != nil {
-		cargs = append(cargs, "--isolation "+fmt.Sprint(*opt.Isolation))
+		cargs = append(cargs, "--isolation="+fmt.Sprint(*opt.Isolation))
 	}
 	if opt.Label != nil {
 		for _, str := range opt.Label {
-			cargs = append(cargs, "--label "+str)
+			cargs = append(cargs, "--label")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.LimitCpu != nil {
-		cargs = append(cargs, "--limit-cpu "+fmt.Sprint(*opt.LimitCpu))
+		cargs = append(cargs, "--limit-cpu="+fmt.Sprint(*opt.LimitCpu))
 	}
 	if opt.LimitMemory != nil {
-		cargs = append(cargs, "--limit-memory "+fmt.Sprint(*opt.LimitMemory))
+		cargs = append(cargs, "--limit-memory="+fmt.Sprint(*opt.LimitMemory))
 	}
 	if opt.LimitPids != nil {
-		cargs = append(cargs, "--limit-pids "+fmt.Sprint(*opt.LimitPids))
+		cargs = append(cargs, "--limit-pids="+fmt.Sprint(*opt.LimitPids))
 	}
 	if opt.LogDriver != nil {
-		cargs = append(cargs, "--log-driver "+fmt.Sprint(*opt.LogDriver))
+		cargs = append(cargs, "--log-driver="+fmt.Sprint(*opt.LogDriver))
 	}
 	if opt.LogOpt != nil {
 		for _, str := range opt.LogOpt {
-			cargs = append(cargs, "--log-opt "+str)
+			cargs = append(cargs, "--log-opt")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.MaxConcurrent != nil {
-		cargs = append(cargs, "--max-concurrent "+fmt.Sprint(*opt.MaxConcurrent))
+		cargs = append(cargs, "--max-concurrent="+fmt.Sprint(*opt.MaxConcurrent))
 	}
 	if opt.Mode != nil {
-		cargs = append(cargs, "--mode "+fmt.Sprint(*opt.Mode))
+		cargs = append(cargs, "--mode="+fmt.Sprint(*opt.Mode))
 	}
 	if opt.Mount != nil {
-		cargs = append(cargs, "--mount "+fmt.Sprint(*opt.Mount))
+		cargs = append(cargs, "--mount="+fmt.Sprint(*opt.Mount))
 	}
 	if opt.Name != nil {
-		cargs = append(cargs, "--name "+fmt.Sprint(*opt.Name))
+		cargs = append(cargs, "--name="+fmt.Sprint(*opt.Name))
 	}
 	if opt.Network != nil {
-		cargs = append(cargs, "--network "+fmt.Sprint(*opt.Network))
+		cargs = append(cargs, "--network="+fmt.Sprint(*opt.Network))
 	}
 	if opt.NoHealthcheck != nil {
-		cargs = append(cargs, "--no-healthcheck "+fmt.Sprint(*opt.NoHealthcheck))
+		cargs = append(cargs, "--no-healthcheck="+fmt.Sprint(*opt.NoHealthcheck))
 	}
 	if opt.NoResolveImage != nil {
-		cargs = append(cargs, "--no-resolve-image "+fmt.Sprint(*opt.NoResolveImage))
+		cargs = append(cargs, "--no-resolve-image="+fmt.Sprint(*opt.NoResolveImage))
 	}
 	if opt.PlacementPref != nil {
-		cargs = append(cargs, "--placement-pref "+fmt.Sprint(*opt.PlacementPref))
+		cargs = append(cargs, "--placement-pref="+fmt.Sprint(*opt.PlacementPref))
 	}
 	if opt.Publish != nil {
-		cargs = append(cargs, "--publish "+fmt.Sprint(*opt.Publish))
+		cargs = append(cargs, "--publish="+fmt.Sprint(*opt.Publish))
 	}
 	if opt.Quiet != nil {
-		cargs = append(cargs, "--quiet "+fmt.Sprint(*opt.Quiet))
+		cargs = append(cargs, "--quiet="+fmt.Sprint(*opt.Quiet))
 	}
 	if opt.ReadOnly != nil {
-		cargs = append(cargs, "--read-only "+fmt.Sprint(*opt.ReadOnly))
+		cargs = append(cargs, "--read-only="+fmt.Sprint(*opt.ReadOnly))
 	}
 	if opt.Replicas != nil {
-		cargs = append(cargs, "--replicas "+fmt.Sprint(*opt.Replicas))
+		cargs = append(cargs, "--replicas="+fmt.Sprint(*opt.Replicas))
 	}
 	if opt.ReplicasMaxPerNode != nil {
-		cargs = append(cargs, "--replicas-max-per-node "+fmt.Sprint(*opt.ReplicasMaxPerNode))
+		cargs = append(cargs, "--replicas-max-per-node="+fmt.Sprint(*opt.ReplicasMaxPerNode))
 	}
 	if opt.ReserveCpu != nil {
-		cargs = append(cargs, "--reserve-cpu "+fmt.Sprint(*opt.ReserveCpu))
+		cargs = append(cargs, "--reserve-cpu="+fmt.Sprint(*opt.ReserveCpu))
 	}
 	if opt.ReserveMemory != nil {
-		cargs = append(cargs, "--reserve-memory "+fmt.Sprint(*opt.ReserveMemory))
+		cargs = append(cargs, "--reserve-memory="+fmt.Sprint(*opt.ReserveMemory))
 	}
 	if opt.RestartCondition != nil {
-		cargs = append(cargs, "--restart-condition "+fmt.Sprint(*opt.RestartCondition))
+		cargs = append(cargs, "--restart-condition="+fmt.Sprint(*opt.RestartCondition))
 	}
 	if opt.RestartDelay != nil {
-		cargs = append(cargs, "--restart-delay "+fmt.Sprint(*opt.RestartDelay))
+		cargs = append(cargs, "--restart-delay="+fmt.Sprint(*opt.RestartDelay))
 	}
 	if opt.RestartMaxAttempts != nil {
-		cargs = append(cargs, "--restart-max-attempts "+fmt.Sprint(*opt.RestartMaxAttempts))
+		cargs = append(cargs, "--restart-max-attempts="+fmt.Sprint(*opt.RestartMaxAttempts))
 	}
 	if opt.RestartWindow != nil {
-		cargs = append(cargs, "--restart-window "+fmt.Sprint(*opt.RestartWindow))
+		cargs = append(cargs, "--restart-window="+fmt.Sprint(*opt.RestartWindow))
 	}
 	if opt.RollbackDelay != nil {
-		cargs = append(cargs, "--rollback-delay "+fmt.Sprint(*opt.RollbackDelay))
+		cargs = append(cargs, "--rollback-delay="+fmt.Sprint(*opt.RollbackDelay))
 	}
 	if opt.RollbackFailureAction != nil {
-		cargs = append(cargs, "--rollback-failure-action "+fmt.Sprint(*opt.RollbackFailureAction))
+		cargs = append(cargs, "--rollback-failure-action="+fmt.Sprint(*opt.RollbackFailureAction))
 	}
 	if opt.RollbackMaxFailureRatio != nil {
-		cargs = append(cargs, "--rollback-max-failure-ratio "+fmt.Sprint(*opt.RollbackMaxFailureRatio))
+		cargs = append(cargs, "--rollback-max-failure-ratio="+fmt.Sprint(*opt.RollbackMaxFailureRatio))
 	}
 	if opt.RollbackMonitor != nil {
-		cargs = append(cargs, "--rollback-monitor "+fmt.Sprint(*opt.RollbackMonitor))
+		cargs = append(cargs, "--rollback-monitor="+fmt.Sprint(*opt.RollbackMonitor))
 	}
 	if opt.RollbackOrder != nil {
-		cargs = append(cargs, "--rollback-order "+fmt.Sprint(*opt.RollbackOrder))
+		cargs = append(cargs, "--rollback-order="+fmt.Sprint(*opt.RollbackOrder))
 	}
 	if opt.RollbackParallelism != nil {
-		cargs = append(cargs, "--rollback-parallelism "+fmt.Sprint(*opt.RollbackParallelism))
+		cargs = append(cargs, "--rollback-parallelism="+fmt.Sprint(*opt.RollbackParallelism))
 	}
 	if opt.Secret != nil {
-		cargs = append(cargs, "--secret "+fmt.Sprint(*opt.Secret))
+		cargs = append(cargs, "--secret="+fmt.Sprint(*opt.Secret))
 	}
 	if opt.StopGracePeriod != nil {
-		cargs = append(cargs, "--stop-grace-period "+fmt.Sprint(*opt.StopGracePeriod))
+		cargs = append(cargs, "--stop-grace-period="+fmt.Sprint(*opt.StopGracePeriod))
 	}
 	if opt.StopSignal != nil {
-		cargs = append(cargs, "--stop-signal "+fmt.Sprint(*opt.StopSignal))
+		cargs = append(cargs, "--stop-signal="+fmt.Sprint(*opt.StopSignal))
 	}
 	if opt.Sysctl != nil {
 		for _, str := range opt.Sysctl {
-			cargs = append(cargs, "--sysctl "+str)
+			cargs = append(cargs, "--sysctl")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Tty != nil {
-		cargs = append(cargs, "--tty "+fmt.Sprint(*opt.Tty))
+		cargs = append(cargs, "--tty="+fmt.Sprint(*opt.Tty))
 	}
 	if opt.Ulimit != nil {
-		cargs = append(cargs, "--ulimit "+fmt.Sprint(*opt.Ulimit))
+		cargs = append(cargs, "--ulimit="+fmt.Sprint(*opt.Ulimit))
 	}
 	if opt.UpdateDelay != nil {
-		cargs = append(cargs, "--update-delay "+fmt.Sprint(*opt.UpdateDelay))
+		cargs = append(cargs, "--update-delay="+fmt.Sprint(*opt.UpdateDelay))
 	}
 	if opt.UpdateFailureAction != nil {
-		cargs = append(cargs, "--update-failure-action "+fmt.Sprint(*opt.UpdateFailureAction))
+		cargs = append(cargs, "--update-failure-action="+fmt.Sprint(*opt.UpdateFailureAction))
 	}
 	if opt.UpdateMaxFailureRatio != nil {
-		cargs = append(cargs, "--update-max-failure-ratio "+fmt.Sprint(*opt.UpdateMaxFailureRatio))
+		cargs = append(cargs, "--update-max-failure-ratio="+fmt.Sprint(*opt.UpdateMaxFailureRatio))
 	}
 	if opt.UpdateMonitor != nil {
-		cargs = append(cargs, "--update-monitor "+fmt.Sprint(*opt.UpdateMonitor))
+		cargs = append(cargs, "--update-monitor="+fmt.Sprint(*opt.UpdateMonitor))
 	}
 	if opt.UpdateOrder != nil {
-		cargs = append(cargs, "--update-order "+fmt.Sprint(*opt.UpdateOrder))
+		cargs = append(cargs, "--update-order="+fmt.Sprint(*opt.UpdateOrder))
 	}
 	if opt.UpdateParallelism != nil {
-		cargs = append(cargs, "--update-parallelism "+fmt.Sprint(*opt.UpdateParallelism))
+		cargs = append(cargs, "--update-parallelism="+fmt.Sprint(*opt.UpdateParallelism))
 	}
 	if opt.User != nil {
-		cargs = append(cargs, "--user "+fmt.Sprint(*opt.User))
+		cargs = append(cargs, "--user="+fmt.Sprint(*opt.User))
 	}
 	if opt.WithRegistryAuth != nil {
-		cargs = append(cargs, "--with-registry-auth "+fmt.Sprint(*opt.WithRegistryAuth))
+		cargs = append(cargs, "--with-registry-auth="+fmt.Sprint(*opt.WithRegistryAuth))
 	}
 	if opt.Workdir != nil {
-		cargs = append(cargs, "--workdir "+fmt.Sprint(*opt.Workdir))
+		cargs = append(cargs, "--workdir="+fmt.Sprint(*opt.Workdir))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerServiceInspectOption struct {
@@ -9469,16 +9514,15 @@ Display detailed information on one or more services
 ------------------------------
 */
 func DockerServiceInspectCmd(opt DockerServiceInspectOption, args []string) *exec.Cmd {
-	name := "docker service inspect"
-	cargs := []string{}
+	cargs := []string{"service", "inspect"}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	if opt.Pretty != nil {
-		cargs = append(cargs, "--pretty "+fmt.Sprint(*opt.Pretty))
+		cargs = append(cargs, "--pretty="+fmt.Sprint(*opt.Pretty))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerServiceLogsOption struct {
@@ -9536,37 +9580,36 @@ Fetch the logs of a service or task
 ------------------------------
 */
 func DockerServiceLogsCmd(opt DockerServiceLogsOption, args []string) *exec.Cmd {
-	name := "docker service logs"
-	cargs := []string{}
+	cargs := []string{"service", "logs"}
 	if opt.Details != nil {
-		cargs = append(cargs, "--details "+fmt.Sprint(*opt.Details))
+		cargs = append(cargs, "--details="+fmt.Sprint(*opt.Details))
 	}
 	if opt.Follow != nil {
-		cargs = append(cargs, "--follow "+fmt.Sprint(*opt.Follow))
+		cargs = append(cargs, "--follow="+fmt.Sprint(*opt.Follow))
 	}
 	if opt.NoResolve != nil {
-		cargs = append(cargs, "--no-resolve "+fmt.Sprint(*opt.NoResolve))
+		cargs = append(cargs, "--no-resolve="+fmt.Sprint(*opt.NoResolve))
 	}
 	if opt.NoTaskIds != nil {
-		cargs = append(cargs, "--no-task-ids "+fmt.Sprint(*opt.NoTaskIds))
+		cargs = append(cargs, "--no-task-ids="+fmt.Sprint(*opt.NoTaskIds))
 	}
 	if opt.NoTrunc != nil {
-		cargs = append(cargs, "--no-trunc "+fmt.Sprint(*opt.NoTrunc))
+		cargs = append(cargs, "--no-trunc="+fmt.Sprint(*opt.NoTrunc))
 	}
 	if opt.Raw != nil {
-		cargs = append(cargs, "--raw "+fmt.Sprint(*opt.Raw))
+		cargs = append(cargs, "--raw="+fmt.Sprint(*opt.Raw))
 	}
 	if opt.Since != nil {
-		cargs = append(cargs, "--since "+fmt.Sprint(*opt.Since))
+		cargs = append(cargs, "--since="+fmt.Sprint(*opt.Since))
 	}
 	if opt.Tail != nil {
-		cargs = append(cargs, "--tail "+fmt.Sprint(*opt.Tail))
+		cargs = append(cargs, "--tail="+fmt.Sprint(*opt.Tail))
 	}
 	if opt.Timestamps != nil {
-		cargs = append(cargs, "--timestamps "+fmt.Sprint(*opt.Timestamps))
+		cargs = append(cargs, "--timestamps="+fmt.Sprint(*opt.Timestamps))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerServiceLsOption struct {
@@ -9594,19 +9637,18 @@ List services
 ------------------------------
 */
 func DockerServiceLsCmd(opt DockerServiceLsOption, args []string) *exec.Cmd {
-	name := "docker service ls"
-	cargs := []string{}
+	cargs := []string{"service", "ls"}
 	if opt.Filter != nil {
-		cargs = append(cargs, "--filter "+fmt.Sprint(*opt.Filter))
+		cargs = append(cargs, "--filter="+fmt.Sprint(*opt.Filter))
 	}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	if opt.Quiet != nil {
-		cargs = append(cargs, "--quiet "+fmt.Sprint(*opt.Quiet))
+		cargs = append(cargs, "--quiet="+fmt.Sprint(*opt.Quiet))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerServicePsOption struct {
@@ -9644,25 +9686,24 @@ List the tasks of one or more services
 ------------------------------
 */
 func DockerServicePsCmd(opt DockerServicePsOption, args []string) *exec.Cmd {
-	name := "docker service ps"
-	cargs := []string{}
+	cargs := []string{"service", "ps"}
 	if opt.Filter != nil {
-		cargs = append(cargs, "--filter "+fmt.Sprint(*opt.Filter))
+		cargs = append(cargs, "--filter="+fmt.Sprint(*opt.Filter))
 	}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	if opt.NoResolve != nil {
-		cargs = append(cargs, "--no-resolve "+fmt.Sprint(*opt.NoResolve))
+		cargs = append(cargs, "--no-resolve="+fmt.Sprint(*opt.NoResolve))
 	}
 	if opt.NoTrunc != nil {
-		cargs = append(cargs, "--no-trunc "+fmt.Sprint(*opt.NoTrunc))
+		cargs = append(cargs, "--no-trunc="+fmt.Sprint(*opt.NoTrunc))
 	}
 	if opt.Quiet != nil {
-		cargs = append(cargs, "--quiet "+fmt.Sprint(*opt.Quiet))
+		cargs = append(cargs, "--quiet="+fmt.Sprint(*opt.Quiet))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -9673,10 +9714,9 @@ Remove one or more services
 ------------------------------
 */
 func DockerServiceRmCmd(args []string) *exec.Cmd {
-	name := "docker service rm"
-	cargs := []string{}
+	cargs := []string{"service", "rm"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerServiceRollbackOption struct {
@@ -9699,16 +9739,15 @@ Revert changes to a service's configuration
 ------------------------------
 */
 func DockerServiceRollbackCmd(opt DockerServiceRollbackOption, args []string) *exec.Cmd {
-	name := "docker service rollback"
-	cargs := []string{}
+	cargs := []string{"service", "rollback"}
 	if opt.Detach != nil {
-		cargs = append(cargs, "--detach "+fmt.Sprint(*opt.Detach))
+		cargs = append(cargs, "--detach="+fmt.Sprint(*opt.Detach))
 	}
 	if opt.Quiet != nil {
-		cargs = append(cargs, "--quiet "+fmt.Sprint(*opt.Quiet))
+		cargs = append(cargs, "--quiet="+fmt.Sprint(*opt.Quiet))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerServiceScaleOption struct {
@@ -9726,13 +9765,12 @@ Scale one or multiple replicated services
 ------------------------------
 */
 func DockerServiceScaleCmd(opt DockerServiceScaleOption, args []string) *exec.Cmd {
-	name := "docker service scale"
-	cargs := []string{}
+	cargs := []string{"service", "scale"}
 	if opt.Detach != nil {
-		cargs = append(cargs, "--detach "+fmt.Sprint(*opt.Detach))
+		cargs = append(cargs, "--detach="+fmt.Sprint(*opt.Detach))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerServiceUpdateOption struct {
@@ -10195,340 +10233,369 @@ Update a service
 ------------------------------
 */
 func DockerServiceUpdateCmd(opt DockerServiceUpdateOption, args []string) *exec.Cmd {
-	name := "docker service update"
-	cargs := []string{}
+	cargs := []string{"service", "update"}
 	if opt.Args != nil {
-		cargs = append(cargs, "--args "+fmt.Sprint(*opt.Args))
+		cargs = append(cargs, "--args="+fmt.Sprint(*opt.Args))
 	}
 	if opt.CapAdd != nil {
 		for _, str := range opt.CapAdd {
-			cargs = append(cargs, "--cap-add "+str)
+			cargs = append(cargs, "--cap-add")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.CapDrop != nil {
 		for _, str := range opt.CapDrop {
-			cargs = append(cargs, "--cap-drop "+str)
+			cargs = append(cargs, "--cap-drop")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.ConfigAdd != nil {
-		cargs = append(cargs, "--config-add "+fmt.Sprint(*opt.ConfigAdd))
+		cargs = append(cargs, "--config-add="+fmt.Sprint(*opt.ConfigAdd))
 	}
 	if opt.ConfigRm != nil {
 		for _, str := range opt.ConfigRm {
-			cargs = append(cargs, "--config-rm "+str)
+			cargs = append(cargs, "--config-rm")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.ConstraintAdd != nil {
 		for _, str := range opt.ConstraintAdd {
-			cargs = append(cargs, "--constraint-add "+str)
+			cargs = append(cargs, "--constraint-add")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.ConstraintRm != nil {
 		for _, str := range opt.ConstraintRm {
-			cargs = append(cargs, "--constraint-rm "+str)
+			cargs = append(cargs, "--constraint-rm")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.ContainerLabelAdd != nil {
 		for _, str := range opt.ContainerLabelAdd {
-			cargs = append(cargs, "--container-label-add "+str)
+			cargs = append(cargs, "--container-label-add")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.ContainerLabelRm != nil {
 		for _, str := range opt.ContainerLabelRm {
-			cargs = append(cargs, "--container-label-rm "+str)
+			cargs = append(cargs, "--container-label-rm")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.CredentialSpec != nil {
-		cargs = append(cargs, "--credential-spec "+fmt.Sprint(*opt.CredentialSpec))
+		cargs = append(cargs, "--credential-spec="+fmt.Sprint(*opt.CredentialSpec))
 	}
 	if opt.Detach != nil {
-		cargs = append(cargs, "--detach "+fmt.Sprint(*opt.Detach))
+		cargs = append(cargs, "--detach="+fmt.Sprint(*opt.Detach))
 	}
 	if opt.DnsAdd != nil {
 		for _, str := range opt.DnsAdd {
-			cargs = append(cargs, "--dns-add "+str)
+			cargs = append(cargs, "--dns-add")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DnsOptionAdd != nil {
 		for _, str := range opt.DnsOptionAdd {
-			cargs = append(cargs, "--dns-option-add "+str)
+			cargs = append(cargs, "--dns-option-add")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DnsOptionRm != nil {
 		for _, str := range opt.DnsOptionRm {
-			cargs = append(cargs, "--dns-option-rm "+str)
+			cargs = append(cargs, "--dns-option-rm")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DnsRm != nil {
 		for _, str := range opt.DnsRm {
-			cargs = append(cargs, "--dns-rm "+str)
+			cargs = append(cargs, "--dns-rm")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DnsSearchAdd != nil {
 		for _, str := range opt.DnsSearchAdd {
-			cargs = append(cargs, "--dns-search-add "+str)
+			cargs = append(cargs, "--dns-search-add")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.DnsSearchRm != nil {
 		for _, str := range opt.DnsSearchRm {
-			cargs = append(cargs, "--dns-search-rm "+str)
+			cargs = append(cargs, "--dns-search-rm")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.EndpointMode != nil {
-		cargs = append(cargs, "--endpoint-mode "+fmt.Sprint(*opt.EndpointMode))
+		cargs = append(cargs, "--endpoint-mode="+fmt.Sprint(*opt.EndpointMode))
 	}
 	if opt.Entrypoint != nil {
-		cargs = append(cargs, "--entrypoint "+fmt.Sprint(*opt.Entrypoint))
+		cargs = append(cargs, "--entrypoint="+fmt.Sprint(*opt.Entrypoint))
 	}
 	if opt.EnvAdd != nil {
 		for _, str := range opt.EnvAdd {
-			cargs = append(cargs, "--env-add "+str)
+			cargs = append(cargs, "--env-add")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.EnvRm != nil {
 		for _, str := range opt.EnvRm {
-			cargs = append(cargs, "--env-rm "+str)
+			cargs = append(cargs, "--env-rm")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Force != nil {
-		cargs = append(cargs, "--force "+fmt.Sprint(*opt.Force))
+		cargs = append(cargs, "--force="+fmt.Sprint(*opt.Force))
 	}
 	if opt.GenericResourceAdd != nil {
 		for _, str := range opt.GenericResourceAdd {
-			cargs = append(cargs, "--generic-resource-add "+str)
+			cargs = append(cargs, "--generic-resource-add")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.GenericResourceRm != nil {
 		for _, str := range opt.GenericResourceRm {
-			cargs = append(cargs, "--generic-resource-rm "+str)
+			cargs = append(cargs, "--generic-resource-rm")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.GroupAdd != nil {
 		for _, str := range opt.GroupAdd {
-			cargs = append(cargs, "--group-add "+str)
+			cargs = append(cargs, "--group-add")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.GroupRm != nil {
 		for _, str := range opt.GroupRm {
-			cargs = append(cargs, "--group-rm "+str)
+			cargs = append(cargs, "--group-rm")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.HealthCmd != nil {
-		cargs = append(cargs, "--health-cmd "+fmt.Sprint(*opt.HealthCmd))
+		cargs = append(cargs, "--health-cmd="+fmt.Sprint(*opt.HealthCmd))
 	}
 	if opt.HealthInterval != nil {
-		cargs = append(cargs, "--health-interval "+fmt.Sprint(*opt.HealthInterval))
+		cargs = append(cargs, "--health-interval="+fmt.Sprint(*opt.HealthInterval))
 	}
 	if opt.HealthRetries != nil {
-		cargs = append(cargs, "--health-retries "+fmt.Sprint(*opt.HealthRetries))
+		cargs = append(cargs, "--health-retries="+fmt.Sprint(*opt.HealthRetries))
 	}
 	if opt.HealthStartPeriod != nil {
-		cargs = append(cargs, "--health-start-period "+fmt.Sprint(*opt.HealthStartPeriod))
+		cargs = append(cargs, "--health-start-period="+fmt.Sprint(*opt.HealthStartPeriod))
 	}
 	if opt.HealthTimeout != nil {
-		cargs = append(cargs, "--health-timeout "+fmt.Sprint(*opt.HealthTimeout))
+		cargs = append(cargs, "--health-timeout="+fmt.Sprint(*opt.HealthTimeout))
 	}
 	if opt.HostAdd != nil {
 		for _, str := range opt.HostAdd {
-			cargs = append(cargs, "--host-add "+str)
+			cargs = append(cargs, "--host-add")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.HostRm != nil {
 		for _, str := range opt.HostRm {
-			cargs = append(cargs, "--host-rm "+str)
+			cargs = append(cargs, "--host-rm")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Hostname != nil {
-		cargs = append(cargs, "--hostname "+fmt.Sprint(*opt.Hostname))
+		cargs = append(cargs, "--hostname="+fmt.Sprint(*opt.Hostname))
 	}
 	if opt.Image != nil {
-		cargs = append(cargs, "--image "+fmt.Sprint(*opt.Image))
+		cargs = append(cargs, "--image="+fmt.Sprint(*opt.Image))
 	}
 	if opt.Init != nil {
-		cargs = append(cargs, "--init "+fmt.Sprint(*opt.Init))
+		cargs = append(cargs, "--init="+fmt.Sprint(*opt.Init))
 	}
 	if opt.Isolation != nil {
-		cargs = append(cargs, "--isolation "+fmt.Sprint(*opt.Isolation))
+		cargs = append(cargs, "--isolation="+fmt.Sprint(*opt.Isolation))
 	}
 	if opt.LabelAdd != nil {
 		for _, str := range opt.LabelAdd {
-			cargs = append(cargs, "--label-add "+str)
+			cargs = append(cargs, "--label-add")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.LabelRm != nil {
 		for _, str := range opt.LabelRm {
-			cargs = append(cargs, "--label-rm "+str)
+			cargs = append(cargs, "--label-rm")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.LimitCpu != nil {
-		cargs = append(cargs, "--limit-cpu "+fmt.Sprint(*opt.LimitCpu))
+		cargs = append(cargs, "--limit-cpu="+fmt.Sprint(*opt.LimitCpu))
 	}
 	if opt.LimitMemory != nil {
-		cargs = append(cargs, "--limit-memory "+fmt.Sprint(*opt.LimitMemory))
+		cargs = append(cargs, "--limit-memory="+fmt.Sprint(*opt.LimitMemory))
 	}
 	if opt.LimitPids != nil {
-		cargs = append(cargs, "--limit-pids "+fmt.Sprint(*opt.LimitPids))
+		cargs = append(cargs, "--limit-pids="+fmt.Sprint(*opt.LimitPids))
 	}
 	if opt.LogDriver != nil {
-		cargs = append(cargs, "--log-driver "+fmt.Sprint(*opt.LogDriver))
+		cargs = append(cargs, "--log-driver="+fmt.Sprint(*opt.LogDriver))
 	}
 	if opt.LogOpt != nil {
 		for _, str := range opt.LogOpt {
-			cargs = append(cargs, "--log-opt "+str)
+			cargs = append(cargs, "--log-opt")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.MaxConcurrent != nil {
-		cargs = append(cargs, "--max-concurrent "+fmt.Sprint(*opt.MaxConcurrent))
+		cargs = append(cargs, "--max-concurrent="+fmt.Sprint(*opt.MaxConcurrent))
 	}
 	if opt.MountAdd != nil {
-		cargs = append(cargs, "--mount-add "+fmt.Sprint(*opt.MountAdd))
+		cargs = append(cargs, "--mount-add="+fmt.Sprint(*opt.MountAdd))
 	}
 	if opt.MountRm != nil {
 		for _, str := range opt.MountRm {
-			cargs = append(cargs, "--mount-rm "+str)
+			cargs = append(cargs, "--mount-rm")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.NetworkAdd != nil {
-		cargs = append(cargs, "--network-add "+fmt.Sprint(*opt.NetworkAdd))
+		cargs = append(cargs, "--network-add="+fmt.Sprint(*opt.NetworkAdd))
 	}
 	if opt.NetworkRm != nil {
 		for _, str := range opt.NetworkRm {
-			cargs = append(cargs, "--network-rm "+str)
+			cargs = append(cargs, "--network-rm")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.NoHealthcheck != nil {
-		cargs = append(cargs, "--no-healthcheck "+fmt.Sprint(*opt.NoHealthcheck))
+		cargs = append(cargs, "--no-healthcheck="+fmt.Sprint(*opt.NoHealthcheck))
 	}
 	if opt.NoResolveImage != nil {
-		cargs = append(cargs, "--no-resolve-image "+fmt.Sprint(*opt.NoResolveImage))
+		cargs = append(cargs, "--no-resolve-image="+fmt.Sprint(*opt.NoResolveImage))
 	}
 	if opt.PlacementPrefAdd != nil {
-		cargs = append(cargs, "--placement-pref-add "+fmt.Sprint(*opt.PlacementPrefAdd))
+		cargs = append(cargs, "--placement-pref-add="+fmt.Sprint(*opt.PlacementPrefAdd))
 	}
 	if opt.PlacementPrefRm != nil {
-		cargs = append(cargs, "--placement-pref-rm "+fmt.Sprint(*opt.PlacementPrefRm))
+		cargs = append(cargs, "--placement-pref-rm="+fmt.Sprint(*opt.PlacementPrefRm))
 	}
 	if opt.PublishAdd != nil {
-		cargs = append(cargs, "--publish-add "+fmt.Sprint(*opt.PublishAdd))
+		cargs = append(cargs, "--publish-add="+fmt.Sprint(*opt.PublishAdd))
 	}
 	if opt.PublishRm != nil {
-		cargs = append(cargs, "--publish-rm "+fmt.Sprint(*opt.PublishRm))
+		cargs = append(cargs, "--publish-rm="+fmt.Sprint(*opt.PublishRm))
 	}
 	if opt.Quiet != nil {
-		cargs = append(cargs, "--quiet "+fmt.Sprint(*opt.Quiet))
+		cargs = append(cargs, "--quiet="+fmt.Sprint(*opt.Quiet))
 	}
 	if opt.ReadOnly != nil {
-		cargs = append(cargs, "--read-only "+fmt.Sprint(*opt.ReadOnly))
+		cargs = append(cargs, "--read-only="+fmt.Sprint(*opt.ReadOnly))
 	}
 	if opt.Replicas != nil {
-		cargs = append(cargs, "--replicas "+fmt.Sprint(*opt.Replicas))
+		cargs = append(cargs, "--replicas="+fmt.Sprint(*opt.Replicas))
 	}
 	if opt.ReplicasMaxPerNode != nil {
-		cargs = append(cargs, "--replicas-max-per-node "+fmt.Sprint(*opt.ReplicasMaxPerNode))
+		cargs = append(cargs, "--replicas-max-per-node="+fmt.Sprint(*opt.ReplicasMaxPerNode))
 	}
 	if opt.ReserveCpu != nil {
-		cargs = append(cargs, "--reserve-cpu "+fmt.Sprint(*opt.ReserveCpu))
+		cargs = append(cargs, "--reserve-cpu="+fmt.Sprint(*opt.ReserveCpu))
 	}
 	if opt.ReserveMemory != nil {
-		cargs = append(cargs, "--reserve-memory "+fmt.Sprint(*opt.ReserveMemory))
+		cargs = append(cargs, "--reserve-memory="+fmt.Sprint(*opt.ReserveMemory))
 	}
 	if opt.RestartCondition != nil {
-		cargs = append(cargs, "--restart-condition "+fmt.Sprint(*opt.RestartCondition))
+		cargs = append(cargs, "--restart-condition="+fmt.Sprint(*opt.RestartCondition))
 	}
 	if opt.RestartDelay != nil {
-		cargs = append(cargs, "--restart-delay "+fmt.Sprint(*opt.RestartDelay))
+		cargs = append(cargs, "--restart-delay="+fmt.Sprint(*opt.RestartDelay))
 	}
 	if opt.RestartMaxAttempts != nil {
-		cargs = append(cargs, "--restart-max-attempts "+fmt.Sprint(*opt.RestartMaxAttempts))
+		cargs = append(cargs, "--restart-max-attempts="+fmt.Sprint(*opt.RestartMaxAttempts))
 	}
 	if opt.RestartWindow != nil {
-		cargs = append(cargs, "--restart-window "+fmt.Sprint(*opt.RestartWindow))
+		cargs = append(cargs, "--restart-window="+fmt.Sprint(*opt.RestartWindow))
 	}
 	if opt.Rollback != nil {
-		cargs = append(cargs, "--rollback "+fmt.Sprint(*opt.Rollback))
+		cargs = append(cargs, "--rollback="+fmt.Sprint(*opt.Rollback))
 	}
 	if opt.RollbackDelay != nil {
-		cargs = append(cargs, "--rollback-delay "+fmt.Sprint(*opt.RollbackDelay))
+		cargs = append(cargs, "--rollback-delay="+fmt.Sprint(*opt.RollbackDelay))
 	}
 	if opt.RollbackFailureAction != nil {
-		cargs = append(cargs, "--rollback-failure-action "+fmt.Sprint(*opt.RollbackFailureAction))
+		cargs = append(cargs, "--rollback-failure-action="+fmt.Sprint(*opt.RollbackFailureAction))
 	}
 	if opt.RollbackMaxFailureRatio != nil {
-		cargs = append(cargs, "--rollback-max-failure-ratio "+fmt.Sprint(*opt.RollbackMaxFailureRatio))
+		cargs = append(cargs, "--rollback-max-failure-ratio="+fmt.Sprint(*opt.RollbackMaxFailureRatio))
 	}
 	if opt.RollbackMonitor != nil {
-		cargs = append(cargs, "--rollback-monitor "+fmt.Sprint(*opt.RollbackMonitor))
+		cargs = append(cargs, "--rollback-monitor="+fmt.Sprint(*opt.RollbackMonitor))
 	}
 	if opt.RollbackOrder != nil {
-		cargs = append(cargs, "--rollback-order "+fmt.Sprint(*opt.RollbackOrder))
+		cargs = append(cargs, "--rollback-order="+fmt.Sprint(*opt.RollbackOrder))
 	}
 	if opt.RollbackParallelism != nil {
-		cargs = append(cargs, "--rollback-parallelism "+fmt.Sprint(*opt.RollbackParallelism))
+		cargs = append(cargs, "--rollback-parallelism="+fmt.Sprint(*opt.RollbackParallelism))
 	}
 	if opt.SecretAdd != nil {
-		cargs = append(cargs, "--secret-add "+fmt.Sprint(*opt.SecretAdd))
+		cargs = append(cargs, "--secret-add="+fmt.Sprint(*opt.SecretAdd))
 	}
 	if opt.SecretRm != nil {
 		for _, str := range opt.SecretRm {
-			cargs = append(cargs, "--secret-rm "+str)
+			cargs = append(cargs, "--secret-rm")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.StopGracePeriod != nil {
-		cargs = append(cargs, "--stop-grace-period "+fmt.Sprint(*opt.StopGracePeriod))
+		cargs = append(cargs, "--stop-grace-period="+fmt.Sprint(*opt.StopGracePeriod))
 	}
 	if opt.StopSignal != nil {
-		cargs = append(cargs, "--stop-signal "+fmt.Sprint(*opt.StopSignal))
+		cargs = append(cargs, "--stop-signal="+fmt.Sprint(*opt.StopSignal))
 	}
 	if opt.SysctlAdd != nil {
 		for _, str := range opt.SysctlAdd {
-			cargs = append(cargs, "--sysctl-add "+str)
+			cargs = append(cargs, "--sysctl-add")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.SysctlRm != nil {
 		for _, str := range opt.SysctlRm {
-			cargs = append(cargs, "--sysctl-rm "+str)
+			cargs = append(cargs, "--sysctl-rm")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Tty != nil {
-		cargs = append(cargs, "--tty "+fmt.Sprint(*opt.Tty))
+		cargs = append(cargs, "--tty="+fmt.Sprint(*opt.Tty))
 	}
 	if opt.UlimitAdd != nil {
-		cargs = append(cargs, "--ulimit-add "+fmt.Sprint(*opt.UlimitAdd))
+		cargs = append(cargs, "--ulimit-add="+fmt.Sprint(*opt.UlimitAdd))
 	}
 	if opt.UlimitRm != nil {
 		for _, str := range opt.UlimitRm {
-			cargs = append(cargs, "--ulimit-rm "+str)
+			cargs = append(cargs, "--ulimit-rm")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.UpdateDelay != nil {
-		cargs = append(cargs, "--update-delay "+fmt.Sprint(*opt.UpdateDelay))
+		cargs = append(cargs, "--update-delay="+fmt.Sprint(*opt.UpdateDelay))
 	}
 	if opt.UpdateFailureAction != nil {
-		cargs = append(cargs, "--update-failure-action "+fmt.Sprint(*opt.UpdateFailureAction))
+		cargs = append(cargs, "--update-failure-action="+fmt.Sprint(*opt.UpdateFailureAction))
 	}
 	if opt.UpdateMaxFailureRatio != nil {
-		cargs = append(cargs, "--update-max-failure-ratio "+fmt.Sprint(*opt.UpdateMaxFailureRatio))
+		cargs = append(cargs, "--update-max-failure-ratio="+fmt.Sprint(*opt.UpdateMaxFailureRatio))
 	}
 	if opt.UpdateMonitor != nil {
-		cargs = append(cargs, "--update-monitor "+fmt.Sprint(*opt.UpdateMonitor))
+		cargs = append(cargs, "--update-monitor="+fmt.Sprint(*opt.UpdateMonitor))
 	}
 	if opt.UpdateOrder != nil {
-		cargs = append(cargs, "--update-order "+fmt.Sprint(*opt.UpdateOrder))
+		cargs = append(cargs, "--update-order="+fmt.Sprint(*opt.UpdateOrder))
 	}
 	if opt.UpdateParallelism != nil {
-		cargs = append(cargs, "--update-parallelism "+fmt.Sprint(*opt.UpdateParallelism))
+		cargs = append(cargs, "--update-parallelism="+fmt.Sprint(*opt.UpdateParallelism))
 	}
 	if opt.User != nil {
-		cargs = append(cargs, "--user "+fmt.Sprint(*opt.User))
+		cargs = append(cargs, "--user="+fmt.Sprint(*opt.User))
 	}
 	if opt.WithRegistryAuth != nil {
-		cargs = append(cargs, "--with-registry-auth "+fmt.Sprint(*opt.WithRegistryAuth))
+		cargs = append(cargs, "--with-registry-auth="+fmt.Sprint(*opt.WithRegistryAuth))
 	}
 	if opt.Workdir != nil {
-		cargs = append(cargs, "--workdir "+fmt.Sprint(*opt.Workdir))
+		cargs = append(cargs, "--workdir="+fmt.Sprint(*opt.Workdir))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -10539,10 +10606,9 @@ Manage Docker stacks
 ------------------------------
 */
 func DockerStackCmd(args []string) *exec.Cmd {
-	name := "docker stack"
-	cargs := []string{}
+	cargs := []string{"stack"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerStackDeployOption struct {
@@ -10580,25 +10646,24 @@ Deploy a new stack or update an existing stack
 ------------------------------
 */
 func DockerStackDeployCmd(opt DockerStackDeployOption, args []string) *exec.Cmd {
-	name := "docker stack deploy"
-	cargs := []string{}
+	cargs := []string{"stack", "deploy"}
 	if opt.ComposeFile != nil {
-		cargs = append(cargs, "--compose-file "+fmt.Sprint(*opt.ComposeFile))
+		cargs = append(cargs, "--compose-file="+fmt.Sprint(*opt.ComposeFile))
 	}
 	if opt.Namespace != nil {
-		cargs = append(cargs, "--namespace "+fmt.Sprint(*opt.Namespace))
+		cargs = append(cargs, "--namespace="+fmt.Sprint(*opt.Namespace))
 	}
 	if opt.Prune != nil {
-		cargs = append(cargs, "--prune "+fmt.Sprint(*opt.Prune))
+		cargs = append(cargs, "--prune="+fmt.Sprint(*opt.Prune))
 	}
 	if opt.ResolveImage != nil {
-		cargs = append(cargs, "--resolve-image "+fmt.Sprint(*opt.ResolveImage))
+		cargs = append(cargs, "--resolve-image="+fmt.Sprint(*opt.ResolveImage))
 	}
 	if opt.WithRegistryAuth != nil {
-		cargs = append(cargs, "--with-registry-auth "+fmt.Sprint(*opt.WithRegistryAuth))
+		cargs = append(cargs, "--with-registry-auth="+fmt.Sprint(*opt.WithRegistryAuth))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerStackLsOption struct {
@@ -10626,19 +10691,18 @@ List stacks
 ------------------------------
 */
 func DockerStackLsCmd(opt DockerStackLsOption, args []string) *exec.Cmd {
-	name := "docker stack ls"
-	cargs := []string{}
+	cargs := []string{"stack", "ls"}
 	if opt.AllNamespaces != nil {
-		cargs = append(cargs, "--all-namespaces "+fmt.Sprint(*opt.AllNamespaces))
+		cargs = append(cargs, "--all-namespaces="+fmt.Sprint(*opt.AllNamespaces))
 	}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	if opt.Namespace != nil {
-		cargs = append(cargs, "--namespace "+fmt.Sprint(*opt.Namespace))
+		cargs = append(cargs, "--namespace="+fmt.Sprint(*opt.Namespace))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerStackPsOption struct {
@@ -10681,28 +10745,27 @@ List the tasks in the stack
 ------------------------------
 */
 func DockerStackPsCmd(opt DockerStackPsOption, args []string) *exec.Cmd {
-	name := "docker stack ps"
-	cargs := []string{}
+	cargs := []string{"stack", "ps"}
 	if opt.Filter != nil {
-		cargs = append(cargs, "--filter "+fmt.Sprint(*opt.Filter))
+		cargs = append(cargs, "--filter="+fmt.Sprint(*opt.Filter))
 	}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	if opt.Namespace != nil {
-		cargs = append(cargs, "--namespace "+fmt.Sprint(*opt.Namespace))
+		cargs = append(cargs, "--namespace="+fmt.Sprint(*opt.Namespace))
 	}
 	if opt.NoResolve != nil {
-		cargs = append(cargs, "--no-resolve "+fmt.Sprint(*opt.NoResolve))
+		cargs = append(cargs, "--no-resolve="+fmt.Sprint(*opt.NoResolve))
 	}
 	if opt.NoTrunc != nil {
-		cargs = append(cargs, "--no-trunc "+fmt.Sprint(*opt.NoTrunc))
+		cargs = append(cargs, "--no-trunc="+fmt.Sprint(*opt.NoTrunc))
 	}
 	if opt.Quiet != nil {
-		cargs = append(cargs, "--quiet "+fmt.Sprint(*opt.Quiet))
+		cargs = append(cargs, "--quiet="+fmt.Sprint(*opt.Quiet))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerStackRmOption struct {
@@ -10720,13 +10783,12 @@ Remove one or more stacks
 ------------------------------
 */
 func DockerStackRmCmd(opt DockerStackRmOption, args []string) *exec.Cmd {
-	name := "docker stack rm"
-	cargs := []string{}
+	cargs := []string{"stack", "rm"}
 	if opt.Namespace != nil {
-		cargs = append(cargs, "--namespace "+fmt.Sprint(*opt.Namespace))
+		cargs = append(cargs, "--namespace="+fmt.Sprint(*opt.Namespace))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerStackServicesOption struct {
@@ -10759,22 +10821,21 @@ List the services in the stack
 ------------------------------
 */
 func DockerStackServicesCmd(opt DockerStackServicesOption, args []string) *exec.Cmd {
-	name := "docker stack services"
-	cargs := []string{}
+	cargs := []string{"stack", "services"}
 	if opt.Filter != nil {
-		cargs = append(cargs, "--filter "+fmt.Sprint(*opt.Filter))
+		cargs = append(cargs, "--filter="+fmt.Sprint(*opt.Filter))
 	}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	if opt.Namespace != nil {
-		cargs = append(cargs, "--namespace "+fmt.Sprint(*opt.Namespace))
+		cargs = append(cargs, "--namespace="+fmt.Sprint(*opt.Namespace))
 	}
 	if opt.Quiet != nil {
-		cargs = append(cargs, "--quiet "+fmt.Sprint(*opt.Quiet))
+		cargs = append(cargs, "--quiet="+fmt.Sprint(*opt.Quiet))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerStartOption struct {
@@ -10812,25 +10873,24 @@ Start one or more stopped containers
 ------------------------------
 */
 func DockerStartCmd(opt DockerStartOption, args []string) *exec.Cmd {
-	name := "docker start"
-	cargs := []string{}
+	cargs := []string{"start"}
 	if opt.Attach != nil {
-		cargs = append(cargs, "--attach "+fmt.Sprint(*opt.Attach))
+		cargs = append(cargs, "--attach="+fmt.Sprint(*opt.Attach))
 	}
 	if opt.Checkpoint != nil {
-		cargs = append(cargs, "--checkpoint "+fmt.Sprint(*opt.Checkpoint))
+		cargs = append(cargs, "--checkpoint="+fmt.Sprint(*opt.Checkpoint))
 	}
 	if opt.CheckpointDir != nil {
-		cargs = append(cargs, "--checkpoint-dir "+fmt.Sprint(*opt.CheckpointDir))
+		cargs = append(cargs, "--checkpoint-dir="+fmt.Sprint(*opt.CheckpointDir))
 	}
 	if opt.DetachKeys != nil {
-		cargs = append(cargs, "--detach-keys "+fmt.Sprint(*opt.DetachKeys))
+		cargs = append(cargs, "--detach-keys="+fmt.Sprint(*opt.DetachKeys))
 	}
 	if opt.Interactive != nil {
-		cargs = append(cargs, "--interactive "+fmt.Sprint(*opt.Interactive))
+		cargs = append(cargs, "--interactive="+fmt.Sprint(*opt.Interactive))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerStatsOption struct {
@@ -10863,22 +10923,21 @@ Display a live stream of container(s) resource usage statistics
 ------------------------------
 */
 func DockerStatsCmd(opt DockerStatsOption, args []string) *exec.Cmd {
-	name := "docker stats"
-	cargs := []string{}
+	cargs := []string{"stats"}
 	if opt.All != nil {
-		cargs = append(cargs, "--all "+fmt.Sprint(*opt.All))
+		cargs = append(cargs, "--all="+fmt.Sprint(*opt.All))
 	}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	if opt.NoStream != nil {
-		cargs = append(cargs, "--no-stream "+fmt.Sprint(*opt.NoStream))
+		cargs = append(cargs, "--no-stream="+fmt.Sprint(*opt.NoStream))
 	}
 	if opt.NoTrunc != nil {
-		cargs = append(cargs, "--no-trunc "+fmt.Sprint(*opt.NoTrunc))
+		cargs = append(cargs, "--no-trunc="+fmt.Sprint(*opt.NoTrunc))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerStopOption struct {
@@ -10896,13 +10955,12 @@ Stop one or more running containers
 ------------------------------
 */
 func DockerStopCmd(opt DockerStopOption, args []string) *exec.Cmd {
-	name := "docker stop"
-	cargs := []string{}
+	cargs := []string{"stop"}
 	if opt.Time != nil {
-		cargs = append(cargs, "--time "+fmt.Sprint(*opt.Time))
+		cargs = append(cargs, "--time="+fmt.Sprint(*opt.Time))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -10913,10 +10971,9 @@ Manage Swarm
 ------------------------------
 */
 func DockerSwarmCmd(args []string) *exec.Cmd {
-	name := "docker swarm"
-	cargs := []string{}
+	cargs := []string{"swarm"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerSwarmCaOption struct {
@@ -10964,31 +11021,30 @@ Display and rotate the root CA
 ------------------------------
 */
 func DockerSwarmCaCmd(opt DockerSwarmCaOption, args []string) *exec.Cmd {
-	name := "docker swarm ca"
-	cargs := []string{}
+	cargs := []string{"swarm", "ca"}
 	if opt.CaCert != nil {
-		cargs = append(cargs, "--ca-cert "+fmt.Sprint(*opt.CaCert))
+		cargs = append(cargs, "--ca-cert="+fmt.Sprint(*opt.CaCert))
 	}
 	if opt.CaKey != nil {
-		cargs = append(cargs, "--ca-key "+fmt.Sprint(*opt.CaKey))
+		cargs = append(cargs, "--ca-key="+fmt.Sprint(*opt.CaKey))
 	}
 	if opt.CertExpiry != nil {
-		cargs = append(cargs, "--cert-expiry "+fmt.Sprint(*opt.CertExpiry))
+		cargs = append(cargs, "--cert-expiry="+fmt.Sprint(*opt.CertExpiry))
 	}
 	if opt.Detach != nil {
-		cargs = append(cargs, "--detach "+fmt.Sprint(*opt.Detach))
+		cargs = append(cargs, "--detach="+fmt.Sprint(*opt.Detach))
 	}
 	if opt.ExternalCa != nil {
-		cargs = append(cargs, "--external-ca "+fmt.Sprint(*opt.ExternalCa))
+		cargs = append(cargs, "--external-ca="+fmt.Sprint(*opt.ExternalCa))
 	}
 	if opt.Quiet != nil {
-		cargs = append(cargs, "--quiet "+fmt.Sprint(*opt.Quiet))
+		cargs = append(cargs, "--quiet="+fmt.Sprint(*opt.Quiet))
 	}
 	if opt.Rotate != nil {
-		cargs = append(cargs, "--rotate "+fmt.Sprint(*opt.Rotate))
+		cargs = append(cargs, "--rotate="+fmt.Sprint(*opt.Rotate))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerSwarmInitOption struct {
@@ -11076,55 +11132,54 @@ Initialize a swarm
 ------------------------------
 */
 func DockerSwarmInitCmd(opt DockerSwarmInitOption, args []string) *exec.Cmd {
-	name := "docker swarm init"
-	cargs := []string{}
+	cargs := []string{"swarm", "init"}
 	if opt.AdvertiseAddr != nil {
-		cargs = append(cargs, "--advertise-addr "+fmt.Sprint(*opt.AdvertiseAddr))
+		cargs = append(cargs, "--advertise-addr="+fmt.Sprint(*opt.AdvertiseAddr))
 	}
 	if opt.Autolock != nil {
-		cargs = append(cargs, "--autolock "+fmt.Sprint(*opt.Autolock))
+		cargs = append(cargs, "--autolock="+fmt.Sprint(*opt.Autolock))
 	}
 	if opt.Availability != nil {
-		cargs = append(cargs, "--availability "+fmt.Sprint(*opt.Availability))
+		cargs = append(cargs, "--availability="+fmt.Sprint(*opt.Availability))
 	}
 	if opt.CertExpiry != nil {
-		cargs = append(cargs, "--cert-expiry "+fmt.Sprint(*opt.CertExpiry))
+		cargs = append(cargs, "--cert-expiry="+fmt.Sprint(*opt.CertExpiry))
 	}
 	if opt.DataPathAddr != nil {
-		cargs = append(cargs, "--data-path-addr "+fmt.Sprint(*opt.DataPathAddr))
+		cargs = append(cargs, "--data-path-addr="+fmt.Sprint(*opt.DataPathAddr))
 	}
 	if opt.DataPathPort != nil {
-		cargs = append(cargs, "--data-path-port "+fmt.Sprint(*opt.DataPathPort))
+		cargs = append(cargs, "--data-path-port="+fmt.Sprint(*opt.DataPathPort))
 	}
 	if opt.DefaultAddrPool != nil {
-		cargs = append(cargs, "--default-addr-pool "+fmt.Sprint(*opt.DefaultAddrPool))
+		cargs = append(cargs, "--default-addr-pool="+fmt.Sprint(*opt.DefaultAddrPool))
 	}
 	if opt.DefaultAddrPoolMaskLength != nil {
-		cargs = append(cargs, "--default-addr-pool-mask-length "+fmt.Sprint(*opt.DefaultAddrPoolMaskLength))
+		cargs = append(cargs, "--default-addr-pool-mask-length="+fmt.Sprint(*opt.DefaultAddrPoolMaskLength))
 	}
 	if opt.DispatcherHeartbeat != nil {
-		cargs = append(cargs, "--dispatcher-heartbeat "+fmt.Sprint(*opt.DispatcherHeartbeat))
+		cargs = append(cargs, "--dispatcher-heartbeat="+fmt.Sprint(*opt.DispatcherHeartbeat))
 	}
 	if opt.ExternalCa != nil {
-		cargs = append(cargs, "--external-ca "+fmt.Sprint(*opt.ExternalCa))
+		cargs = append(cargs, "--external-ca="+fmt.Sprint(*opt.ExternalCa))
 	}
 	if opt.ForceNewCluster != nil {
-		cargs = append(cargs, "--force-new-cluster "+fmt.Sprint(*opt.ForceNewCluster))
+		cargs = append(cargs, "--force-new-cluster="+fmt.Sprint(*opt.ForceNewCluster))
 	}
 	if opt.ListenAddr != nil {
-		cargs = append(cargs, "--listen-addr "+fmt.Sprint(*opt.ListenAddr))
+		cargs = append(cargs, "--listen-addr="+fmt.Sprint(*opt.ListenAddr))
 	}
 	if opt.MaxSnapshots != nil {
-		cargs = append(cargs, "--max-snapshots "+fmt.Sprint(*opt.MaxSnapshots))
+		cargs = append(cargs, "--max-snapshots="+fmt.Sprint(*opt.MaxSnapshots))
 	}
 	if opt.SnapshotInterval != nil {
-		cargs = append(cargs, "--snapshot-interval "+fmt.Sprint(*opt.SnapshotInterval))
+		cargs = append(cargs, "--snapshot-interval="+fmt.Sprint(*opt.SnapshotInterval))
 	}
 	if opt.TaskHistoryLimit != nil {
-		cargs = append(cargs, "--task-history-limit "+fmt.Sprint(*opt.TaskHistoryLimit))
+		cargs = append(cargs, "--task-history-limit="+fmt.Sprint(*opt.TaskHistoryLimit))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerSwarmJoinOption struct {
@@ -11162,25 +11217,24 @@ Join a swarm as a node and/or manager
 ------------------------------
 */
 func DockerSwarmJoinCmd(opt DockerSwarmJoinOption, args []string) *exec.Cmd {
-	name := "docker swarm join"
-	cargs := []string{}
+	cargs := []string{"swarm", "join"}
 	if opt.AdvertiseAddr != nil {
-		cargs = append(cargs, "--advertise-addr "+fmt.Sprint(*opt.AdvertiseAddr))
+		cargs = append(cargs, "--advertise-addr="+fmt.Sprint(*opt.AdvertiseAddr))
 	}
 	if opt.Availability != nil {
-		cargs = append(cargs, "--availability "+fmt.Sprint(*opt.Availability))
+		cargs = append(cargs, "--availability="+fmt.Sprint(*opt.Availability))
 	}
 	if opt.DataPathAddr != nil {
-		cargs = append(cargs, "--data-path-addr "+fmt.Sprint(*opt.DataPathAddr))
+		cargs = append(cargs, "--data-path-addr="+fmt.Sprint(*opt.DataPathAddr))
 	}
 	if opt.ListenAddr != nil {
-		cargs = append(cargs, "--listen-addr "+fmt.Sprint(*opt.ListenAddr))
+		cargs = append(cargs, "--listen-addr="+fmt.Sprint(*opt.ListenAddr))
 	}
 	if opt.Token != nil {
-		cargs = append(cargs, "--token "+fmt.Sprint(*opt.Token))
+		cargs = append(cargs, "--token="+fmt.Sprint(*opt.Token))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerSwarmJoinTokenOption struct {
@@ -11203,16 +11257,15 @@ Manage join tokens
 ------------------------------
 */
 func DockerSwarmJoinTokenCmd(opt DockerSwarmJoinTokenOption, args []string) *exec.Cmd {
-	name := "docker swarm join-token"
-	cargs := []string{}
+	cargs := []string{"swarm", "join-token"}
 	if opt.Quiet != nil {
-		cargs = append(cargs, "--quiet "+fmt.Sprint(*opt.Quiet))
+		cargs = append(cargs, "--quiet="+fmt.Sprint(*opt.Quiet))
 	}
 	if opt.Rotate != nil {
-		cargs = append(cargs, "--rotate "+fmt.Sprint(*opt.Rotate))
+		cargs = append(cargs, "--rotate="+fmt.Sprint(*opt.Rotate))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerSwarmLeaveOption struct {
@@ -11230,13 +11283,12 @@ Leave the swarm
 ------------------------------
 */
 func DockerSwarmLeaveCmd(opt DockerSwarmLeaveOption, args []string) *exec.Cmd {
-	name := "docker swarm leave"
-	cargs := []string{}
+	cargs := []string{"swarm", "leave"}
 	if opt.Force != nil {
-		cargs = append(cargs, "--force "+fmt.Sprint(*opt.Force))
+		cargs = append(cargs, "--force="+fmt.Sprint(*opt.Force))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -11247,10 +11299,9 @@ Unlock swarm
 ------------------------------
 */
 func DockerSwarmUnlockCmd(args []string) *exec.Cmd {
-	name := "docker swarm unlock"
-	cargs := []string{}
+	cargs := []string{"swarm", "unlock"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerSwarmUnlockKeyOption struct {
@@ -11273,16 +11324,15 @@ Manage the unlock key
 ------------------------------
 */
 func DockerSwarmUnlockKeyCmd(opt DockerSwarmUnlockKeyOption, args []string) *exec.Cmd {
-	name := "docker swarm unlock-key"
-	cargs := []string{}
+	cargs := []string{"swarm", "unlock-key"}
 	if opt.Quiet != nil {
-		cargs = append(cargs, "--quiet "+fmt.Sprint(*opt.Quiet))
+		cargs = append(cargs, "--quiet="+fmt.Sprint(*opt.Quiet))
 	}
 	if opt.Rotate != nil {
-		cargs = append(cargs, "--rotate "+fmt.Sprint(*opt.Rotate))
+		cargs = append(cargs, "--rotate="+fmt.Sprint(*opt.Rotate))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerSwarmUpdateOption struct {
@@ -11330,31 +11380,30 @@ Update the swarm
 ------------------------------
 */
 func DockerSwarmUpdateCmd(opt DockerSwarmUpdateOption, args []string) *exec.Cmd {
-	name := "docker swarm update"
-	cargs := []string{}
+	cargs := []string{"swarm", "update"}
 	if opt.Autolock != nil {
-		cargs = append(cargs, "--autolock "+fmt.Sprint(*opt.Autolock))
+		cargs = append(cargs, "--autolock="+fmt.Sprint(*opt.Autolock))
 	}
 	if opt.CertExpiry != nil {
-		cargs = append(cargs, "--cert-expiry "+fmt.Sprint(*opt.CertExpiry))
+		cargs = append(cargs, "--cert-expiry="+fmt.Sprint(*opt.CertExpiry))
 	}
 	if opt.DispatcherHeartbeat != nil {
-		cargs = append(cargs, "--dispatcher-heartbeat "+fmt.Sprint(*opt.DispatcherHeartbeat))
+		cargs = append(cargs, "--dispatcher-heartbeat="+fmt.Sprint(*opt.DispatcherHeartbeat))
 	}
 	if opt.ExternalCa != nil {
-		cargs = append(cargs, "--external-ca "+fmt.Sprint(*opt.ExternalCa))
+		cargs = append(cargs, "--external-ca="+fmt.Sprint(*opt.ExternalCa))
 	}
 	if opt.MaxSnapshots != nil {
-		cargs = append(cargs, "--max-snapshots "+fmt.Sprint(*opt.MaxSnapshots))
+		cargs = append(cargs, "--max-snapshots="+fmt.Sprint(*opt.MaxSnapshots))
 	}
 	if opt.SnapshotInterval != nil {
-		cargs = append(cargs, "--snapshot-interval "+fmt.Sprint(*opt.SnapshotInterval))
+		cargs = append(cargs, "--snapshot-interval="+fmt.Sprint(*opt.SnapshotInterval))
 	}
 	if opt.TaskHistoryLimit != nil {
-		cargs = append(cargs, "--task-history-limit "+fmt.Sprint(*opt.TaskHistoryLimit))
+		cargs = append(cargs, "--task-history-limit="+fmt.Sprint(*opt.TaskHistoryLimit))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -11365,10 +11414,9 @@ Manage Docker
 ------------------------------
 */
 func DockerSystemCmd(args []string) *exec.Cmd {
-	name := "docker system"
-	cargs := []string{}
+	cargs := []string{"system"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerSystemDfOption struct {
@@ -11391,16 +11439,15 @@ Show docker disk usage
 ------------------------------
 */
 func DockerSystemDfCmd(opt DockerSystemDfOption, args []string) *exec.Cmd {
-	name := "docker system df"
-	cargs := []string{}
+	cargs := []string{"system", "df"}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	if opt.Verbose != nil {
-		cargs = append(cargs, "--verbose "+fmt.Sprint(*opt.Verbose))
+		cargs = append(cargs, "--verbose="+fmt.Sprint(*opt.Verbose))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -11411,10 +11458,9 @@ Proxy the stdio stream to the daemon connection. Should not be invoked manually.
 ------------------------------
 */
 func DockerSystemDialStdioCmd(args []string) *exec.Cmd {
-	name := "docker system dial-stdio"
-	cargs := []string{}
+	cargs := []string{"system", "dial-stdio"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerSystemEventsOption struct {
@@ -11447,22 +11493,21 @@ Get real time events from the server
 ------------------------------
 */
 func DockerSystemEventsCmd(opt DockerSystemEventsOption, args []string) *exec.Cmd {
-	name := "docker system events"
-	cargs := []string{}
+	cargs := []string{"system", "events"}
 	if opt.Filter != nil {
-		cargs = append(cargs, "--filter "+fmt.Sprint(*opt.Filter))
+		cargs = append(cargs, "--filter="+fmt.Sprint(*opt.Filter))
 	}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	if opt.Since != nil {
-		cargs = append(cargs, "--since "+fmt.Sprint(*opt.Since))
+		cargs = append(cargs, "--since="+fmt.Sprint(*opt.Since))
 	}
 	if opt.Until != nil {
-		cargs = append(cargs, "--until "+fmt.Sprint(*opt.Until))
+		cargs = append(cargs, "--until="+fmt.Sprint(*opt.Until))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerSystemInfoOption struct {
@@ -11480,13 +11525,12 @@ Display system-wide information
 ------------------------------
 */
 func DockerSystemInfoCmd(opt DockerSystemInfoOption, args []string) *exec.Cmd {
-	name := "docker system info"
-	cargs := []string{}
+	cargs := []string{"system", "info"}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerSystemPruneOption struct {
@@ -11519,22 +11563,21 @@ Remove unused data
 ------------------------------
 */
 func DockerSystemPruneCmd(opt DockerSystemPruneOption, args []string) *exec.Cmd {
-	name := "docker system prune"
-	cargs := []string{}
+	cargs := []string{"system", "prune"}
 	if opt.All != nil {
-		cargs = append(cargs, "--all "+fmt.Sprint(*opt.All))
+		cargs = append(cargs, "--all="+fmt.Sprint(*opt.All))
 	}
 	if opt.Filter != nil {
-		cargs = append(cargs, "--filter "+fmt.Sprint(*opt.Filter))
+		cargs = append(cargs, "--filter="+fmt.Sprint(*opt.Filter))
 	}
 	if opt.Force != nil {
-		cargs = append(cargs, "--force "+fmt.Sprint(*opt.Force))
+		cargs = append(cargs, "--force="+fmt.Sprint(*opt.Force))
 	}
 	if opt.Volumes != nil {
-		cargs = append(cargs, "--volumes "+fmt.Sprint(*opt.Volumes))
+		cargs = append(cargs, "--volumes="+fmt.Sprint(*opt.Volumes))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -11545,10 +11588,9 @@ Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
 ------------------------------
 */
 func DockerTagCmd(args []string) *exec.Cmd {
-	name := "docker tag"
-	cargs := []string{}
+	cargs := []string{"tag"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -11559,10 +11601,9 @@ Display the running processes of a container
 ------------------------------
 */
 func DockerTopCmd(args []string) *exec.Cmd {
-	name := "docker top"
-	cargs := []string{}
+	cargs := []string{"top"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -11573,10 +11614,9 @@ Manage trust on Docker images
 ------------------------------
 */
 func DockerTrustCmd(args []string) *exec.Cmd {
-	name := "docker trust"
-	cargs := []string{}
+	cargs := []string{"trust"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerTrustInspectOption struct {
@@ -11594,13 +11634,12 @@ Return low-level information about keys and signatures
 ------------------------------
 */
 func DockerTrustInspectCmd(opt DockerTrustInspectOption, args []string) *exec.Cmd {
-	name := "docker trust inspect"
-	cargs := []string{}
+	cargs := []string{"trust", "inspect"}
 	if opt.Pretty != nil {
-		cargs = append(cargs, "--pretty "+fmt.Sprint(*opt.Pretty))
+		cargs = append(cargs, "--pretty="+fmt.Sprint(*opt.Pretty))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -11611,10 +11650,9 @@ Manage keys for signing Docker images
 ------------------------------
 */
 func DockerTrustKeyCmd(args []string) *exec.Cmd {
-	name := "docker trust key"
-	cargs := []string{}
+	cargs := []string{"trust", "key"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerTrustKeyGenerateOption struct {
@@ -11632,13 +11670,12 @@ Generate and load a signing key-pair
 ------------------------------
 */
 func DockerTrustKeyGenerateCmd(opt DockerTrustKeyGenerateOption, args []string) *exec.Cmd {
-	name := "docker trust key generate"
-	cargs := []string{}
+	cargs := []string{"trust", "key", "generate"}
 	if opt.Dir != nil {
-		cargs = append(cargs, "--dir "+fmt.Sprint(*opt.Dir))
+		cargs = append(cargs, "--dir="+fmt.Sprint(*opt.Dir))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerTrustKeyLoadOption struct {
@@ -11656,13 +11693,12 @@ Load a private key file for signing
 ------------------------------
 */
 func DockerTrustKeyLoadCmd(opt DockerTrustKeyLoadOption, args []string) *exec.Cmd {
-	name := "docker trust key load"
-	cargs := []string{}
+	cargs := []string{"trust", "key", "load"}
 	if opt.Name != nil {
-		cargs = append(cargs, "--name "+fmt.Sprint(*opt.Name))
+		cargs = append(cargs, "--name="+fmt.Sprint(*opt.Name))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerTrustRevokeOption struct {
@@ -11680,13 +11716,12 @@ Remove trust for an image
 ------------------------------
 */
 func DockerTrustRevokeCmd(opt DockerTrustRevokeOption, args []string) *exec.Cmd {
-	name := "docker trust revoke"
-	cargs := []string{}
+	cargs := []string{"trust", "revoke"}
 	if opt.Yes != nil {
-		cargs = append(cargs, "--yes "+fmt.Sprint(*opt.Yes))
+		cargs = append(cargs, "--yes="+fmt.Sprint(*opt.Yes))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerTrustSignOption struct {
@@ -11704,13 +11739,12 @@ Sign an image
 ------------------------------
 */
 func DockerTrustSignCmd(opt DockerTrustSignOption, args []string) *exec.Cmd {
-	name := "docker trust sign"
-	cargs := []string{}
+	cargs := []string{"trust", "sign"}
 	if opt.Local != nil {
-		cargs = append(cargs, "--local "+fmt.Sprint(*opt.Local))
+		cargs = append(cargs, "--local="+fmt.Sprint(*opt.Local))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -11721,10 +11755,9 @@ Manage entities who can sign Docker images
 ------------------------------
 */
 func DockerTrustSignerCmd(args []string) *exec.Cmd {
-	name := "docker trust signer"
-	cargs := []string{}
+	cargs := []string{"trust", "signer"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerTrustSignerAddOption struct {
@@ -11742,15 +11775,15 @@ Add a signer
 ------------------------------
 */
 func DockerTrustSignerAddCmd(opt DockerTrustSignerAddOption, args []string) *exec.Cmd {
-	name := "docker trust signer add"
-	cargs := []string{}
+	cargs := []string{"trust", "signer", "add"}
 	if opt.Key != nil {
 		for _, str := range opt.Key {
-			cargs = append(cargs, "--key "+str)
+			cargs = append(cargs, "--key")
+			cargs = append(cargs, str)
 		}
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerTrustSignerRemoveOption struct {
@@ -11768,13 +11801,12 @@ Remove a signer
 ------------------------------
 */
 func DockerTrustSignerRemoveCmd(opt DockerTrustSignerRemoveOption, args []string) *exec.Cmd {
-	name := "docker trust signer remove"
-	cargs := []string{}
+	cargs := []string{"trust", "signer", "remove"}
 	if opt.Force != nil {
-		cargs = append(cargs, "--force "+fmt.Sprint(*opt.Force))
+		cargs = append(cargs, "--force="+fmt.Sprint(*opt.Force))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -11785,10 +11817,9 @@ Unpause all processes within one or more containers
 ------------------------------
 */
 func DockerUnpauseCmd(args []string) *exec.Cmd {
-	name := "docker unpause"
-	cargs := []string{}
+	cargs := []string{"unpause"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerUpdateOption struct {
@@ -11876,55 +11907,54 @@ Update configuration of one or more containers
 ------------------------------
 */
 func DockerUpdateCmd(opt DockerUpdateOption, args []string) *exec.Cmd {
-	name := "docker update"
-	cargs := []string{}
+	cargs := []string{"update"}
 	if opt.BlkioWeight != nil {
-		cargs = append(cargs, "--blkio-weight "+fmt.Sprint(*opt.BlkioWeight))
+		cargs = append(cargs, "--blkio-weight="+fmt.Sprint(*opt.BlkioWeight))
 	}
 	if opt.CpuPeriod != nil {
-		cargs = append(cargs, "--cpu-period "+fmt.Sprint(*opt.CpuPeriod))
+		cargs = append(cargs, "--cpu-period="+fmt.Sprint(*opt.CpuPeriod))
 	}
 	if opt.CpuQuota != nil {
-		cargs = append(cargs, "--cpu-quota "+fmt.Sprint(*opt.CpuQuota))
+		cargs = append(cargs, "--cpu-quota="+fmt.Sprint(*opt.CpuQuota))
 	}
 	if opt.CpuRtPeriod != nil {
-		cargs = append(cargs, "--cpu-rt-period "+fmt.Sprint(*opt.CpuRtPeriod))
+		cargs = append(cargs, "--cpu-rt-period="+fmt.Sprint(*opt.CpuRtPeriod))
 	}
 	if opt.CpuRtRuntime != nil {
-		cargs = append(cargs, "--cpu-rt-runtime "+fmt.Sprint(*opt.CpuRtRuntime))
+		cargs = append(cargs, "--cpu-rt-runtime="+fmt.Sprint(*opt.CpuRtRuntime))
 	}
 	if opt.CpuShares != nil {
-		cargs = append(cargs, "--cpu-shares "+fmt.Sprint(*opt.CpuShares))
+		cargs = append(cargs, "--cpu-shares="+fmt.Sprint(*opt.CpuShares))
 	}
 	if opt.Cpus != nil {
-		cargs = append(cargs, "--cpus "+fmt.Sprint(*opt.Cpus))
+		cargs = append(cargs, "--cpus="+fmt.Sprint(*opt.Cpus))
 	}
 	if opt.CpusetCpus != nil {
-		cargs = append(cargs, "--cpuset-cpus "+fmt.Sprint(*opt.CpusetCpus))
+		cargs = append(cargs, "--cpuset-cpus="+fmt.Sprint(*opt.CpusetCpus))
 	}
 	if opt.CpusetMems != nil {
-		cargs = append(cargs, "--cpuset-mems "+fmt.Sprint(*opt.CpusetMems))
+		cargs = append(cargs, "--cpuset-mems="+fmt.Sprint(*opt.CpusetMems))
 	}
 	if opt.KernelMemory != nil {
-		cargs = append(cargs, "--kernel-memory "+fmt.Sprint(*opt.KernelMemory))
+		cargs = append(cargs, "--kernel-memory="+fmt.Sprint(*opt.KernelMemory))
 	}
 	if opt.Memory != nil {
-		cargs = append(cargs, "--memory "+fmt.Sprint(*opt.Memory))
+		cargs = append(cargs, "--memory="+fmt.Sprint(*opt.Memory))
 	}
 	if opt.MemoryReservation != nil {
-		cargs = append(cargs, "--memory-reservation "+fmt.Sprint(*opt.MemoryReservation))
+		cargs = append(cargs, "--memory-reservation="+fmt.Sprint(*opt.MemoryReservation))
 	}
 	if opt.MemorySwap != nil {
-		cargs = append(cargs, "--memory-swap "+fmt.Sprint(*opt.MemorySwap))
+		cargs = append(cargs, "--memory-swap="+fmt.Sprint(*opt.MemorySwap))
 	}
 	if opt.PidsLimit != nil {
-		cargs = append(cargs, "--pids-limit "+fmt.Sprint(*opt.PidsLimit))
+		cargs = append(cargs, "--pids-limit="+fmt.Sprint(*opt.PidsLimit))
 	}
 	if opt.Restart != nil {
-		cargs = append(cargs, "--restart "+fmt.Sprint(*opt.Restart))
+		cargs = append(cargs, "--restart="+fmt.Sprint(*opt.Restart))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerVersionOption struct {
@@ -11947,16 +11977,15 @@ Show the Docker version information
 ------------------------------
 */
 func DockerVersionCmd(opt DockerVersionOption, args []string) *exec.Cmd {
-	name := "docker version"
-	cargs := []string{}
+	cargs := []string{"version"}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	if opt.Kubeconfig != nil {
-		cargs = append(cargs, "--kubeconfig "+fmt.Sprint(*opt.Kubeconfig))
+		cargs = append(cargs, "--kubeconfig="+fmt.Sprint(*opt.Kubeconfig))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -11967,10 +11996,9 @@ Manage volumes
 ------------------------------
 */
 func DockerVolumeCmd(args []string) *exec.Cmd {
-	name := "docker volume"
-	cargs := []string{}
+	cargs := []string{"volume"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerVolumeCreateOption struct {
@@ -12003,26 +12031,27 @@ Create a volume
 ------------------------------
 */
 func DockerVolumeCreateCmd(opt DockerVolumeCreateOption, args []string) *exec.Cmd {
-	name := "docker volume create"
-	cargs := []string{}
+	cargs := []string{"volume", "create"}
 	if opt.Driver != nil {
-		cargs = append(cargs, "--driver "+fmt.Sprint(*opt.Driver))
+		cargs = append(cargs, "--driver="+fmt.Sprint(*opt.Driver))
 	}
 	if opt.Label != nil {
 		for _, str := range opt.Label {
-			cargs = append(cargs, "--label "+str)
+			cargs = append(cargs, "--label")
+			cargs = append(cargs, str)
 		}
 	}
 	if opt.Name != nil {
-		cargs = append(cargs, "--name "+fmt.Sprint(*opt.Name))
+		cargs = append(cargs, "--name="+fmt.Sprint(*opt.Name))
 	}
 	if opt.Opt != nil {
 		for key, val := range opt.Opt {
-			cargs = append(cargs, "--opt "+key+"="+val)
+			cargs = append(cargs, "--opt")
+			cargs = append(cargs, key+"="+val)
 		}
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerVolumeInspectOption struct {
@@ -12040,13 +12069,12 @@ Display detailed information on one or more volumes
 ------------------------------
 */
 func DockerVolumeInspectCmd(opt DockerVolumeInspectOption, args []string) *exec.Cmd {
-	name := "docker volume inspect"
-	cargs := []string{}
+	cargs := []string{"volume", "inspect"}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerVolumeLsOption struct {
@@ -12074,19 +12102,18 @@ List volumes
 ------------------------------
 */
 func DockerVolumeLsCmd(opt DockerVolumeLsOption, args []string) *exec.Cmd {
-	name := "docker volume ls"
-	cargs := []string{}
+	cargs := []string{"volume", "ls"}
 	if opt.Filter != nil {
-		cargs = append(cargs, "--filter "+fmt.Sprint(*opt.Filter))
+		cargs = append(cargs, "--filter="+fmt.Sprint(*opt.Filter))
 	}
 	if opt.Format != nil {
-		cargs = append(cargs, "--format "+fmt.Sprint(*opt.Format))
+		cargs = append(cargs, "--format="+fmt.Sprint(*opt.Format))
 	}
 	if opt.Quiet != nil {
-		cargs = append(cargs, "--quiet "+fmt.Sprint(*opt.Quiet))
+		cargs = append(cargs, "--quiet="+fmt.Sprint(*opt.Quiet))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerVolumePruneOption struct {
@@ -12109,16 +12136,15 @@ Remove all unused local volumes
 ------------------------------
 */
 func DockerVolumePruneCmd(opt DockerVolumePruneOption, args []string) *exec.Cmd {
-	name := "docker volume prune"
-	cargs := []string{}
+	cargs := []string{"volume", "prune"}
 	if opt.Filter != nil {
-		cargs = append(cargs, "--filter "+fmt.Sprint(*opt.Filter))
+		cargs = append(cargs, "--filter="+fmt.Sprint(*opt.Filter))
 	}
 	if opt.Force != nil {
-		cargs = append(cargs, "--force "+fmt.Sprint(*opt.Force))
+		cargs = append(cargs, "--force="+fmt.Sprint(*opt.Force))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 type DockerVolumeRmOption struct {
@@ -12136,13 +12162,12 @@ Remove one or more volumes
 ------------------------------
 */
 func DockerVolumeRmCmd(opt DockerVolumeRmOption, args []string) *exec.Cmd {
-	name := "docker volume rm"
-	cargs := []string{}
+	cargs := []string{"volume", "rm"}
 	if opt.Force != nil {
-		cargs = append(cargs, "--force "+fmt.Sprint(*opt.Force))
+		cargs = append(cargs, "--force="+fmt.Sprint(*opt.Force))
 	}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }
 
 /*
@@ -12153,8 +12178,7 @@ Block until one or more containers stop, then print their exit codes
 ------------------------------
 */
 func DockerWaitCmd(args []string) *exec.Cmd {
-	name := "docker wait"
-	cargs := []string{}
+	cargs := []string{"wait"}
 	cargs = append(cargs, args...)
-	return exec.Command(name, cargs...)
+	return exec.Command("docker", cargs...)
 }

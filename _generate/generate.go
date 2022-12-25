@@ -73,28 +73,41 @@ func generateStructDefinition(cmd *cobra.Command, names []string) string {
 		"------------------------------\n" +
 		"*/\n"
 	result += "func " + cmdName + "Cmd" + "(" + arg + ") *exec.Cmd {\n"
-	result += "	name := \"" + strings.Join(names, " ") + "\"\n"
-	result += "	cargs := []string{}\n"
+	result += "	cargs := []string{"
+	for i := range names {
+		if i == 0 {
+			continue
+		}
+
+		result += "\"" + names[i] + "\""
+
+		if i != len(names)-1 {
+			result += ", "
+		}
+	}
+	result += "}\n"
 
 	for _, v := range fieldValues {
 		result += "	if opt." + v.name + " != nil {\n"
 		switch v.typ {
 		case "[]string":
 			result += "	for _, str := range opt." + v.name + " {\n"
-			result += "		cargs = append(cargs, \"--" + v.flag + " \" + str)\n"
+			result += "		cargs = append(cargs, \"--" + v.flag + "\")\n"
+			result += "		cargs = append(cargs, str)\n"
 			result += "	}\n"
 		case "map[string]string":
 			result += "	for key, val := range opt." + v.name + " {\n"
-			result += "		cargs = append(cargs, \"--" + v.flag + " \" + key + \"=\" + val)\n"
+			result += "		cargs = append(cargs, \"--" + v.flag + "\")\n"
+			result += "		cargs = append(cargs, key + \"=\" + val)\n"
 			result += "	}\n"
 		default:
-			result += "		cargs = append(cargs, \"--" + v.flag + " \" + fmt.Sprint(*opt." + v.name + "))\n"
+			result += "		cargs = append(cargs, \"--" + v.flag + "=\" + fmt.Sprint(*opt." + v.name + "))\n"
 		}
 		result += "	}\n"
 	}
 
 	result += "	cargs = append(cargs, args...)\n"
-	result += "	return exec.Command(name, cargs...)\n}\n\n"
+	result += "	return exec.Command(\"docker\", cargs...)\n}\n\n"
 
 	return result
 }
